@@ -1,0 +1,7 @@
+네트워크 API를 사용하기 위해 정해야하는 점
+송신하고 싶은 정보 (int, char, float, enum등 struct 형태로 구성할 수 있는 정보)
+로컬 게임 로직에서 발생하는 함수는 이렇게 송신하는 정보만을 요구해서 발동시킬 수 있어야함
+ex) unit을 움직이는 unitMove를 구현한다고하면
+     void unitMove(int x, int y, int unitID) 식으로 구현한다고 하면
+     unitMove안에 이에 대응하는 송신함수인 SendUnitMove(int x, int y, int unitID)를 앞의 함수 안에 넣어준다.
+     SendUnitMove 함수는 상대편 컴퓨터에서 유닛이 움직이는 것을 구현해준다.

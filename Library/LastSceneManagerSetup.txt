@@ -1,4 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/SampleScene.unity
+- path: C:/Users/Administrator/projects/006772-master/Unity 5.1/08/toufu_no_tumori/Assets/Scenes/GameScene
+    1.unity
   isLoaded: 1
   isActive: 1
