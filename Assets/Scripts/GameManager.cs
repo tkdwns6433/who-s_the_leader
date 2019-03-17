@@ -57,4 +57,28 @@ public class GameManager : MonoBehaviour
         Debug.Log("error pos unit not exist");
         return null;
     }
+
+    public void deleteUnit(int id)
+    {
+        var player1List = player1.unitList;
+        var player2List = player2.unitList;
+        for (int i = 0; i < player1List.Count; ++i)
+        {
+            if (player1List[i].unitID == id)
+            {
+                player1List.RemoveAt(i);
+                return;
+            }
+        }
+        for (int i = 0; i < player2List.Count; ++i)
+        {
+            if (player2List[i].unitID == id)
+            {
+                player2List.RemoveAt(i);
+                return;
+            }
+        }
+        Debug.Log("error : no delete unit id exist");
+        return;
+    }
 }
