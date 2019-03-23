@@ -18,9 +18,11 @@ public class UnitAttack
 
     //특수한 버프 또는 능력 설정
     bool isNight;
-
-    public void DoAttack()
+    //만약에 내 단말에서 시행하는 공격이면 true이다.
+    public void DoAttack(bool SendNetwork = true)
     {
+        if(SendNetwork)
+            sendUnitAttack(); //네트워크에 상대방에 보내줌   
         setFlags();
         int damage = CalculateByDamageFomula();
         //어택 유닛의 애니메이션 작동
@@ -28,6 +30,17 @@ public class UnitAttack
         defendUnit.getDamage(damage);
         
     }
+
+    void sendUnitAttack()
+    {
+        var m_network = GameObject.FindWithTag("Network").GetComponent<Network>();
+        UnitAttackData data = new UnitAttackData();
+        data.unitId = m_attacker;
+        data.targetUnidId = m_defender;
+        UnitAttackPacket attackPacket = new UnitAttackPacket(data);
+        m_network.SendReliable(attackPacket);
+    }
+
     //is Night 등 밤 여부, 개발하면서 추가되는 다양한 플래그를 설정해주는 함수
     void setFlags()
     {

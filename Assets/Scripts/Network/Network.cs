@@ -59,7 +59,14 @@ public class Network : MonoBehaviour {
 	void Awake()
 	{
 		DontDestroyOnLoad(gameObject);
-	}
+        this.RegisterReceiveNotification(PacketId.ProduceUnit, this.OnReceiveUnitProducePacket);
+        this.RegisterReceiveNotification(PacketId.UnitAttack, this.OnReceiveUnitAttackPacket);
+        this.RegisterReceiveNotification(PacketId.UnitMove, this.OnReceiveUnitMovePacket);
+        this.RegisterReceiveNotification(PacketId.RecruitNpc, this.OnReceiveRecuruitNpcPacket);
+
+        // 이벤트 핸들러.
+        this.RegisterEventHandler(OnEventHandling);
+    }
 
 	// Use this for initialization
 	void Start()
@@ -72,8 +79,7 @@ public class Network : MonoBehaviour {
 	{
 		if (IsConnected() == true) {
 			byte[] packet = new byte[m_packetSize];
-	
-			// 도달 보증 패킷을 수신합니다.
+            // 도달 보증 패킷을 수신합니다.
 			while (m_tcp != null && m_tcp.Receive(ref packet, packet.Length) > 0) {
 				// 수신 패킷을 분배합니다.
 				ReceivePacket(packet);
@@ -93,7 +99,7 @@ public class Network : MonoBehaviour {
 			StopServer();
 		}
 	}
-
+    //서버로서 작용
 	public bool StartServer(int port, ConnectionType type)
 	{
 		Debug.Log("Network::StartServer called. port:" + port);
@@ -152,7 +158,7 @@ public class Network : MonoBehaviour {
 		Debug.Log("Server stopped.");
 	}
 
-	// 
+	//서버에 접속
 	public bool Connect(string address, int port, ConnectionType type)
 	{
 		try {
@@ -246,51 +252,24 @@ public class Network : MonoBehaviour {
 	public bool IsConnected()
 	{
 		bool isTcpConnected = false;
-		bool isUdpConnected = false;
 
 		if (m_tcp != null && m_tcp.IsConnected()) {
 			isTcpConnected = true;
 		}
-		
-		if (m_udp != null && m_udp.IsConnected()) {
-			isUdpConnected = true;
-		}		
-		
-		if (m_tcp != null && m_udp == null) {
-			return isTcpConnected;
-		}
-
-		if (m_tcp == null && m_udp != null) {
-			return isUdpConnected;
-		}
-
-		return	(isTcpConnected && isUdpConnected);
+        return isTcpConnected;
 	}
 
 	// 서로 통신합니다.
 	public bool IsCommunicating()
 	{
-		bool isTcpConnected = false;
-		bool isUdpConnected = false;
-		
-		if (m_tcp != null && m_tcp.IsConnected()) {
-			isTcpConnected = true;
-		}
-		
-		if (m_udp != null && m_udp.IsCommunicating()) {
-			isUdpConnected = true;
-		}		
-		
-		if (m_tcp != null && m_udp == null) {
-			return isTcpConnected;
-		}
-		
-		if (m_tcp == null && m_udp != null) {
-			return isUdpConnected;
-		}
-		
-		return	(isTcpConnected && isUdpConnected);
-	}
+        bool isTcpConnected = false;
+
+        if (m_tcp != null && m_tcp.IsConnected())
+        {
+            isTcpConnected = true;
+        }
+        return isTcpConnected;
+    }
 
 	//
 	public bool IsServer()
@@ -504,39 +483,59 @@ public class Network : MonoBehaviour {
 		}
 	}
 
-	public bool StartGameServer()
-	{
-		Debug.Log("GameServer called.");
+    public void OnReceiveUnitProducePacket(PacketId id, byte[] data)
+    {
+        //packet을 받아야할 때 처리할 로직!
+    }
 
-		GameObject obj = new GameObject("GameServer");
-		GameServer server = obj.AddComponent<GameServer>();
-		if (server == null) {
-			Debug.Log("GameServer failed start.");
-			return false;
-		}
+    public void OnReceiveUnitMovePacket(PacketId id, byte[] data)
+    {
 
-		server.StartServer();
-		DontDestroyOnLoad(server);
-		Debug.Log("GameServer started.");
-		
-		return true;
-	}
-	
-	public void StopGameServer()
-	{
-		GameObject obj = GameObject.Find("GameServer");
-		if (obj) {
-			GameObject.Destroy(obj);
-		}
+    }
 
-		Debug.Log("GameServer stoped.");
-	}
+    public void OnReceiveUnitAttackPacket(PacketId id, byte[] data)
+    {
+        UnitAttackPacket packet = new UnitAttackPacket(data);
+        UnitAttackData attack = packet.GetPacket();
+        int attack_id = attack.unitId;
+        int defener_id = attack.targetUnidId;
+        UnitAttack unitAttack = new UnitAttack(attack_id, defener_id);
+        unitAttack.DoAttack(false);
+    }
+
+    public void OnReceiveRecuruitNpcPacket(PacketId id, byte[] data)
+    {
+
+    }
+
+    private void SendGameSyncInfo()
+    {
+    }
+
+    private void DisconnectClient()
+    {
+        Debug.Log("[SERVER]DisconnectClient");
+
+        this.Disconnect();
+    }
 
 
-	public void OnEventHandling(NetEventState state)
-	{
-		if (m_handler != null) {
-			m_handler(state);
-		}
-	}
+    // ================================================================ //
+
+
+    public void OnEventHandling(NetEventState state)
+    {
+        switch (state.type)
+        {
+            case NetEventType.Connect:
+                Debug.Log("[SERVER]NetEventType.Connect");
+                SendGameSyncInfo();
+                break;
+
+            case NetEventType.Disconnect:
+                Debug.Log("[SERVER]NetEventType.Disconnect");
+                DisconnectClient();
+                break;
+        }
+    }
 }

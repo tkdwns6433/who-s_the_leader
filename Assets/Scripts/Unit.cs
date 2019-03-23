@@ -4,18 +4,27 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    UnitType unitType;
     public int unitID;
     public int x;
     public int y;
     public int curHP;
     private UnitData m_unitData;
+    
     public UnitData unitData
     {
         get { return m_unitData; }
         set { m_unitData = value; }
     }
+    //unity 폴더 Resources/Units folder에 UnitType과 똑같은 이름으로 png 또는 jpg file로 존재해야 sprite불러올 수 있음
+    public void intiateUnit(UnitType ut)
+    {
+        unitType = ut;
+        m_unitData = GameData.getUnitData(ut);
+        GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Units/" + m_unitData.unitType.ToString());
+    }
     
-    UnitType unitType;
+
 
     public bool isInPos(int _x, int _y)
     {
