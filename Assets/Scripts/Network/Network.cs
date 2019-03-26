@@ -485,12 +485,24 @@ public class Network : MonoBehaviour {
 
     public void OnReceiveUnitProducePacket(PacketId id, byte[] data)
     {
-        //packet을 받아야할 때 처리할 로직!
+        UnitProducePacket packet = new UnitProducePacket(data);
+        UnitProduceData produceData = packet.GetPacket();
+        int building_id = produceData.buildingId;
+        int producedUnit = produceData.producedUnit;
+        int xPos = produceData.x;
+        int yPos = produceData.y;
+        UnitGenerator unitGenerate = new UnitGenerator(building_id, (UnitType)producedUnit, xPos, yPos);
+        unitGenerate.GenerateUnit();
     }
 
     public void OnReceiveUnitMovePacket(PacketId id, byte[] data)
     {
-
+        UnitMovePacket packet = new UnitMovePacket(data);
+        UnitMoveData moveData = packet.GetPacket();
+        int unit_id = moveData.unitId;
+        int xPos = moveData.x;
+        int yPos = moveData.y;
+        GameManager.GetInstance().getUnit(unit_id).unitMove(xPos, yPos);
     }
 
     public void OnReceiveUnitAttackPacket(PacketId id, byte[] data)
@@ -500,7 +512,7 @@ public class Network : MonoBehaviour {
         int attack_id = attack.unitId;
         int defener_id = attack.targetUnidId;
         UnitAttack unitAttack = new UnitAttack(attack_id, defener_id);
-        unitAttack.DoAttack(false);
+        unitAttack.DoAttack();
     }
 
     public void OnReceiveRecuruitNpcPacket(PacketId id, byte[] data)

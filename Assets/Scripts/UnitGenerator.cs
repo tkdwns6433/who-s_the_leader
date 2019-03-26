@@ -21,14 +21,21 @@ public class UnitGenerator
         Unit generatedUnit = new Unit();
         generatedUnit.intiateUnit(genUnit);
         //generatedUnit.setPos(posX, posY); setPos 구현해야함
-        if(true)
+        var player_occupy = GameManager.GetInstance().getBuilding(m_building_id).getPlayer();
+        if (player_occupy == PLAYER.PLAYER1)
         {
             GameManager.GetInstance().player1.unitList.Add(generatedUnit);
         }
-        else
+        else if(player_occupy == PLAYER.PLAYER2)
         {
             GameManager.GetInstance().player2.unitList.Add(generatedUnit);
         }
+        else
+        {
+            Debug.Log("Error : building is not occupied");
+            return;
+        }
+
         if(GameManager.GetInstance().myTurn)
         {
             var m_network = GameObject.FindWithTag("Network").GetComponent<Network>();

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PLAYER { PLAYER1, PLAYER2, NONE};
+
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
@@ -20,8 +22,21 @@ public class GameManager : MonoBehaviour
     public Player player1;
     public Player player2;
 
+    public List<Building> field_buildings;
+
     public bool isPlayer1;
     public bool myTurn;
+
+    public Building getBuilding(int id)
+    {
+        for (int i = 0; i < field_buildings.Count; i++)
+        {
+            if (field_buildings[i].building_id == id)
+                return field_buildings[i];
+        }
+        Debug.Log("Error : building id is not exist");
+        return null;
+    }
 
     public Unit getUnit(int id)
     {
