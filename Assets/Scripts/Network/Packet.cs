@@ -10,6 +10,8 @@ public class UnitProducePacket : IPacket<UnitProduceData>
             bool ret = true;
             ret &= Serialize(packet.buildingId);
             ret &= Serialize(packet.producedUnit);
+            ret &= Serialize(packet.x);
+            ret &= Serialize(packet.y);
             return ret;
         }
 
@@ -18,6 +20,8 @@ public class UnitProducePacket : IPacket<UnitProduceData>
             bool ret = true;
             ret &= Deserialize(ref element.buildingId);
             ret &= Deserialize(ref element.producedUnit);
+            ret &= Deserialize(ref element.x);
+            ret &= Deserialize(ref element.y);
             return ret;
         }
     }

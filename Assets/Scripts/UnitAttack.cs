@@ -19,9 +19,9 @@ public class UnitAttack
     //특수한 버프 또는 능력 설정
     bool isNight;
     //만약에 내 단말에서 시행하는 공격이면 true이다.
-    public void DoAttack(bool SendNetwork = true)
+    public void DoAttack()
     {
-        if(SendNetwork)
+        if(GameManager.GetInstance().myTurn)
             sendUnitAttack(); //네트워크에 상대방에 보내줌   
         setFlags();
         int damage = CalculateByDamageFomula();

@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public Player player2;
 
     public bool isPlayer1;
+    public bool myTurn;
 
     public Unit getUnit(int id)
     {

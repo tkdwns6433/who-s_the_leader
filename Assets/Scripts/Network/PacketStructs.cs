@@ -169,6 +169,8 @@ public struct UnitProduceData
 {
     public int buildingId;
     public int producedUnit; //enum형태의 타입!
+    public int x;
+    public int y;
 }
 //
 //NPC 상호작용 : 대학생, 마피아, 시민, 갱스터 >> NpcId를 통해 Npc의 종류를 파악하고 그에 따른 영입효과를 적용한다.(자원의 차감, 유닛의 생성)

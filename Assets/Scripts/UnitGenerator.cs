@@ -2,19 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitGenerator : MonoBehaviour
+public class UnitGenerator
 {
     UnitType genUnit;
     int posX;
     int posY;
-    bool isPlayer1;
-    bool isEcho;
-    public UnitGenerator(UnitType ut, int x, int y, bool is_player1)
+    int m_building_id;
+    public UnitGenerator(int building_id, UnitType ut, int x, int y)
     {
         genUnit = ut;
+        posX = x;
+        posY = y;
+        m_building_id = building_id;
     }
 
     public void GenerateUnit()
     {
+        Unit generatedUnit = new Unit();
+        generatedUnit.intiateUnit(genUnit);
+        //generatedUnit.setPos(posX, posY); setPos 구현해야함
+        if(true)
+        {
+            GameManager.GetInstance().player1.unitList.Add(generatedUnit);
+        }
+        else
+        {
+            GameManager.GetInstance().player2.unitList.Add(generatedUnit);
+        }
+        if(GameManager.GetInstance().myTurn)
+        {
+            var m_network = GameObject.FindWithTag("Network").GetComponent<Network>();
+            UnitProduceData data = new UnitProduceData();
+            data.buildingId = m_building_id;
+            data.producedUnit = (int)genUnit;
+            data.x = posX;
+            data.y = posY;
+            UnitProducePacket producePacket = new UnitProducePacket(data);
+            m_network.SendReliable(producePacket);
+        }
     }
 }
