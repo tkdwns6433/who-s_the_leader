@@ -6,5 +6,4 @@ public class Player : MonoBehaviour
 {
     int totalActPower;
     public List<Unit> unitList;
-    
 }

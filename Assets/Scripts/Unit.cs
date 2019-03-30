@@ -10,6 +10,7 @@ public class Unit : MonoBehaviour
     public int y;
     public int curHP;
     private UnitData m_unitData;
+    public PLAYER control_player;
     
     public UnitData unitData
     {
@@ -23,10 +24,10 @@ public class Unit : MonoBehaviour
         m_unitData = GameData.getUnitData(ut);
         GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Units/" + m_unitData.unitType.ToString());
         this.name = m_unitData.unitType.ToString();
+        unitID = GameManager.GetInstance().new_id;
+        GameManager.GetInstance().new_id++;
     }
     
-
-
     public bool isInPos(int _x, int _y)
     {
         return _x == x && _y == y;
@@ -44,6 +45,11 @@ public class Unit : MonoBehaviour
         }   
     }
 
+    public void setPos(int x, int y)
+    {
+
+    }
+
     public void unitMove(int _x, int _y)
     {
         //성현씨 유닛 움직이는 함수 추가 바랍니다. 코루틴으로 하면 좋아요
@@ -59,5 +65,11 @@ public class Unit : MonoBehaviour
             UnitMovePacket movePacket = new UnitMovePacket(data);
             m_network.SendReliable(movePacket);
         }
+    }
+
+    public void attackUnit(int defender)
+    {
+        var attackUnit = new UnitAttack(unitID, defender);
+        attackUnit.DoAttack();
     }
 }
