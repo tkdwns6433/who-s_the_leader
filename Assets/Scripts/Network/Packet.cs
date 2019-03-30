@@ -1,6 +1,59 @@
 ﻿using System.Collections;
 using System.IO;
 
+public class TurnEndPacket : IPacket<TurnEndData>
+{
+    public class TurnEndSerializer : Serializer
+    {
+        public bool Serialize(TurnEndData packet)
+        {
+            bool ret = true;
+            ret &= Serialize(packet.state);
+            return ret;
+        }
+
+        public bool Deserialize(ref TurnEndData element)
+        {
+            bool ret = true;
+            ret &= Deserialize(ref element.state);
+            return ret;
+        }
+    }
+
+    TurnEndData m_packet;
+
+    public TurnEndPacket(TurnEndData data)
+    {
+        m_packet = data;
+    }
+
+    public TurnEndPacket(byte[] data)
+    {
+        TurnEndSerializer serializer = new TurnEndSerializer();
+
+        serializer.SetDeserializedData(data);
+        serializer.Deserialize(ref m_packet);
+    }
+
+    public PacketId GetPacketId()
+    {
+        return PacketId.TurnEnd;
+    }
+
+    public TurnEndData GetPacket()
+    {
+        return m_packet;
+    }
+
+
+    public byte[] GetData()
+    {
+        TurnEndSerializer serializer = new TurnEndSerializer();
+        serializer.Serialize(m_packet);
+        return serializer.GetSerializedData();
+    }
+}
+
 public class UnitProducePacket : IPacket<UnitProduceData>
 {
     public class UnitProduceSerializer : Serializer

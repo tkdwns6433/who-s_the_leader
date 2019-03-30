@@ -63,6 +63,7 @@ public class Network : MonoBehaviour {
         this.RegisterReceiveNotification(PacketId.UnitAttack, this.OnReceiveUnitAttackPacket);
         this.RegisterReceiveNotification(PacketId.UnitMove, this.OnReceiveUnitMovePacket);
         this.RegisterReceiveNotification(PacketId.RecruitNpc, this.OnReceiveRecuruitNpcPacket);
+        this.RegisterReceiveNotification(PacketId.TurnEnd, this.OnReceiveEndTurnPacket);
 
         // 이벤트 핸들러.
         this.RegisterEventHandler(OnEventHandling);
@@ -518,6 +519,14 @@ public class Network : MonoBehaviour {
     public void OnReceiveRecuruitNpcPacket(PacketId id, byte[] data)
     {
 
+    }
+
+    public void OnReceiveEndTurnPacket(PacketId id, byte[] data)
+    {
+        TurnEndPacket packet = new TurnEndPacket(data);
+        TurnEndData turnend = packet.GetPacket();
+        GameManager.GetInstance().myTurn = true;
+        Debug.Log("my turn end");
     }
 
     private void SendGameSyncInfo()

@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     private static GameObject container;
+
+    public GameObject Player1Units;
+    public GameObject Player2Units;
+
     public static GameManager GetInstance()
     {
         if (!instance)
@@ -24,8 +28,15 @@ public class GameManager : MonoBehaviour
 
     public List<Building> field_buildings;
 
-    public bool isPlayer1;
+    public PLAYER myPlayer;
     public bool myTurn;
+
+    public int new_id = 2;
+
+    public PLAYER checkPlayerByID(int id)
+    {
+        return getUnit(id).control_player;
+    }
 
     public Building getBuilding(int id)
     {
@@ -96,5 +107,20 @@ public class GameManager : MonoBehaviour
         }
         Debug.Log("error : no delete unit id exist");
         return;
+    }
+
+    public void MyTurnEnd()
+    {
+        myTurn = false;
+        var m_network = GameObject.FindWithTag("Network").GetComponent<Network>();
+        TurnEndData data = new TurnEndData();
+        data.state = 1;
+        TurnEndPacket Packet = new TurnEndPacket(data);
+        m_network.SendReliable(Packet);
+    }
+
+    public void testUnit()
+    {
+        Unit generatedUnit = new Unit();
     }
 }

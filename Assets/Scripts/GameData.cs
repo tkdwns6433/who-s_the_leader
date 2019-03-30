@@ -25,7 +25,7 @@ public class GameData
 {
     // 유닛타입 어택 hp 인텔
     // 이동거리 거리 시야
-    // 순서로 추가하고 싶은 데이터를 추가하면 됩ㄴ다.
+    // 순서로 추가하고 싶은 데이터를 추가하면 됩니다.
     public static UnitData[] UnitDatas = new UnitData[]
     {
         new UnitData(UnitType.UnitNotExist, 0, 0, 0,

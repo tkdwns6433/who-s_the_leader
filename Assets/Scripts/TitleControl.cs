@@ -56,6 +56,7 @@ public class TitleControl : MonoBehaviour
         // 호스트 이름을 취득합니다.
 
         GameObject obj = new GameObject("Network");
+        obj.tag = "Network";
         if (obj != null)
         {
             network_ = obj.AddComponent<Network>();
