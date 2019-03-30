@@ -8,6 +8,7 @@ TagManager:
   - Unit
   - Player2Unit
   - Player1Unit
+  - UnitGenerator
   layers:
   - Default
   - TransparentFX

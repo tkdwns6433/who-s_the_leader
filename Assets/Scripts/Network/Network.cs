@@ -492,8 +492,7 @@ public class Network : MonoBehaviour {
         int producedUnit = produceData.producedUnit;
         int xPos = produceData.x;
         int yPos = produceData.y;
-        UnitGenerator unitGenerate = new UnitGenerator(building_id, (UnitType)producedUnit, xPos, yPos);
-        unitGenerate.GenerateUnit();
+        GameObject.FindGameObjectWithTag("UnitGenerator").GetComponent<UnitGenerator>().GenerateUnit(building_id, (UnitType)producedUnit, xPos, yPos);
     }
 
     public void OnReceiveUnitMovePacket(PacketId id, byte[] data)
@@ -503,7 +502,7 @@ public class Network : MonoBehaviour {
         int unit_id = moveData.unitId;
         int xPos = moveData.x;
         int yPos = moveData.y;
-        GameManager.GetInstance().getUnit(unit_id).unitMove(xPos, yPos);
+        GameManager.GetInstance().getUnit(unit_id).ClientUnitMove(xPos, yPos);
     }
 
     public void OnReceiveUnitAttackPacket(PacketId id, byte[] data)
@@ -526,6 +525,7 @@ public class Network : MonoBehaviour {
         TurnEndPacket packet = new TurnEndPacket(data);
         TurnEndData turnend = packet.GetPacket();
         GameManager.GetInstance().myTurn = true;
+        GameManager.GetInstance().startTurn(GameManager.GetInstance().myPlayer);
         Debug.Log("my turn end");
     }
 

@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject Player1Units;
     public GameObject Player2Units;
-
+   
     public static GameManager GetInstance()
     {
         if (!instance)
@@ -29,9 +29,34 @@ public class GameManager : MonoBehaviour
     public List<Building> field_buildings;
 
     public PLAYER myPlayer;
+    public PLAYER enemyPlayer;
     public bool myTurn;
 
-    public int new_id = 2;
+    public int new_id = 1;
+
+    public int giveID()
+    {
+        int give_id = new_id;
+        new_id++;
+        return give_id;
+    }
+
+    public void subtractGold(PLAYER player, int gold)
+    {
+        switch (player)
+        {
+            case PLAYER.PLAYER1:
+                player1.gold -= gold;
+                break;
+            case PLAYER.PLAYER2:
+                player2.gold -= gold;
+                break;
+            case PLAYER.NONE:
+                break;
+            default:
+                break;
+        }
+    }
 
     public PLAYER checkPlayerByID(int id)
     {
@@ -112,6 +137,7 @@ public class GameManager : MonoBehaviour
     public void MyTurnEnd()
     {
         myTurn = false;
+        startTurn(enemyPlayer);
         var m_network = GameObject.FindWithTag("Network").GetComponent<Network>();
         TurnEndData data = new TurnEndData();
         data.state = 1;
@@ -119,8 +145,7 @@ public class GameManager : MonoBehaviour
         m_network.SendReliable(Packet);
     }
 
-    public void testUnit()
+    public void startTurn(PLAYER player)
     {
-        Unit generatedUnit = new Unit();
     }
 }

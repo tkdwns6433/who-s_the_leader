@@ -2,60 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitGenerator
+public class UnitGenerator : MonoBehaviour
 {
-    UnitType genUnit;
-    int posX;
-    int posY;
-    int m_building_id;
-    public UnitGenerator(int building_id, UnitType ut, int x, int y)
+    public void GenerateUnit(int building_id, UnitType unitType, int x, int y)
     {
-        genUnit = ut;
-        posX = x;
-        posY = y;
-        m_building_id = building_id;
-    }
-
-    public void GenerateUnit()
-    {
-        GameObject obj = new GameObject("Unit");
-        obj.tag = "Unit";
-        if (obj != null)
+        GameObject newUnit = Instantiate(Resources.Load("Prefabs/Unit")) as GameObject;
+        if (newUnit != null)
         {
-            obj.AddComponent<Unit>();
-            var unitComp = obj.GetComponent<Unit>();
-            unitComp.intiateUnit(genUnit);
-            unitComp.setPos(posX, posY);
-            var player_occupy = GameManager.GetInstance().getBuilding(m_building_id).getPlayer();
-            if (player_occupy == PLAYER.PLAYER1)
-            {
-                GameManager.GetInstance().player1.unitList.Add(unitComp);
-                obj.tag = "Player1Unit";
-                unitComp.control_player = PLAYER.PLAYER1;
-                obj.GetComponent<Transform>().SetParent(GameManager.GetInstance().Player1Units.GetComponent<Transform>());
-            }
-            else if (player_occupy == PLAYER.PLAYER2)
-            {
-                GameManager.GetInstance().player2.unitList.Add(unitComp);
-                obj.tag = "Player2Unit";
-                unitComp.control_player = PLAYER.PLAYER2;
-                obj.GetComponent<Transform>().SetParent(GameManager.GetInstance().Player2Units.GetComponent<Transform>());
-            }
-            else
-            {
-                Debug.Log("Error : building is not occupied");
-                return;
-            }
+            PLAYER request_player = GameManager.GetInstance().getBuilding(building_id).player_occupy;
+            newUnit.GetComponent<Unit>().initiateUnit(unitType, x, y, request_player);
+            GameManager.GetInstance().subtractGold(request_player, GameData.getUnitData(unitType).cost);
+        }
+        else
+        {
+            Debug.Log("unit is not instantiated");
+            return;
         }
 
         if(GameManager.GetInstance().myTurn)
         {
             var m_network = GameObject.FindWithTag("Network").GetComponent<Network>();
             UnitProduceData data = new UnitProduceData();
-            data.buildingId = m_building_id;
-            data.producedUnit = (int)genUnit;
-            data.x = posX;
-            data.y = posY;
+            data.buildingId = building_id;
+            data.producedUnit = (int)unitType;
+            data.x = x;
+            data.y = y;
             UnitProducePacket producePacket = new UnitProducePacket(data);
             m_network.SendReliable(producePacket);
         }

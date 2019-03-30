@@ -470,6 +470,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &746907224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 746907225}
+  m_Layer: 0
+  m_Name: UnitGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &746907225
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746907224}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &772698400
 GameObject:
   m_ObjectHideFlags: 0
@@ -664,6 +694,7 @@ MonoBehaviour:
   player2: {fileID: 1806472665}
   field_buildings: []
   myPlayer: 0
+  enemyPlayer: 0
   myTurn: 0
   new_id: 2
 --- !u!4 &1087960821
@@ -1017,8 +1048,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87ac0f0518fff304097575b61bbb77ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  totalActPower: 0
+  currentActPower: 0
   unitList:
   - {fileID: 0}
+  gold: 0
 --- !u!4 &1790093968
 Transform:
   m_ObjectHideFlags: 0
@@ -1062,7 +1096,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87ac0f0518fff304097575b61bbb77ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  totalActPower: 0
+  currentActPower: 0
   unitList: []
+  gold: 0
 --- !u!4 &1806472666
 Transform:
   m_ObjectHideFlags: 0
