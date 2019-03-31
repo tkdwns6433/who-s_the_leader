@@ -20,7 +20,8 @@ public enum PacketId
     ProduceUnit,
     UnitMove,
     UnitAttack,
-    RecruitNpc
+    RecruitNpc,
+    TurnEnd
 }
 
 
@@ -143,6 +144,11 @@ public struct ChatMessage
 
 	public const int 	characterNameLength = 64;	// 캐릭터 ID 길이.
 	public const int	messageLength = 64;
+}
+
+public struct TurnEndData
+{
+    public int state;
 }
 
 //

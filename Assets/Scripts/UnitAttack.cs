@@ -8,11 +8,14 @@ public class UnitAttack
     private int m_defender;
     Unit attackUnit; 
     Unit defendUnit;
+
+    //본부 공격용
     public UnitAttack(int attacker, int defender)
     {
         m_attacker = attacker;
-        m_defender = defender;
         attackUnit = GameManager.GetInstance().getUnit(m_attacker);
+        
+        m_defender = defender;
         defendUnit = GameManager.GetInstance().getUnit(m_defender);
     }
 
@@ -79,7 +82,7 @@ public class UnitAttack
     int CalculateByDamageFomula()
     {
         //flag 설정한 걸로 데미지 공식 설정
-        int damage = attackUnit.unitData.atk;
+        int damage = attackUnit.unitData.max_atk;
         return damage;
     }
 }

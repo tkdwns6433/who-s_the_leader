@@ -10,6 +10,7 @@ public class Unit : MonoBehaviour
     public int y;
     public int curHP;
     private UnitData m_unitData;
+    public PLAYER control_player;
     
     public UnitData unitData
     {
@@ -17,16 +18,30 @@ public class Unit : MonoBehaviour
         set { m_unitData = value; }
     }
     //unity 폴더 Resources/Units folder에 UnitType과 똑같은 이름으로 png 또는 jpg file로 존재해야 sprite불러올 수 있음
-    public void intiateUnit(UnitType ut)
+    public void initiateUnit(UnitType ut, int _x, int _y, PLAYER player)
     {
+        control_player = player;
         unitType = ut;
         m_unitData = GameData.getUnitData(ut);
         GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Units/" + m_unitData.unitType.ToString());
         this.name = m_unitData.unitType.ToString();
+        unitID = GameManager.GetInstance().giveID();
+        curHP = unitData.hp;
+        switch (player)
+        {
+            case PLAYER.PLAYER1:
+                tag = "Player1Unit";
+                break;
+            case PLAYER.PLAYER2:
+                tag = "Player2Unit";
+                break;
+            case PLAYER.NONE:
+                break;
+            default:
+                break;
+        }
     }
     
-
-
     public bool isInPos(int _x, int _y)
     {
         return _x == x && _y == y;
@@ -44,11 +59,24 @@ public class Unit : MonoBehaviour
         }   
     }
 
+    public void setPos(int _x, int _y)
+    {
+        //게임 상 위치 지정해주는 클라이언트 코드
+        x = _x;
+        y = _y;
+    }
+
+    public void ClientUnitMove(int _x, int _y)
+    {
+        //클라이언트 코드
+
+        unitMove(_x, _y);
+    }
+
     public void unitMove(int _x, int _y)
     {
-        //성현씨 유닛 움직이는 함수 추가 바랍니다. 코루틴으로 하면 좋아요
-        //코드 만들곳
-        //아래는 네트워크 관련 함수입니다.
+        x = _x;
+        y = _y;
         if(GameManager.GetInstance().myTurn)
         {
             var m_network = GameObject.FindWithTag("Network").GetComponent<Network>();
@@ -59,5 +87,11 @@ public class Unit : MonoBehaviour
             UnitMovePacket movePacket = new UnitMovePacket(data);
             m_network.SendReliable(movePacket);
         }
+    }
+
+    public void attackUnit(int defender)
+    {
+        var attackUnit = new UnitAttack(unitID, defender);
+        attackUnit.DoAttack();
     }
 }

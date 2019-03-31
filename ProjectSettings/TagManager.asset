@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Network
+  - Unit
+  - Player2Unit
+  - Player1Unit
+  - UnitGenerator
   layers:
   - Default
   - TransparentFX

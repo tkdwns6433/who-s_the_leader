@@ -2,37 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitGenerator
+public class UnitGenerator : MonoBehaviour
 {
-    UnitType genUnit;
-    int posX;
-    int posY;
-    int m_building_id;
-    public UnitGenerator(int building_id, UnitType ut, int x, int y)
+    public void GenerateUnit(int building_id, UnitType unitType, int x, int y)
     {
-        genUnit = ut;
-        posX = x;
-        posY = y;
-        m_building_id = building_id;
-    }
-
-    public void GenerateUnit()
-    {
-        Unit generatedUnit = new Unit();
-        generatedUnit.intiateUnit(genUnit);
-        //generatedUnit.setPos(posX, posY); setPos 구현해야함
-        var player_occupy = GameManager.GetInstance().getBuilding(m_building_id).getPlayer();
-        if (player_occupy == PLAYER.PLAYER1)
+        GameObject newUnit = Instantiate(Resources.Load("Prefabs/Unit")) as GameObject;
+        if (newUnit != null)
         {
-            GameManager.GetInstance().player1.unitList.Add(generatedUnit);
-        }
-        else if(player_occupy == PLAYER.PLAYER2)
-        {
-            GameManager.GetInstance().player2.unitList.Add(generatedUnit);
+            PLAYER request_player = GameManager.GetInstance().getBuilding(building_id).player_occupy;
+            newUnit.GetComponent<Unit>().initiateUnit(unitType, x, y, request_player);
+            GameManager.GetInstance().subtractGold(request_player, GameData.getUnitData(unitType).cost);
         }
         else
         {
-            Debug.Log("Error : building is not occupied");
+            Debug.Log("unit is not instantiated");
             return;
         }
 
@@ -40,10 +23,10 @@ public class UnitGenerator
         {
             var m_network = GameObject.FindWithTag("Network").GetComponent<Network>();
             UnitProduceData data = new UnitProduceData();
-            data.buildingId = m_building_id;
-            data.producedUnit = (int)genUnit;
-            data.x = posX;
-            data.y = posY;
+            data.buildingId = building_id;
+            data.producedUnit = (int)unitType;
+            data.x = x;
+            data.y = y;
             UnitProducePacket producePacket = new UnitProducePacket(data);
             m_network.SendReliable(producePacket);
         }

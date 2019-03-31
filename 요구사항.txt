@@ -1,0 +1,2 @@
+스크립트 - 함수명
+Building - setBuilding

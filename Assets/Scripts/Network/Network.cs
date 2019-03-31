@@ -63,6 +63,7 @@ public class Network : MonoBehaviour {
         this.RegisterReceiveNotification(PacketId.UnitAttack, this.OnReceiveUnitAttackPacket);
         this.RegisterReceiveNotification(PacketId.UnitMove, this.OnReceiveUnitMovePacket);
         this.RegisterReceiveNotification(PacketId.RecruitNpc, this.OnReceiveRecuruitNpcPacket);
+        this.RegisterReceiveNotification(PacketId.TurnEnd, this.OnReceiveEndTurnPacket);
 
         // 이벤트 핸들러.
         this.RegisterEventHandler(OnEventHandling);
@@ -491,8 +492,7 @@ public class Network : MonoBehaviour {
         int producedUnit = produceData.producedUnit;
         int xPos = produceData.x;
         int yPos = produceData.y;
-        UnitGenerator unitGenerate = new UnitGenerator(building_id, (UnitType)producedUnit, xPos, yPos);
-        unitGenerate.GenerateUnit();
+        GameObject.FindGameObjectWithTag("UnitGenerator").GetComponent<UnitGenerator>().GenerateUnit(building_id, (UnitType)producedUnit, xPos, yPos);
     }
 
     public void OnReceiveUnitMovePacket(PacketId id, byte[] data)
@@ -502,7 +502,7 @@ public class Network : MonoBehaviour {
         int unit_id = moveData.unitId;
         int xPos = moveData.x;
         int yPos = moveData.y;
-        GameManager.GetInstance().getUnit(unit_id).unitMove(xPos, yPos);
+        GameManager.GetInstance().getUnit(unit_id).ClientUnitMove(xPos, yPos);
     }
 
     public void OnReceiveUnitAttackPacket(PacketId id, byte[] data)
@@ -518,6 +518,15 @@ public class Network : MonoBehaviour {
     public void OnReceiveRecuruitNpcPacket(PacketId id, byte[] data)
     {
 
+    }
+
+    public void OnReceiveEndTurnPacket(PacketId id, byte[] data)
+    {
+        TurnEndPacket packet = new TurnEndPacket(data);
+        TurnEndData turnend = packet.GetPacket();
+        GameManager.GetInstance().myTurn = true;
+        GameManager.GetInstance().startTurn(GameManager.GetInstance().myPlayer);
+        Debug.Log("my turn end");
     }
 
     private void SendGameSyncInfo()
