@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(IeStartGame());
     }
+
     public Text timeText;//초시계
 
     public float gameTime = 0f; 

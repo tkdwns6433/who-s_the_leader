@@ -38,7 +38,7 @@ public class CameraMove : MonoBehaviour
     private void Start()
     {
         thecamera = GetComponent<Camera>();
-        //thecamera.orthographicSize = 540;
+      
         worldDefalutForward = transform.position;
 
     }
@@ -56,7 +56,7 @@ public class CameraMove : MonoBehaviour
         {
             zoomSize += zoomSpeed;
         }
-        thecamera.orthographicSize = Mathf.Clamp(zoomSize, 400, 1620); ;
+        thecamera.orthographicSize = Mathf.Clamp(zoomSize, minZoomSize, maxZoomSize); ;
 
 
 
