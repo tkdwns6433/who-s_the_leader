@@ -12,7 +12,7 @@ public class Building : MonoBehaviour
 
     public BuildingData buildingData;
 
-    void instantiateBuilding(int xPos, int yPos, BuildingData bd)
+    void initiateBuilding(int xPos, int yPos, BuildingData bd)
     {
         setBuilding(xPos, yPos);
         buildingData = bd;
