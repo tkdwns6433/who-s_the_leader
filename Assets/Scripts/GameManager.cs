@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum PLAYER { PLAYER1, PLAYER2, NONE};
 
@@ -40,7 +41,45 @@ public class GameManager : MonoBehaviour
         new_id++;
         return give_id;
     }
+     void Start()
+    {
+        StartCoroutine(IeStartGame());
+    }
+    public Text timeText;//초시계
 
+    public float gameTime = 0f; 
+    public float GameTime
+    {
+        get { return gameTime; }
+        set
+        {
+           
+            gameTime = Mathf.Clamp(value, 0f, float.MaxValue);
+            string hours = ((int)gameTime / 3600).ToString(); ;
+
+            string minute = ((int)gameTime % 3600 / 60).ToString();
+
+            string second = (gameTime%60).ToString("f2");
+
+            timeText.text = hours+":" + minute + ":" + second;
+        }
+    }
+    IEnumerator IeStartGame()
+    {
+
+        while (true)
+        {//게임시간 줄이기
+            
+            if(gameTime>=6000f) //만약 게임에서 승리한다면 break
+            {
+                break;
+            }
+            GameTime += Time.deltaTime;
+            yield return null;
+        }
+
+
+    }
     public void subtractGold(PLAYER player, int gold)
     {
         switch (player)

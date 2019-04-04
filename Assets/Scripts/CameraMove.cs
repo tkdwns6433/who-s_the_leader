@@ -9,12 +9,17 @@ public class CameraMove : MonoBehaviour
     Camera thecamera;
 
     public GameObject target;
+    public int maxZoomSize;
+    public int minZoomSize;
 
+    public float zoomSpeed;
     public float speed;
     public float keyspeed;
     Vector3 setPos;
     Vector3 curPos;
     Vector3 keyPos;
+
+    private Vector3 worldDefalutForward;
 
     private void Awake()
     {
@@ -34,13 +39,27 @@ public class CameraMove : MonoBehaviour
     {
         thecamera = GetComponent<Camera>();
         //thecamera.orthographicSize = 540;
-        keyPos = transform.position;
+        worldDefalutForward = transform.position;
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        float zoomSize = thecamera.orthographicSize;
+        if (scroll < 0)
+        {
+            zoomSize -= zoomSpeed;
+        }
+        else if (scroll > 0)
+        {
+            zoomSize += zoomSpeed;
+        }
+        thecamera.orthographicSize = Mathf.Clamp(zoomSize, 400, 1620); ;
+
+
+
         if (Input.GetMouseButtonDown(1))
         {
             setPos.Set(Input.mousePosition.x, Input.mousePosition.y, this.transform.position.z);
@@ -55,19 +74,20 @@ public class CameraMove : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
             transform.Translate(Vector3.left * keyspeed * Time.deltaTime);
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
+
             transform.Translate(Vector3.right * keyspeed * Time.deltaTime);
         }
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKey(KeyCode.W))
         {
             transform.Translate(Vector3.up * keyspeed * Time.deltaTime);
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKey(KeyCode.S))
         {
             transform.Translate(Vector3.down * keyspeed * Time.deltaTime);
         }
