@@ -68,9 +68,8 @@ public class Unit : MonoBehaviour
 
     public void ClientUnitMove(int _x, int _y)
     {
-        //클라이언트 코드
-
         unitMove(_x, _y);
+        //클라이언트 코드
     }
 
     public void unitMove(int _x, int _y)
@@ -91,7 +90,5 @@ public class Unit : MonoBehaviour
 
     public void attackUnit(int defender)
     {
-        var attackUnit = new UnitAttack(unitID, defender);
-        attackUnit.DoAttack();
     }
 }
