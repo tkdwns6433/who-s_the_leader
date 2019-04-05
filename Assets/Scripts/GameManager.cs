@@ -41,10 +41,31 @@ public class GameManager : MonoBehaviour
         new_id++;
         return give_id;
     }
-     void Start()
-    {
-        StartCoroutine(IeStartGame());
-    }
+    void Start()
+        { 
+           StartCoroutine(IeStartGame()); 
+        } 
+
+         IEnumerator IeStartGame()
+         { 
+    
+ 
+            while (true) 
+            {//게임시간 줄이기 
+    
+ 
+              if(gameTime>=6000f) //만약 게임에서 승리한다면 break 
+               { 
+                    break; 
+               } 
+                GameTime += Time.deltaTime; 
+               yield return null; 
+            } 
+ 
+   
+ 
+      } 
+
 
     public Text timeText;//초시계
 
@@ -65,22 +86,7 @@ public class GameManager : MonoBehaviour
             timeText.text = hours+":" + minute + ":" + second;
         }
     }
-    IEnumerator IeStartGame()
-    {
-
-        while (true)
-        {//게임시간 줄이기
-            
-            if(gameTime>=6000f) //만약 게임에서 승리한다면 break
-            {
-                break;
-            }
-            GameTime += Time.deltaTime;
-            yield return null;
-        }
-
-
-    }
+  
     public void subtractGold(PLAYER player, int gold)
     {
         switch (player)
@@ -187,5 +193,36 @@ public class GameManager : MonoBehaviour
 
     public void startTurn(PLAYER player)
     {
+        playerSight(player);
     }
+    
+    List<Unit> enemyPlayerList;
+    List<Unit> playerList;
+    public void playerSight(PLAYER player)
+    {      
+        switch (player)
+        {
+            case PLAYER.PLAYER1:
+                playerList = player1.unitList;
+                enemyPlayerList = player2.unitList;
+                break;
+            case PLAYER.PLAYER2:
+                playerList = player2.unitList;
+                enemyPlayerList = player1.unitList;
+                break;
+            case PLAYER.NONE:
+                break;
+            default:
+                break;           
+        }
+        for (int i = 0; i < playerList.Count; ++i)
+        {
+            enemyPlayerList[i].Show();
+        }
+        for (int i = 0; i < enemyPlayerList.Count; ++i)
+        {
+            enemyPlayerList[i].Hide();
+        }
+    }
+
 }
