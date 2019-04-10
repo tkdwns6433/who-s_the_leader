@@ -14,12 +14,14 @@ public class CameraMove : MonoBehaviour
 
     public float zoomSpeed;
     public float speed;
-    public float keyspeed;
-    Vector3 setPos;
-    Vector3 curPos;
-    Vector3 keyPos;
+    public float mouseSpeed;
 
-    private Vector3 worldDefalutForward;
+
+    public float mouse_speedX = 3.0f;    //마우스 좌우
+    public float mouse_speedY = 3.0f;    //마우스 상하
+    float rotationY = 0f;
+
+
 
     private void Awake()
     {
@@ -32,20 +34,61 @@ public class CameraMove : MonoBehaviour
             instance = this;
         }
         DontDestroyOnLoad(this.gameObject);
-
-    }
-
-    private void Start()
-    {
         thecamera = GetComponent<Camera>();
-      
-        worldDefalutForward = transform.position;
+        Debug.Log(Screen.width + ":" + Screen.height);
+    }
+ 
+
+
+    Vector3 mousePos;
+    Vector3 refVelov;
+
+    void LateUpdate()
+    {
+
+        ZoomInOut();
+        //마우스 위치에 따른 카메라 이동 
+        //방법1
+
+        mousePos = transform.position;
+        float rotationX = Input.GetAxis("Mouse X")* mouse_speedX;
+        float rotationY = Input.GetAxis("Mouse Y") * mouse_speedY;
+        if (rotationX < 0)
+        {
+            mousePos.x -= mouseSpeed;
+        }
+        else if (rotationX > 0)
+        {
+            mousePos.x += mouseSpeed;
+        }     
+        if (rotationY < 0)
+        {
+            mousePos.y -= mouseSpeed;
+        }
+        else if (rotationY > 0)
+        {
+            mousePos.y += mouseSpeed;
+        }
+
+        //방법2
+        Vector3 temp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        temp.z = 0f;
+        temp.x = Mathf.Clamp(temp.x, -2130, 3031);
+        temp.y = Mathf.Clamp(temp.y, -811, 990);
+        Vector3 tempV = Vector3.SmoothDamp(transform.position, temp, ref refVelov, 2.5f);
+
+        tempV.z = -10f;
+
+        transform.position = tempV;
+        Debug.Log(temp);
+
+
 
     }
-
-    // Update is called once per frame
-    void Update()
+   
+    void ZoomInOut()
     {
+        //카메라 줌&아웃 부분
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         float zoomSize = thecamera.orthographicSize;
         if (scroll < 0)
@@ -58,39 +101,6 @@ public class CameraMove : MonoBehaviour
         }
         thecamera.orthographicSize = Mathf.Clamp(zoomSize, minZoomSize, maxZoomSize); ;
 
-
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            setPos.Set(Input.mousePosition.x, Input.mousePosition.y, this.transform.position.z);
-            setPos = Camera.main.ScreenToWorldPoint(setPos);
-        }
-
-        if (Input.GetMouseButton(1))
-        {
-            curPos.Set(Input.mousePosition.x, Input.mousePosition.y, this.transform.position.z);
-            curPos = Camera.main.ScreenToWorldPoint(curPos);
-            transform.position = transform.position - (curPos - setPos);
-
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Translate(Vector3.left * keyspeed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-
-            transform.Translate(Vector3.right * keyspeed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.Translate(Vector3.up * keyspeed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.Translate(Vector3.down * keyspeed * Time.deltaTime);
-        }
-
     }
+
 }

@@ -24,6 +24,7 @@ public class GameUIManager : MonoBehaviour
     Unit selectedUnit = null;
     public GameObject unitPanel;
     public Text unitNameText;
+    public Text goldText;
     public void SelectUnit(Unit selectUnit)
     {
 
@@ -41,6 +42,10 @@ public class GameUIManager : MonoBehaviour
             selectedUnit = selectUnit;
         }
 
+    }
+    public void ChangeGoldText(int gold)
+    {
+        goldText.text = gold.ToString();
     }
 
 }

@@ -86,16 +86,16 @@ public class GameManager : MonoBehaviour
             timeText.text = hours+":" + minute + ":" + second;
         }
     }
-  
+    
     public void subtractGold(PLAYER player, int gold)
     {
         switch (player)
         {
             case PLAYER.PLAYER1:
-                player1.gold -= gold;
+                player1.Gold -= gold;
                 break;
             case PLAYER.PLAYER2:
-                player2.gold -= gold;
+                player2.Gold -= gold;
                 break;
             case PLAYER.NONE:
                 break;
