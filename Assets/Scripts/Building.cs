@@ -6,13 +6,10 @@ public class Building : MonoBehaviour
 {
     public int building_id;
     public PLAYER player_occupy;
-
-    public int x;
-    public int y;
     public int BuildNum;                      //2 => under, 1 => ground, 0 => high
     GameObject Tiled;
     SpriteRenderer spt;
-
+    
     public float x;
     public float y;
     float second, second2;
@@ -52,6 +49,11 @@ public class Building : MonoBehaviour
             second += Time.deltaTime;
         }
         else if (collision.gameObject.tag == "Player2")
+        if(collision.gameObject.tag == "Player1")
+        {
+            second += Time.deltaTime;
+        }
+        else if(collision.gameObject.tag == "Player2")
         {
             second2 += Time.deltaTime;
         }
@@ -95,8 +97,19 @@ public class Building : MonoBehaviour
 
         }
     }
+    
 
-    void setBuilding(int _x, int _y)
+    
+    void initiateBuilding(int xPos, int yPos, BuildingData bd)
+    {
+        setBuilding(xPos, yPos);
+        buildingData = bd;
+        this.name = buildingData.buildingType.ToString();
+        player_occupy = PLAYER.NONE;
+        building_id = GameManager.GetInstance().giveID();
+    }
+
+    void setBuilding(float _x, float _y)
     {
         //클라이언트 측 실제로 빌딩 위치 시키는 코드
         x = _x;
@@ -130,11 +143,11 @@ public class Building : MonoBehaviour
             {
                 spt.sprite = Resources.Load<Sprite>("image/Underbuild white") as Sprite;
             }
-            else if (building_id > 4 && building_id <= 6)
+            else if(building_id > 4 && building_id <= 6)
             {
                 spt.sprite = Resources.Load<Sprite>("image/Groundbuild white") as Sprite;
             }
-            else if (building_id > 6 && building_id <= 10)
+            else if(building_id > 6 && building_id <= 10)
             {
                 spt.sprite = Resources.Load<Sprite>("image/Highbuild white") as Sprite;
             }
@@ -142,22 +155,6 @@ public class Building : MonoBehaviour
         }
     }
 
-
-    void initiateBuilding(int xPos, int yPos, BuildingData bd)
-    {
-        setBuilding(xPos, yPos);
-        buildingData = bd;
-        this.name = buildingData.buildingType.ToString();
-        player_occupy = PLAYER.NONE;
-        building_id = GameManager.GetInstance().giveID();
-    }
-
-    void setBuilding(int _x, int _y)
-    {
-        //클라이언트 측 실제로 빌딩 위치 시키는 코드
-        x = _x;
-        y = _y;
-    }
     //아지트 타입에 따른 ui에 유닛 정보를 놓아 줌
     void give_ui_info()
     {
