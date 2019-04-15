@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Unit : MonoBehaviour
 {
@@ -91,19 +90,5 @@ public class Unit : MonoBehaviour
 
     public void attackUnit(int defender)
     {
-    }
-
-    public void OnMouseDown()
-    {       
-        GameUIManager.Instance.SelectUnit(this);
-    }
-
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
-    public void Show()
-    {
-        gameObject.SetActive(true);
     }
 }
