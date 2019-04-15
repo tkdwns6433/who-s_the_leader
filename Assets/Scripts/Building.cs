@@ -9,12 +9,6 @@ public class Building : MonoBehaviour
 
     public int x;
     public int y;
-
-    public BuildingData buildingData;
-
-    {
-    public int building_id;
-    public PLAYER player_occupy;
     public int BuildNum;                      //2 => under, 1 => ground, 0 => high
     GameObject Tiled;
     SpriteRenderer spt;
@@ -23,8 +17,6 @@ public class Building : MonoBehaviour
     public float y;
     float second, second2;
     bool playerCheck, Checkcheck;
-    public int x;
-    public int y;
 
     public BuildingData buildingData;
 
