@@ -13,10 +13,10 @@ public class UnitAttack
     public UnitAttack(int attacker, int defender)
     {
         m_attacker = attacker;
-        attackUnit = GameManager.GetInstance().getUnit(m_attacker);
+        attackUnit = GameManager.GetInstance.getUnit(m_attacker);
         
         m_defender = defender;
-        defendUnit = GameManager.GetInstance().getUnit(m_defender);
+        defendUnit = GameManager.GetInstance.getUnit(m_defender);
     }
 
     //특수한 버프 또는 능력 설정
@@ -24,7 +24,7 @@ public class UnitAttack
     //만약에 내 단말에서 시행하는 공격이면 true이다.
     public void DoAttack()
     {
-        if(GameManager.GetInstance().myTurn)
+        if(GameManager.GetInstance.myTurn)
             sendUnitAttack(); //네트워크에 상대방에 보내줌   
         setFlags();
         int damage = CalculateByDamageFomula();

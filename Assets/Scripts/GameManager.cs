@@ -7,23 +7,28 @@ public enum PLAYER { PLAYER1, PLAYER2, NONE};
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager instance;
-    private static GameObject container;
+
     
     public GameObject Player1Units;
     public GameObject Player2Units;
     //public ObjectSight sightPool;
-    public static GameManager GetInstance()
+
+    private static GameManager instance;
+    public static GameManager GetInstance
     {
-        if (!instance)
-        {
-            container = new GameObject();
-            container.name = "GameManager";
-            instance = container.AddComponent(typeof(GameManager)) as GameManager;
-        }
-        return instance;
+        get { return instance; }
     }
 
+    void Awake()
+    {
+        if (instance)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+
+    }
     public Player player1;
     public Player player2;
 
@@ -42,50 +47,31 @@ public class GameManager : MonoBehaviour
         new_id++;
         return give_id;
     }
-     void Start()
+    void Start()
     {
-
         StartCoroutine(IeStartGame());
         StartCoroutine(Buildsetting());
-
-    }
-
-    public Text timeText;//초시계
-
-    public float gameTime = 0f; 
-    public float GameTime
-    {
-        get { return gameTime; }
-        set
-        {
-           
-            gameTime = Mathf.Clamp(value, 0f, float.MaxValue);
-            string hours = ((int)gameTime / 3600).ToString(); ;
-
-            string minute = ((int)gameTime % 3600 / 60).ToString();
-
-            string second = (gameTime%60).ToString("f2");
-
-            timeText.text = hours +":" + minute + ":" + second;
-        }
     }
 
     IEnumerator IeStartGame()
     {
 
+
         while (true)
-        {//게임시간 줄이기
-            
-            if(gameTime>=6000f) //만약 게임에서 승리한다면 break
+        {//게임시간 줄이기 
+
+
+            if (gameTime >= 6000f) //만약 게임에서 승리한다면 break 
             {
                 break;
             }
             GameTime += Time.deltaTime;
             yield return null;
         }
-        
-    }
 
+
+
+    }
     IEnumerator Buildsetting()
     {
         GameObject obj;
@@ -117,7 +103,27 @@ public class GameManager : MonoBehaviour
         }
         yield return null;
     }
-    
+
+    public Text timeText;//초시계
+
+    public float gameTime = 0f;
+    public float GameTime
+    {
+        get { return gameTime; }
+        set
+        {
+
+            gameTime = Mathf.Clamp(value, 0f, float.MaxValue);
+            string hours = ((int)gameTime / 3600).ToString(); ;
+
+            string minute = ((int)gameTime % 3600 / 60).ToString();
+
+            string second = (gameTime % 60).ToString("f2");
+
+            timeText.text = hours + ":" + minute + ":" + second;
+        }
+    }
+
     public void subtractGold(PLAYER player, int gold)
     {
         switch (player)

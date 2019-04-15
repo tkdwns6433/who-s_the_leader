@@ -106,7 +106,7 @@ public class Building : MonoBehaviour
         buildingData = bd;
         this.name = buildingData.buildingType.ToString();
         player_occupy = PLAYER.NONE;
-        building_id = GameManager.GetInstance().giveID();
+        building_id = GameManager.GetInstance.giveID();
     }
 
     void setBuilding(float _x, float _y)

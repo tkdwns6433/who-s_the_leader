@@ -26,7 +26,7 @@ public class Unit : MonoBehaviour
         m_unitData = GameData.getUnitData(ut);
         GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Units/" + m_unitData.unitType.ToString());
         this.name = m_unitData.unitType.ToString();
-        unitID = GameManager.GetInstance().giveID();
+        unitID = GameManager.GetInstance.giveID();
         curHP = unitData.hp;
         switch (player)
         {
@@ -54,7 +54,7 @@ public class Unit : MonoBehaviour
         //맞는 애니메이션 사용 (꼭 비동기적인 코루틴 사용해야함)
         if(curHP <= 0)
         {
-            GameManager.GetInstance().deleteUnit(unitID);
+            GameManager.GetInstance.deleteUnit(unitID);
             //죽는 애니메이션 사용 (꼭 비동기적인 코루틴 사용해야함)
             Destroy(this);
         }   
@@ -77,7 +77,7 @@ public class Unit : MonoBehaviour
     {
         x = _x;
         y = _y;
-        if(GameManager.GetInstance().myTurn)
+        if(GameManager.GetInstance.myTurn)
         {
             var m_network = GameObject.FindWithTag("Network").GetComponent<Network>();
             UnitMoveData data = new UnitMoveData();
@@ -96,6 +96,7 @@ public class Unit : MonoBehaviour
     public void OnMouseDown()
     {       
         GameUIManager.Instance.SelectUnit(this);
+        
     }
 
     public void Hide()

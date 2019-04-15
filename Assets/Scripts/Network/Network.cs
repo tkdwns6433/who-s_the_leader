@@ -502,7 +502,7 @@ public class Network : MonoBehaviour {
         int unit_id = moveData.unitId;
         int xPos = moveData.x;
         int yPos = moveData.y;
-        GameManager.GetInstance().getUnit(unit_id).ClientUnitMove(xPos, yPos);
+        GameManager.GetInstance.getUnit(unit_id).ClientUnitMove(xPos, yPos);
     }
 
     public void OnReceiveUnitAttackPacket(PacketId id, byte[] data)
@@ -524,8 +524,8 @@ public class Network : MonoBehaviour {
     {
         TurnEndPacket packet = new TurnEndPacket(data);
         TurnEndData turnend = packet.GetPacket();
-        GameManager.GetInstance().myTurn = true;
-        GameManager.GetInstance().startTurn(GameManager.GetInstance().myPlayer);
+        GameManager.GetInstance.myTurn = true;
+        GameManager.GetInstance.startTurn(GameManager.GetInstance.myPlayer);
         Debug.Log("my turn end");
     }
 

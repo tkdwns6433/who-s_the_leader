@@ -9,9 +9,9 @@ public class UnitGenerator : MonoBehaviour
         GameObject newUnit = Instantiate(Resources.Load("Prefabs/Unit")) as GameObject;
         if (newUnit != null)
         {
-            PLAYER request_player = GameManager.GetInstance().getBuilding(building_id).player_occupy;
+            PLAYER request_player = GameManager.GetInstance.getBuilding(building_id).player_occupy;
             newUnit.GetComponent<Unit>().initiateUnit(unitType, x, y, request_player);
-            GameManager.GetInstance().subtractGold(request_player, GameData.getUnitData(unitType).cost);
+            GameManager.GetInstance.subtractGold(request_player, GameData.getUnitData(unitType).cost);
         }
         else
         {
@@ -19,7 +19,7 @@ public class UnitGenerator : MonoBehaviour
             return;
         }
 
-        if(GameManager.GetInstance().myTurn)
+        if(GameManager.GetInstance.myTurn)
         {
             var m_network = GameObject.FindWithTag("Network").GetComponent<Network>();
             UnitProduceData data = new UnitProduceData();
