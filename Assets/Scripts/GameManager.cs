@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum PLAYER { PLAYER1, PLAYER2, NONE};
 
@@ -8,7 +9,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     private static GameObject container;
-
+    
     public GameObject Player1Units;
     public GameObject Player2Units;
    
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     public Player player1;
     public Player player2;
 
+    public List<GameObject> buildingObj;
     public List<Building> field_buildings;
 
     public PLAYER myPlayer;
@@ -40,7 +42,6 @@ public class GameManager : MonoBehaviour
         new_id++;
         return give_id;
     }
-<<<<<<< HEAD
      void Start()
     {
 
@@ -117,18 +118,16 @@ public class GameManager : MonoBehaviour
         yield return null;
 
     }
-=======
->>>>>>> parent of 0163e96... building setting
 
     public void subtractGold(PLAYER player, int gold)
     {
         switch (player)
         {
             case PLAYER.PLAYER1:
-                player1.gold -= gold;
+                player1.Gold -= gold;
                 break;
             case PLAYER.PLAYER2:
-                player2.gold -= gold;
+                player2.Gold -= gold;
                 break;
             case PLAYER.NONE:
                 break;
@@ -226,8 +225,8 @@ public class GameManager : MonoBehaviour
 
     public void startTurn(PLAYER player)
     {
+        playerSight(player);
     }
-<<<<<<< HEAD
     
     List<Unit> enemyPlayerList;
     List<Unit> playerList;
@@ -259,6 +258,4 @@ public class GameManager : MonoBehaviour
     }
     
 
-=======
->>>>>>> parent of 0163e96... building setting
 }

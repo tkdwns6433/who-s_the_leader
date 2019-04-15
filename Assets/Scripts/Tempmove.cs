@@ -7,6 +7,8 @@ public class Tempmove : MonoBehaviour
     Vector3 temp;
     public bool clickCheck;
     public int blockRange;
+    public int attackRange;
+    public bool attackCheck;
 
 
     private void OnMouseDown()
@@ -18,6 +20,7 @@ public class Tempmove : MonoBehaviour
     void Start()
     {
         blockRange = 3;
+        attackRange = 3;
     }
 
     // Update is called once per frame
@@ -27,6 +30,11 @@ public class Tempmove : MonoBehaviour
         {
             temp.Set(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
             transform.position += new Vector3(temp.x * 120, temp.y * 80, temp.z);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            attackCheck = !attackCheck;
         }
     }
 }
