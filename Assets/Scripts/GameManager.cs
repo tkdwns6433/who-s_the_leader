@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum PLAYER { PLAYER1, PLAYER2, NONE};
 
@@ -8,7 +9,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     private static GameObject container;
-
+    
     public GameObject Player1Units;
     public GameObject Player2Units;
    
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     public Player player1;
     public Player player2;
 
+    public List<GameObject> buildingObj;
     public List<Building> field_buildings;
 
     public PLAYER myPlayer;
@@ -40,16 +42,122 @@ public class GameManager : MonoBehaviour
         new_id++;
         return give_id;
     }
+<<<<<<< HEAD
+     void Start()
+    {
 
+        StartCoroutine(IeStartGame());
+        StartCoroutine(Buildsetting());
+
+    }
+=======
+    void Start()
+        { 
+           StartCoroutine(IeStartGame()); 
+        } 
+
+         IEnumerator IeStartGame()
+         { 
+    
+ 
+            while (true) 
+            {//게임시간 줄이기 
+    
+ 
+              if(gameTime>=6000f) //만약 게임에서 승리한다면 break 
+               { 
+                    break; 
+               } 
+                GameTime += Time.deltaTime; 
+               yield return null; 
+            } 
+ 
+   
+ 
+      } 
+
+>>>>>>> 36d566afc36b9c8dbf68ad6cd301452d3fd51e65
+
+    public Text timeText;//초시계
+
+    public float gameTime = 0f; 
+    public float GameTime
+    {
+        get { return gameTime; }
+        set
+        {
+           
+            gameTime = Mathf.Clamp(value, 0f, float.MaxValue);
+            string hours = ((int)gameTime / 3600).ToString(); ;
+
+            string minute = ((int)gameTime % 3600 / 60).ToString();
+
+            string second = (gameTime%60).ToString("f2");
+
+            timeText.text = hours +":" + minute + ":" + second;
+        }
+    }
+<<<<<<< HEAD
+    IEnumerator IeStartGame()
+    {
+
+        while (true)
+        {//게임시간 줄이기
+            
+            if(gameTime>=6000f) //만약 게임에서 승리한다면 break
+            {
+                break;
+            }
+            GameTime += Time.deltaTime;
+            yield return null;
+        }
+        
+    }
+
+    IEnumerator Buildsetting()
+    {
+        GameObject obj;
+        for (int i = 0; i < 4; i++)
+        {
+            obj = Resources.Load("Prefabs/underbuiled2") as GameObject;
+
+            buildingObj.Add(obj);
+        }
+
+        for (int j = 0; j < 2; j++)
+        {
+            obj = Resources.Load("Prefabs/groundbuiled1") as GameObject;
+
+            buildingObj.Add(obj);
+        }
+
+        for (int k = 0; k < 4; k++)
+        {
+            obj = Resources.Load("Prefabs/highbuiled0") as GameObject;
+
+            buildingObj.Add(obj);
+        }
+
+        for (int b = 0; b < 10; b++)
+        {
+            Instantiate(buildingObj[b]);
+
+        }
+        yield return null;
+    }
+
+=======
+    
+>>>>>>> 36d566afc36b9c8dbf68ad6cd301452d3fd51e65
     public void subtractGold(PLAYER player, int gold)
     {
         switch (player)
         {
             case PLAYER.PLAYER1:
-                player1.gold -= gold;
+                player1.Gold -= gold;
                 break;
             case PLAYER.PLAYER2:
-                player2.gold -= gold;
+                player2.Gold -= gold;
                 break;
             case PLAYER.NONE:
                 break;
@@ -147,5 +255,36 @@ public class GameManager : MonoBehaviour
 
     public void startTurn(PLAYER player)
     {
+        playerSight(player);
     }
+    
+    List<Unit> enemyPlayerList;
+    List<Unit> playerList;
+    public void playerSight(PLAYER player)
+    {      
+        switch (player)
+        {
+            case PLAYER.PLAYER1:
+                playerList = player1.unitList;
+                enemyPlayerList = player2.unitList;
+                break;
+            case PLAYER.PLAYER2:
+                playerList = player2.unitList;
+                enemyPlayerList = player1.unitList;
+                break;
+            case PLAYER.NONE:
+                break;
+            default:
+                break;           
+        }
+        for (int i = 0; i < playerList.Count; ++i)
+        {
+            enemyPlayerList[i].Show();
+        }
+        for (int i = 0; i < enemyPlayerList.Count; ++i)
+        {
+            enemyPlayerList[i].Hide();
+        }
+    }
+
 }
