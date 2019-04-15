@@ -35,7 +35,7 @@ public class CameraMove : MonoBehaviour
         }
         DontDestroyOnLoad(this.gameObject);
         thecamera = GetComponent<Camera>();
-        Debug.Log(Screen.width + ":" + Screen.height);
+       
     }
  
 
@@ -80,10 +80,6 @@ public class CameraMove : MonoBehaviour
         tempV.z = -10f;
 
         transform.position = tempV;
-        Debug.Log(temp);
-
-
-
     }
    
     void ZoomInOut()

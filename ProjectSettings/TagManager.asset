@@ -53,3 +53,6 @@ TagManager:
   - name: UI
     uniqueID: 3813031275
     locked: 0
+  - name: SightUI
+    uniqueID: 2877685919
+    locked: 0

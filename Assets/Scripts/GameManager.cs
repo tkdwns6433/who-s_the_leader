@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject Player1Units;
     public GameObject Player2Units;
-   
+    //public ObjectSight sightPool;
     public static GameManager GetInstance()
     {
         if (!instance)
