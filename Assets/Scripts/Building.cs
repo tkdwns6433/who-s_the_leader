@@ -8,6 +8,8 @@ public class Building : MonoBehaviour
     public PLAYER player_occupy;
     public int BuildNum;                      //2 => under, 1 => ground, 0 => high
     GameObject Tiled;
+    GameObject mgr;
+    public GameObject[] Genpoint;
     SpriteRenderer spt;
     
     public float x;
@@ -25,10 +27,13 @@ public class Building : MonoBehaviour
         setBuilding(Tiled.transform.position.x, Tiled.transform.position.y + 200);   //타일에 위치에 시작할때 배정된다.
 
         spt = GetComponent<SpriteRenderer>();
+        mgr = GameObject.Find("GameManager");
 
         second = 0.0f;
         second2 = 0.0f;
     }
+
+    Ray ray;
 
     private void OnMouseDown()
     {
@@ -41,6 +46,7 @@ public class Building : MonoBehaviour
         //    //ui 가져와야됨
         //}
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -98,8 +104,6 @@ public class Building : MonoBehaviour
         }
     }
     
-
-    
     void initiateBuilding(int xPos, int yPos, BuildingData bd)
     {
         setBuilding(xPos, yPos);
@@ -126,14 +130,17 @@ public class Building : MonoBehaviour
             if (building_id <= 4)
             {
                 spt.sprite = Resources.Load<Sprite>("image/Underbuild lineX") as Sprite;
+                GameUIManager.Instance.unitselect.SetActive(false);
             }
             else if (building_id > 4 && building_id <= 6)
             {
                 spt.sprite = Resources.Load<Sprite>("image/Groundbuild lineX") as Sprite;
+                GameUIManager.Instance.unitselect.SetActive(false);
             }
             else if (building_id > 6 && building_id <= 10)
             {
                 spt.sprite = Resources.Load<Sprite>("image/Highbuild lineX") as Sprite;
+                GameUIManager.Instance.unitselect.SetActive(false);
             }
             Checkcheck = false;
         }
@@ -142,14 +149,20 @@ public class Building : MonoBehaviour
             if (building_id <= 4)
             {
                 spt.sprite = Resources.Load<Sprite>("image/Underbuild white") as Sprite;
+                GameUIManager.Instance.SelectBuilding(building_id); //따른게 선택돼 있을때는 못누르게 해야됌
+                GameUIManager.Instance.unitselect.SetActive(true);
             }
             else if(building_id > 4 && building_id <= 6)
             {
                 spt.sprite = Resources.Load<Sprite>("image/Groundbuild white") as Sprite;
+                GameUIManager.Instance.SelectBuilding(building_id);
+                GameUIManager.Instance.unitselect.SetActive(true);
             }
             else if(building_id > 6 && building_id <= 10)
             {
                 spt.sprite = Resources.Load<Sprite>("image/Highbuild white") as Sprite;
+                GameUIManager.Instance.SelectBuilding(building_id);
+                GameUIManager.Instance.unitselect.SetActive(true);
             }
             Checkcheck = true;
         }
@@ -169,6 +182,37 @@ public class Building : MonoBehaviour
                 break;
             default:
                 break;
+        }
+    }
+
+    public void Unitgenset(UnitType type){
+        if (Genpoint[0].GetComponent<UnitGenPoint>().uNitcheck == false)
+        {
+            if (type == UnitType.Mafiaunit)
+            {
+                mgr.GetComponent<UnitGenerator>().GenerateUnit(building_id, UnitType.Mafiaunit, GameUIManager.Instance.build.x, GameUIManager.Instance.build.y - 109);
+                Debug.Log("!");
+            }
+        }
+        else if(Genpoint[1].GetComponent<UnitGenPoint>().uNitcheck == false)
+        {
+            if (type == UnitType.Mafiaunit)
+            {
+                mgr.GetComponent<UnitGenerator>().GenerateUnit(building_id, UnitType.Mafiaunit, GameUIManager.Instance.build.x+120, GameUIManager.Instance.build.y - 109);
+                Debug.Log("!!");
+            }
+        }
+        else if(Genpoint[2].GetComponent<UnitGenPoint>().uNitcheck == false)
+        {
+            if (type == UnitType.Mafiaunit)
+            {
+                mgr.GetComponent<UnitGenerator>().GenerateUnit(building_id, UnitType.Mafiaunit, GameUIManager.Instance.build.x - 120, GameUIManager.Instance.build.y - 109);
+                Debug.Log("!!!");
+            }
+        }
+        else
+        {
+            Debug.Log("!!!!");
         }
     }
 }

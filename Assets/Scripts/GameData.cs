@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum UnitType { UnitNotExist, CommandCenter, Bully, Police, Soldier, Doctor, Investor }
+public enum UnitType { UnitNotExist, CommandCenter, Bully, Police, Soldier, Doctor, Investor, Mafiaunit }
 public enum BuildingType { High, Ground, Under}
 
 
@@ -51,7 +51,8 @@ public class GameData
         new UnitData(UnitType.Bully, 3, 5, 4, 5, 5,
             4, 4, 4, 5),
         new UnitData(UnitType.CommandCenter, 5, 5, 0, 0, 0,
-            0, 4, 0, 0)
+            0, 4, 0, 0),
+        new UnitData(UnitType.Mafiaunit, 3, 3,3,3,3,3,3,3,3)
     };
 
     public static BuildingData[] BuildingDatas = new BuildingData[]

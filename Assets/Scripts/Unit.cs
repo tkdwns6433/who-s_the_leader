@@ -6,9 +6,12 @@ using UnityEngine.UI;
 public class Unit : MonoBehaviour
 {
     UnitType unitType;
+    bool bCheckcol;
+    bool bMovedirection;  //true = right, false = left;
+    bool bMove;
     public int unitID;
-    public int x;
-    public int y;
+    public float x;
+    public float y;
     public int curHP;
     private UnitData m_unitData;
     public PLAYER control_player;
@@ -18,8 +21,14 @@ public class Unit : MonoBehaviour
         get { return m_unitData; }
         set { m_unitData = value; }
     }
+
+    private void Start()
+    {
+
+    }
+
     //unity 폴더 Resources/Units folder에 UnitType과 똑같은 이름으로 png 또는 jpg file로 존재해야 sprite불러올 수 있음
-    public void initiateUnit(UnitType ut, int _x, int _y, PLAYER player)
+    public void initiateUnit(UnitType ut, float _x, float _y, PLAYER player)
     {
         control_player = player;
         unitType = ut;
@@ -41,8 +50,42 @@ public class Unit : MonoBehaviour
             default:
                 break;
         }
+        setPos(_x, _y);
+
     }
-    
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //if (collision.transform.tag == "Player1Unit" || collision.transform.tag == "Player2Unit")
+        //{
+        //    Debug.Log("!!");
+        //    if (bMove == false) // 첫생성시 시작위치 지정하기 위한것
+        //    {
+        //        if (bCheckcol == false)
+        //        {
+        //            setPos(transform.position.x + 120, transform.position.y);
+        //            bCheckcol = true;
+        //        }
+        //        else if (bCheckcol == true)
+        //        {
+        //            setPos(transform.position.x - 120, transform.position.y);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (bMovedirection == true)
+        //        {
+        //            setPos(transform.position.x - 120, transform.position.y);
+        //        }
+        //        else
+        //        {
+        //            setPos(transform.position.x + 120, transform.position.y);
+        //        }
+        //    }
+        //}
+        Debug.Log("!");
+    }
+
     public bool isInPos(int _x, int _y)
     {
         return _x == x && _y == y;
@@ -60,20 +103,21 @@ public class Unit : MonoBehaviour
         }   
     }
 
-    public void setPos(int _x, int _y)
+    public void setPos(float _x, float _y)
     {
         //게임 상 위치 지정해주는 클라이언트 코드
         x = _x;
         y = _y;
+        this.transform.position = new Vector2(_x, _y);
     }
 
-    public void ClientUnitMove(int _x, int _y)
+    public void ClientUnitMove(float _x, float _y)
     {
         unitMove(_x, _y);
         //클라이언트 코드
     }
 
-    public void unitMove(int _x, int _y)
+    public void unitMove(float _x, float _y)
     {
         x = _x;
         y = _y;
@@ -82,8 +126,8 @@ public class Unit : MonoBehaviour
             var m_network = GameObject.FindWithTag("Network").GetComponent<Network>();
             UnitMoveData data = new UnitMoveData();
             data.unitId = this.unitID;
-            data.x = _x;
-            data.y = _y;
+            //data.x = _x;
+            //data.y = _y;  //네트워크 플롯
             UnitMovePacket movePacket = new UnitMovePacket(data);
             m_network.SendReliable(movePacket);
         }

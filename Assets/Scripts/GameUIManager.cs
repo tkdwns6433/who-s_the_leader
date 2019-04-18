@@ -23,8 +23,15 @@ public class GameUIManager : MonoBehaviour
 
     Unit selectedUnit = null;
     public GameObject unitPanel;
+    public GameObject unitselect;
     public Text unitNameText;
     public Text goldText;
+    
+    bool selectpanel;
+    public Building build;
+    Ray ray;
+    RaycastHit rayhit;
+
     public void SelectUnit(Unit selectUnit)
     {
 
@@ -47,5 +54,13 @@ public class GameUIManager : MonoBehaviour
     {
         goldText.text = gold.ToString();
     }
+
+    public void SelectBuilding(int id)
+    {
+        build = GameManager.GetInstance.getBuilding(id);
+    }
+    
+    
+
 
 }

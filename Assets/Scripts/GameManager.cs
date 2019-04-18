@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        buildingObj = new List<GameObject>();
+        field_buildings = new List<Building>();
         StartCoroutine(IeStartGame());
         StartCoroutine(Buildsetting());
     }
@@ -72,6 +74,7 @@ public class GameManager : MonoBehaviour
 
 
     }
+
     IEnumerator Buildsetting()
     {
         GameObject obj;
@@ -98,7 +101,9 @@ public class GameManager : MonoBehaviour
 
         for (int b = 0; b < 10; b++)
         {
-            Instantiate(buildingObj[b]);
+            obj = Instantiate(buildingObj[b]);
+
+            field_buildings.Add(obj.GetComponent<Building>());
 
         }
         yield return null;

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class UnitGenerator : MonoBehaviour
 {
-    public void GenerateUnit(int building_id, UnitType unitType, int x, int y)
+
+    public void GenerateUnit(int building_id, UnitType unitType, float x, float y)
     {
         GameObject newUnit = Instantiate(Resources.Load("Prefabs/Unit")) as GameObject;
         if (newUnit != null)
@@ -25,8 +26,8 @@ public class UnitGenerator : MonoBehaviour
             UnitProduceData data = new UnitProduceData();
             data.buildingId = building_id;
             data.producedUnit = (int)unitType;
-            data.x = x;
-            data.y = y;
+            //data.x = x;
+            //data.y = y;
             UnitProducePacket producePacket = new UnitProducePacket(data);
             m_network.SendReliable(producePacket);
         }
