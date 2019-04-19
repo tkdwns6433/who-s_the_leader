@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8715428345826785778}
   - component: {fileID: 4886726518973859361}
   - component: {fileID: 1066642647656414014}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: point1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,8 +142,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -993963719
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7fc34e472882a624d8badf4dc878c88d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 1182160092579665798}
   - component: {fileID: 6759958652131503771}
   - component: {fileID: 2664154730891867285}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: point3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,7 +306,7 @@ GameObject:
   - component: {fileID: 404401141620067390}
   - component: {fileID: 5851524382267961762}
   - component: {fileID: 7894879466928479660}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: point2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

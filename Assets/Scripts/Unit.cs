@@ -83,7 +83,6 @@ public class Unit : MonoBehaviour
         //        }
         //    }
         //}
-        Debug.Log("!");
     }
 
     public bool isInPos(int _x, int _y)

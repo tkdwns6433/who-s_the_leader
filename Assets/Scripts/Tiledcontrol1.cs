@@ -31,7 +31,7 @@ public class Tiledcontrol1 : MonoBehaviour
 
     IEnumerator CheckMovePlayer()                                           //플레이어면 행동범위 실행
     {
-        color1 = Color.black;
+        color1 = Color.blue;
         this.GetComponent<SpriteRenderer>().color = color1;
 
 
@@ -61,13 +61,13 @@ public class Tiledcontrol1 : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player1")
+        if (collision.gameObject.tag == "Player1" || collision.gameObject.tag == "Player1Unit")
         {
             Tempcolor = this.GetComponent<SpriteRenderer>().color;
             charOnoff = true;
 
         }
-        else if (collision.gameObject.tag == "Player2")                     //적유닛 or 적플레이어 확인
+        else if (collision.gameObject.tag == "Player2" || collision.gameObject.tag == "Player2Unit")                     //적유닛 or 적플레이어 확인
         {
             Tempcolor = this.GetComponent<SpriteRenderer>().color;
             charOnoff2 = true;
@@ -78,7 +78,7 @@ public class Tiledcontrol1 : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player1" && collision.gameObject.tag != "Player2")
+        if (collision.gameObject.tag == "Player1"|| collision.gameObject.tag == "Player1Unit" && collision.gameObject.tag != "Player2" && collision.gameObject.tag != "Player2Unit")
         {
             if (charOnoff2 != true)                                                                         //적플레이어 확인후 타일 색상변경
             {
@@ -90,14 +90,12 @@ public class Tiledcontrol1 : MonoBehaviour
                         tattackRange = collision.GetComponent<Tempmove>().attackRange;
                         collision.GetComponent<BoxCollider2D>().size = new Vector2(119 * tattackRange, 139);
                         StartCoroutine(CheckAttackPlayer());
-                        Debug.Log("!");
                     }
                     else if (!collision.GetComponent<Tempmove>().attackCheck)
                     {
                         tblockRange = collision.GetComponent<Tempmove>().blockRange;
                         collision.GetComponent<BoxCollider2D>().size = new Vector2(119 * tblockRange, 139);     //tblockRange만큼 타일색 변경
                         StartCoroutine(CheckMovePlayer());
-                        Debug.Log("!");
                     }
 
                 }
@@ -109,7 +107,7 @@ public class Tiledcontrol1 : MonoBehaviour
             }
         }
 
-        if (collision.gameObject.tag == "Player2")
+        if (collision.gameObject.tag == "Player2" || collision.gameObject.tag == "Player2Unit")
         {
             StartCoroutine(CheckPlayer2());
         }
@@ -118,13 +116,13 @@ public class Tiledcontrol1 : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player1")
+        if (collision.gameObject.tag == "Player1" || collision.gameObject.tag == "Player1Unit")
         {
             StartCoroutine(CheckExitPlayer());
             charOnoff = false;
 
         }
-        else if (collision.gameObject.tag == "Player2")
+        else if (collision.gameObject.tag == "Player2" || collision.gameObject.tag == "Player2Unit")
         {
             charOnoff2 = false ;
 

@@ -26,7 +26,8 @@ public class GameUIManager : MonoBehaviour
     public GameObject unitselect;
     public Text unitNameText;
     public Text goldText;
-    
+
+    public bool selectCheck;
     bool selectpanel;
     public Building build;
     Ray ray;

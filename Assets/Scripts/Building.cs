@@ -143,28 +143,34 @@ public class Building : MonoBehaviour
                 GameUIManager.Instance.unitselect.SetActive(false);
             }
             Checkcheck = false;
+            GameUIManager.Instance.selectCheck = false;
         }
         else if (!Checkcheck)
         {
-            if (building_id <= 4)
+            if (GameUIManager.Instance.selectCheck == false)
             {
-                spt.sprite = Resources.Load<Sprite>("image/Underbuild white") as Sprite;
-                GameUIManager.Instance.SelectBuilding(building_id); //따른게 선택돼 있을때는 못누르게 해야됌
-                GameUIManager.Instance.unitselect.SetActive(true);
+                if (building_id <= 4)
+                {
+                    spt.sprite = Resources.Load<Sprite>("image/Underbuild white") as Sprite;
+                    GameUIManager.Instance.SelectBuilding(building_id); //따른게 선택돼 있을때는 못누르게 해야됌
+                    GameUIManager.Instance.unitselect.SetActive(true);
+                }
+                else if (building_id > 4 && building_id <= 6)
+                {
+                    spt.sprite = Resources.Load<Sprite>("image/Groundbuild white") as Sprite;
+                    GameUIManager.Instance.SelectBuilding(building_id);
+                    GameUIManager.Instance.unitselect.SetActive(true);
+                    Debug.Log("!");
+                }
+                else if (building_id > 6 && building_id <= 10)
+                {
+                    spt.sprite = Resources.Load<Sprite>("image/Highbuild white") as Sprite;
+                    GameUIManager.Instance.SelectBuilding(building_id);
+                    GameUIManager.Instance.unitselect.SetActive(true);
+                }
+                Checkcheck = true;
+                GameUIManager.Instance.selectCheck = true;
             }
-            else if(building_id > 4 && building_id <= 6)
-            {
-                spt.sprite = Resources.Load<Sprite>("image/Groundbuild white") as Sprite;
-                GameUIManager.Instance.SelectBuilding(building_id);
-                GameUIManager.Instance.unitselect.SetActive(true);
-            }
-            else if(building_id > 6 && building_id <= 10)
-            {
-                spt.sprite = Resources.Load<Sprite>("image/Highbuild white") as Sprite;
-                GameUIManager.Instance.SelectBuilding(building_id);
-                GameUIManager.Instance.unitselect.SetActive(true);
-            }
-            Checkcheck = true;
         }
     }
 
@@ -191,7 +197,6 @@ public class Building : MonoBehaviour
             if (type == UnitType.Mafiaunit)
             {
                 mgr.GetComponent<UnitGenerator>().GenerateUnit(building_id, UnitType.Mafiaunit, GameUIManager.Instance.build.x, GameUIManager.Instance.build.y - 109);
-                Debug.Log("!");
             }
         }
         else if(Genpoint[1].GetComponent<UnitGenPoint>().uNitcheck == false)
@@ -199,7 +204,6 @@ public class Building : MonoBehaviour
             if (type == UnitType.Mafiaunit)
             {
                 mgr.GetComponent<UnitGenerator>().GenerateUnit(building_id, UnitType.Mafiaunit, GameUIManager.Instance.build.x+120, GameUIManager.Instance.build.y - 109);
-                Debug.Log("!!");
             }
         }
         else if(Genpoint[2].GetComponent<UnitGenPoint>().uNitcheck == false)
@@ -207,7 +211,6 @@ public class Building : MonoBehaviour
             if (type == UnitType.Mafiaunit)
             {
                 mgr.GetComponent<UnitGenerator>().GenerateUnit(building_id, UnitType.Mafiaunit, GameUIManager.Instance.build.x - 120, GameUIManager.Instance.build.y - 109);
-                Debug.Log("!!!");
             }
         }
         else
