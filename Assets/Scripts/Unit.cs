@@ -12,10 +12,15 @@ public class Unit : MonoBehaviour
     public int unitID;
     public float x;
     public float y;
+    public int movespeed;
     public int curHP;
     private UnitData m_unitData;
     public PLAYER control_player;
-    
+    IEnumerator Checkienun;
+    bool bTiledcheck;
+    bool check;                  //마우스 클릭 체크 확인
+    bool movecheck;
+
     public UnitData unitData
     {
         get { return m_unitData; }
@@ -112,6 +117,11 @@ public class Unit : MonoBehaviour
 
     public void ClientUnitMove(float _x, float _y)
     {
+        this.transform.position = Vector2.MoveTowards(transform.position, new Vector2(_x, transform.position.y), movespeed *Time.deltaTime);
+
+        if ((this.transform.position.x - tempPos.x)%120 == 0)
+            movecheck = false;
+
         unitMove(_x, _y);
         //클라이언트 코드
     }
@@ -140,6 +150,53 @@ public class Unit : MonoBehaviour
     {       
         GameUIManager.Instance.SelectUnit(this);
         
+
+        Checkienun = CheckTiled();
+        check=!check;
+        StartCoroutine(Checkienun);
+
+        
+
+    }
+
+    RaycastHit2D rayhit;
+    Vector2 tempPos;
+
+    IEnumerator CheckTiled()
+    {
+       
+        while (check)
+        {
+
+            if (!movecheck)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    Ray2D ray = new Ray2D(pos, Vector2.zero);
+                    rayhit = Physics2D.Raycast(ray.origin, ray.direction);
+
+                    if (rayhit.transform.tag == "Tiled")
+                    {
+                        if (rayhit.collider.GetComponent<SpriteRenderer>().color == Color.blue)
+                        {
+                            tempPos = transform.position;
+                            movecheck = true;
+
+                            //setPos(rayhit.collider.transform.position.x, y);
+                            //네트워크 지정필요
+                        }
+                    }
+
+                }
+            }
+
+            if(movecheck)
+            {
+                ClientUnitMove(rayhit.collider.transform.position.x, y);
+            }
+            yield return null;
+        }
     }
 
     public void Hide()

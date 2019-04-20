@@ -160,7 +160,6 @@ public class Building : MonoBehaviour
                     spt.sprite = Resources.Load<Sprite>("image/Groundbuild white") as Sprite;
                     GameUIManager.Instance.SelectBuilding(building_id);
                     GameUIManager.Instance.unitselect.SetActive(true);
-                    Debug.Log("!");
                 }
                 else if (building_id > 6 && building_id <= 10)
                 {

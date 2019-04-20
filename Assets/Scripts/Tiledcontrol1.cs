@@ -82,26 +82,26 @@ public class Tiledcontrol1 : MonoBehaviour
         {
             if (charOnoff2 != true)                                                                         //적플레이어 확인후 타일 색상변경
             {
-                tclickCheck = collision.GetComponent<Tempmove>().clickCheck;
+                tclickCheck = collision.transform.parent.GetComponentInParent<Tempmove>().clickCheck;
                 if (tclickCheck)                                                                            //클릭 확인 했으면 범위 표시
                 {
-                    if (collision.GetComponent<Tempmove>().attackCheck)
+                    if (collision.transform.parent.GetComponentInParent<Tempmove>().attackCheck)
                     {
-                        tattackRange = collision.GetComponent<Tempmove>().attackRange;
-                        collision.GetComponent<BoxCollider2D>().size = new Vector2(119 * tattackRange, 139);
+                        tattackRange = collision.transform.parent.GetComponentInParent<Tempmove>().attackRange;
+                        collision.transform.GetComponent<BoxCollider2D>().size = new Vector2(119 * tattackRange, 139);
                         StartCoroutine(CheckAttackPlayer());
                     }
-                    else if (!collision.GetComponent<Tempmove>().attackCheck)
+                    else if (!collision.transform.parent.GetComponentInParent<Tempmove>().attackCheck)
                     {
-                        tblockRange = collision.GetComponent<Tempmove>().blockRange;
-                        collision.GetComponent<BoxCollider2D>().size = new Vector2(119 * tblockRange, 139);     //tblockRange만큼 타일색 변경
+                        tblockRange = collision.transform.parent.GetComponentInParent<Tempmove>().blockRange;
+                        collision.transform.GetComponent<BoxCollider2D>().size = new Vector2(119 * tblockRange, 139);     //tblockRange만큼 타일색 변경
                         StartCoroutine(CheckMovePlayer());
                     }
 
                 }
                 if (!tclickCheck)
                 {
-                    collision.GetComponent<BoxCollider2D>().size = new Vector2(80, 139);
+                    collision.transform.GetComponent<BoxCollider2D>().size = new Vector2(80, 139);
                     this.GetComponent<SpriteRenderer>().color = Tempcolor;                                 //클릭이 꺼지면 콜리더 사이즈 원래대로
                 }
             }

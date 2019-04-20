@@ -11,7 +11,6 @@ public class UnitGenPoint : MonoBehaviour
         if(collision.transform.tag == "Player1Unit" || collision.transform.tag == "Player2Unit")
         {
             uNitcheck = true;
-            Debug.Log("!");
         }
     }
 

@@ -9,6 +9,7 @@ TagManager:
   - Player1Unit
   - Player2Unit
   - MafiaUnit
+  - Tiled
   layers:
   - Default
   - TransparentFX
