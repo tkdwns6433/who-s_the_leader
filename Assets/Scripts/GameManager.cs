@@ -266,5 +266,5 @@ public class GameManager : MonoBehaviour
             enemyPlayerList[i].Hide();
         }
     }
-
+    
 }
