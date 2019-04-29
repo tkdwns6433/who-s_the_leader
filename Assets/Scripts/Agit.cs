@@ -4,17 +4,41 @@ using UnityEngine;
 
 public class Agit : MonoBehaviour
 {
+    bool clickcheck;
+    SpriteRenderer agitspt;
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        agitspt = GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnMouseDown()
     {
-        
+        Debug.Log("!");
+        clickcheck = !clickcheck;
+        if (transform.name == "Agit green")
+        {
+            if (clickcheck)
+            {
+                agitspt.sprite = Resources.Load<Sprite>("image/Agit green_line") as Sprite;
+            }
+            else
+            {
+                agitspt.sprite = Resources.Load<Sprite>("image/Agit green_lineX") as Sprite;
+            }
+        }
+        else if (transform.name == "Agit red")
+        {
+            if (clickcheck)
+            {
+                agitspt.sprite = Resources.Load<Sprite>("image/Agit red_line") as Sprite;
+            }
+            else
+            {
+                agitspt.sprite = Resources.Load<Sprite>("image/Agit red_lineX") as Sprite;
+            }
+        }
+
     }
+
 }

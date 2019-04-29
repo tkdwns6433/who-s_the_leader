@@ -11,7 +11,7 @@ public class CameraMove : MonoBehaviour
     public GameObject target;
     public int maxZoomSize;
     public int minZoomSize;
-
+    
     public float zoomSpeed;
     public float speed;
     public float mouseSpeed;

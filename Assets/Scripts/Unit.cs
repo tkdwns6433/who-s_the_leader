@@ -175,8 +175,8 @@ public class Unit : MonoBehaviour
                     Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     Ray2D ray = new Ray2D(pos, Vector2.zero);
                     rayhit = Physics2D.Raycast(ray.origin, ray.direction);
-
-                    if (rayhit.transform.tag == "Tiled")
+                    
+                    if (rayhit.collider.gameObject.tag == "Tiled")
                     {
                         if (rayhit.collider.GetComponent<SpriteRenderer>().color == Color.blue)
                         {
