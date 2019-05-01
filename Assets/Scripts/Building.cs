@@ -23,7 +23,7 @@ public class Building : MonoBehaviour
     {
         initiateBuilding(0, 0, GameData.BuildingDatas[BuildNum]);
         Tiled = GameObject.Find("Buildtiled" + building_id.ToString());
-        Debug.Log("Buildtiled" + building_id.ToString());
+
         setBuilding(Tiled.transform.position.x, Tiled.transform.position.y + 200);   //타일에 위치에 시작할때 배정된다.
 
         spt = GetComponent<SpriteRenderer>();

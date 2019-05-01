@@ -82,18 +82,18 @@ public class Tiledcontrol1 : MonoBehaviour
         {
             if (charOnoff2 != true)                                                                         //적플레이어 확인후 타일 색상변경
             {
-                tclickCheck = collision.transform.parent.GetComponentInParent<Tempmove>().clickCheck;
+                tclickCheck = collision.transform.parent.GetComponentInParent<Unit>().clickCheck;
                 if (tclickCheck)                                                                            //클릭 확인 했으면 범위 표시
                 {
-                    if (collision.transform.parent.GetComponentInParent<Tempmove>().attackCheck)
+                    if (collision.transform.parent.GetComponentInParent<Unit>().attackCheck)
                     {
-                        tattackRange = collision.transform.parent.GetComponentInParent<Tempmove>().attackRange;
+                        tattackRange = collision.transform.parent.GetComponentInParent<Unit>().attackRange;
                         collision.transform.GetComponent<BoxCollider2D>().size = new Vector2(119 * tattackRange, 139);
                         StartCoroutine(CheckAttackPlayer());
                     }
-                    else if (!collision.transform.parent.GetComponentInParent<Tempmove>().attackCheck)
+                    else if (!collision.transform.parent.GetComponentInParent<Unit>().attackCheck)
                     {
-                        tblockRange = collision.transform.parent.GetComponentInParent<Tempmove>().blockRange;
+                        tblockRange = collision.transform.parent.GetComponentInParent<Unit>().blockRange;
                         collision.transform.GetComponent<BoxCollider2D>().size = new Vector2(119 * tblockRange, 139);     //tblockRange만큼 타일색 변경
                         StartCoroutine(CheckMovePlayer());
                     }

@@ -20,6 +20,12 @@ public class Unit : MonoBehaviour
     bool bTiledcheck;
     bool check;                  //마우스 클릭 체크 확인
     bool movecheck;
+    bool firstClick;            //처음 클릭 확인
+    static bool currentUnit;   //현재 유닛이 무엇인지 체크
+    public bool clickCheck;    //클릭하엿는지 체크(타일 연동을 위한 변수)
+    public int blockRange;     //이동범위
+    public int attackRange;    //공격범위
+    public bool attackCheck;   //공격실행 체크
 
     public UnitData unitData
     {
@@ -29,7 +35,8 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
-
+        blockRange = 3;
+        attackRange = 3;//임시
     }
 
     //unity 폴더 Resources/Units folder에 UnitType과 똑같은 이름으로 png 또는 jpg file로 존재해야 sprite불러올 수 있음
@@ -147,14 +154,17 @@ public class Unit : MonoBehaviour
     }
 
     public void OnMouseDown()
-    {       
-        GameUIManager.Instance.SelectUnit(this);
-        
-
-        Checkienun = CheckTiled();
-        check=!check;
-        StartCoroutine(Checkienun);
-
+    {
+        clickCheck = !clickCheck;
+        if (currentUnit == false)
+        {
+            GameUIManager.Instance.SelectUnit(this);
+            Checkienun = CheckTiled();
+            check = !check;
+            StartCoroutine(Checkienun);
+            currentUnit = true;
+            firstClick = false;
+        }
         
 
     }
@@ -169,22 +179,38 @@ public class Unit : MonoBehaviour
         {
 
             if (!movecheck)
-            {
+            {//Debug.Log("!");
                 if (Input.GetMouseButtonDown(0))
                 {
+                    
                     Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     Ray2D ray = new Ray2D(pos, Vector2.zero);
                     rayhit = Physics2D.Raycast(ray.origin, ray.direction);
-                    
-                    if (rayhit.collider.gameObject.tag == "Tiled")
-                    {
-                        if (rayhit.collider.GetComponent<SpriteRenderer>().color == Color.blue)
-                        {
-                            tempPos = transform.position;
-                            movecheck = true;
 
-                            //setPos(rayhit.collider.transform.position.x, y);
-                            //네트워크 지정필요
+                    if (rayhit.collider != null)
+                    {
+                        if (rayhit.collider.gameObject.tag == "Tiled")
+                        {
+                            if (rayhit.collider.GetComponent<SpriteRenderer>().color == Color.blue)
+                            {
+                                tempPos = transform.position;
+                                movecheck = true;
+
+                                //setPos(rayhit.collider.transform.position.x, y);
+                                //네트워크 지정필요
+                            }
+                        }
+                        else
+                        {
+                            if (firstClick)  //임시작업중 다른곳 클릭스 선택해제
+                            {
+                                Debug.Log("다른곳 클릭");
+                                GameUIManager.Instance.SelectUnit(this);
+                                currentUnit = false;
+                                clickCheck = !clickCheck;
+                            }
+                            Debug.Log("다른곳 클릭");
+                            firstClick = true;
                         }
                     }
 
@@ -193,10 +219,14 @@ public class Unit : MonoBehaviour
 
             if(movecheck)
             {
+                Debug.Log("!!");
                 ClientUnitMove(rayhit.collider.transform.position.x, y);
             }
             yield return null;
         }
+
+        
+        Debug.Log("오류");
     }
 
     public void Hide()
@@ -207,4 +237,6 @@ public class Unit : MonoBehaviour
     {
         gameObject.SetActive(true);
     }
+
+    
 }
