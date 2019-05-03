@@ -127,17 +127,17 @@ public class Building : MonoBehaviour
     {
         if (Checkcheck)
         {
-            if (building_id <= 4)
+            if (transform.name == "Under")
             {
                 spt.sprite = Resources.Load<Sprite>("image/Underbuild lineX") as Sprite;
                 GameUIManager.Instance.unitselect.SetActive(false);
             }
-            else if (building_id > 4 && building_id <= 6)
+            else if (transform.name == "Ground")
             {
                 spt.sprite = Resources.Load<Sprite>("image/Groundbuild lineX") as Sprite;
                 GameUIManager.Instance.unitselect.SetActive(false);
             }
-            else if (building_id > 6 && building_id <= 10)
+            else if (transform.name == "High")
             {
                 spt.sprite = Resources.Load<Sprite>("image/Highbuild lineX") as Sprite;
                 GameUIManager.Instance.unitselect.SetActive(false);
@@ -149,19 +149,19 @@ public class Building : MonoBehaviour
         {
             if (GameUIManager.Instance.selectCheck == false)
             {
-                if (building_id <= 4)
+                if (transform.name == "Under")
                 {
                     spt.sprite = Resources.Load<Sprite>("image/Underbuild white") as Sprite;
                     GameUIManager.Instance.SelectBuilding(building_id); //따른게 선택돼 있을때는 못누르게 해야됌
                     GameUIManager.Instance.unitselect.SetActive(true);
                 }
-                else if (building_id > 4 && building_id <= 6)
+                else if (transform.name == "Ground")
                 {
                     spt.sprite = Resources.Load<Sprite>("image/Groundbuild white") as Sprite;
                     GameUIManager.Instance.SelectBuilding(building_id);
                     GameUIManager.Instance.unitselect.SetActive(true);
                 }
-                else if (building_id > 6 && building_id <= 10)
+                else if (transform.name == "High")
                 {
                     spt.sprite = Resources.Load<Sprite>("image/Highbuild white") as Sprite;
                     GameUIManager.Instance.SelectBuilding(building_id);

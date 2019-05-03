@@ -21,11 +21,12 @@ public class Unit : MonoBehaviour
     bool check;                  //마우스 클릭 체크 확인
     bool movecheck;
     bool firstClick;            //처음 클릭 확인
-    static bool currentUnit;   //현재 유닛이 무엇인지 체크
+    //static bool currentUnit;   //현재 유닛이 무엇인지 체크
     public bool clickCheck;    //클릭하엿는지 체크(타일 연동을 위한 변수)
     public int blockRange;     //이동범위
     public int attackRange;    //공격범위
     public bool attackCheck;   //공격실행 체크
+    List<Collider2D> tempcol; //닿은 물체 임시저장
 
     public UnitData unitData
     {
@@ -35,7 +36,8 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
-        blockRange = 3;
+        tempcol = new List<Collider2D>();
+        blockRange = 4;
         attackRange = 3;//임시
     }
 
@@ -68,33 +70,25 @@ public class Unit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //if (collision.transform.tag == "Player1Unit" || collision.transform.tag == "Player2Unit")
-        //{
-        //    Debug.Log("!!");
-        //    if (bMove == false) // 첫생성시 시작위치 지정하기 위한것
-        //    {
-        //        if (bCheckcol == false)
-        //        {
-        //            setPos(transform.position.x + 120, transform.position.y);
-        //            bCheckcol = true;
-        //        }
-        //        else if (bCheckcol == true)
-        //        {
-        //            setPos(transform.position.x - 120, transform.position.y);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (bMovedirection == true)
-        //        {
-        //            setPos(transform.position.x - 120, transform.position.y);
-        //        }
-        //        else
-        //        {
-        //            setPos(transform.position.x + 120, transform.position.y);
-        //        }
-        //    }
-        //}
+        
+
+        float dis = Vector2.Distance(transform.position, collision.transform.position); //-->물체사이 거리를 통해 콜라이더를 바꾸려했으나 실패
+        if (transform.tag == "Player1Unit")
+        {
+            if (collision.transform.tag == "Player2" || collision.transform.tag == "Player2Unit")
+            {
+                tempcol.Add(collision);
+
+            }
+        }
+        else if (transform.tag == "Player2Unit")
+        {
+            if (collision.transform.tag == "Player1" || collision.transform.tag == "Player1Unit")
+            {
+                tempcol.Add(collision);
+                
+            }
+        }
     }
 
     public bool isInPos(int _x, int _y)
@@ -153,16 +147,20 @@ public class Unit : MonoBehaviour
     {
     }
 
-    public void OnMouseDown()
+    public void OnMouseUp()
     {
-        clickCheck = !clickCheck;
-        if (currentUnit == false)
+        Debug.Log("!");
+        
+        if (GameManager.GetInstance.currentUnit == false)
         {
+            //Debug.Log("!");
+            gameObject.layer = 8;
+            clickCheck = !clickCheck;
             GameUIManager.Instance.SelectUnit(this);
             Checkienun = CheckTiled();
             check = !check;
             StartCoroutine(Checkienun);
-            currentUnit = true;
+            GameManager.GetInstance.currentUnit = true;
             firstClick = false;
         }
         
@@ -171,63 +169,164 @@ public class Unit : MonoBehaviour
 
     RaycastHit2D rayhit;
     Vector2 tempPos;
+    Collider2D rightEnemy;
+    Collider2D leftEnemy;
 
     IEnumerator CheckTiled()
     {
-       
+
         while (check)
         {
-
             if (!movecheck)
-            {//Debug.Log("!");
+            {
+                bool rightenemycheck = false;
+                bool leftenemycheck = false;
+                firstClick = true;
+                
+
                 if (Input.GetMouseButtonDown(0))
                 {
                     
                     Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     Ray2D ray = new Ray2D(pos, Vector2.zero);
                     rayhit = Physics2D.Raycast(ray.origin, ray.direction);
+                    if (tempcol.Count != 0)
+                    {
+                        for (int i = 0; i < tempcol.Count; i++)
+                        {
+                            if (i >= 1)
+                            {
+                                if (tempcol[i].transform.position == tempcol[i - 1].transform.position)
+                                {
+                                    tempcol.RemoveAt(i);
+                                }
+                            }
+                        }
+
+                        for (int j = 0; j < tempcol.Count; j++) //좌우 적 체크후 이동
+                        {
+                            if (transform.position.x < tempcol[j].transform.position.x)// && tempcol[j].transform.position.x > rayhit.collider.transform.position.x)
+                            {
+                                rightenemycheck = true;
+                                rightEnemy = tempcol[j];  // 한쪽 방향에만 적이 있을때
+                            }
+                            else if (transform.position.x > tempcol[j].transform.position.x)// && tempcol[j].transform.position.x < rayhit.collider.transform.position.x)
+                            {
+                                leftenemycheck = true;
+                                leftEnemy = tempcol[j];
+                            }
+                        }
+                    }
 
                     if (rayhit.collider != null)
                     {
+
                         if (rayhit.collider.gameObject.tag == "Tiled")
                         {
-                            if (rayhit.collider.GetComponent<SpriteRenderer>().color == Color.blue)
-                            {
-                                tempPos = transform.position;
-                                movecheck = true;
 
-                                //setPos(rayhit.collider.transform.position.x, y);
-                                //네트워크 지정필요
-                            }
-                        }
-                        else
-                        {
-                            if (firstClick)  //임시작업중 다른곳 클릭스 선택해제
+                            if (tempcol.Count == 0)
                             {
-                                Debug.Log("다른곳 클릭");
-                                GameUIManager.Instance.SelectUnit(this);
-                                currentUnit = false;
-                                clickCheck = !clickCheck;
+                                if (rayhit.collider.GetComponent<SpriteRenderer>().color == Color.blue)
+                                {
+                                    tempPos = transform.position;
+                                    movecheck = true;
+                                    //setPos(rayhit.collider.transform.position.x, y);
+                                    //네트워크 지정필요
+                                }
                             }
-                            Debug.Log("다른곳 클릭");
-                            firstClick = true;
+                            else if (rightenemycheck && leftenemycheck)
+                            {
+                                if (transform.position.x > leftEnemy.transform.position.x && leftEnemy.transform.position.x < rayhit.collider.transform.position.x
+                                    && transform.position.x < rightEnemy.transform.position.x && rightEnemy.transform.position.x > rayhit.collider.transform.position.x)
+                                {
+                                    if (rayhit.collider.GetComponent<SpriteRenderer>().color == Color.blue)
+                                    {
+                                        Debug.Log("!!!");
+                                        tempPos = transform.position;
+                                        movecheck = true;
+                                        //setPos(rayhit.collider.transform.position.x, y);
+                                        //네트워크 지정필요
+                                    }
+                                }
+                            }
+                            else if (leftenemycheck && !rightenemycheck)
+                            {
+                                if (transform.position.x > leftEnemy.transform.position.x && leftEnemy.transform.position.x < rayhit.collider.transform.position.x)
+                                {
+                                    if (rayhit.collider.GetComponent<SpriteRenderer>().color == Color.blue)
+                                    {
+                                        tempPos = transform.position;
+                                        movecheck = true;
+                                        leftenemycheck = false;
+                                        //setPos(rayhit.collider.transform.position.x, y);
+                                        //네트워크 지정필요
+                                    }
+                                }
+                            }
+                            else if (rightenemycheck && !leftenemycheck)
+                            {
+                                if (transform.position.x < rightEnemy.transform.position.x && rightEnemy.transform.position.x > rayhit.collider.transform.position.x)
+                                {
+                                    Debug.Log("check");
+                                    if (rayhit.collider.GetComponent<SpriteRenderer>().color == Color.blue)
+                                    {
+                                        tempPos = transform.position;
+                                        movecheck = true;
+                                        rightenemycheck = false;
+                                        //setPos(rayhit.collider.transform.position.x, y);
+                                        //네트워크 지정필요
+                                    }
+                                }
+                            }
+
+                        }
+                        else if (rayhit.collider.gameObject.layer == 0) //임시작업중 다른곳 클릭스 선택해제
+                        {
+                            Debug.Log("다른곳 클릭1");
+                            GameUIManager.Instance.SelectUnit(this);
+                            clickCheck = !clickCheck;
+                            check = false;
+                            gameObject.layer = 0;
+                            GameManager.GetInstance.currentUnit = false;
+                            rightenemycheck = false;
+                            leftenemycheck = false;
+                            rightEnemy = null;
+                            leftEnemy = null;
+                            tempcol.Clear();
                         }
                     }
+                    else
+                    {
+
+                        if (firstClick)  //임시작업중 다른곳 클릭스 선택해제
+                        {
+                            Debug.Log("다른곳 클릭");
+                            GameUIManager.Instance.SelectUnit(this);
+                            GameManager.GetInstance.currentUnit = false;
+                            clickCheck = !clickCheck;
+                            check = false;
+                            rightenemycheck = false;
+                            leftenemycheck = false;
+                            rightEnemy = null;
+                            leftEnemy = null;
+                            gameObject.layer = 0;
+                            tempcol.Clear();
+                        }
+
+                    }
+
 
                 }
             }
 
-            if(movecheck)
+            if (movecheck)
             {
-                Debug.Log("!!");
                 ClientUnitMove(rayhit.collider.transform.position.x, y);
             }
             yield return null;
         }
-
-        
-        Debug.Log("오류");
     }
+    
 
     public void Hide()
     {

@@ -108,9 +108,13 @@ MonoBehaviour:
   unitID: 0
   x: 0
   y: 0
-  movespeed: 50
+  movespeed: 100
   curHP: 0
   control_player: 0
+  clickCheck: 0
+  blockRange: 0
+  attackRange: 0
+  attackCheck: 0
 --- !u!212 &2208211795546908640
 SpriteRenderer:
   m_ObjectHideFlags: 0

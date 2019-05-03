@@ -75,30 +75,52 @@ public class GameManager : MonoBehaviour
 
     }
 
+    int l, m, t; // 각각 갯수 제한을 위한 변수
+    public bool currentUnit; //현재 유닛 선택여부확인 변수
     IEnumerator Buildsetting()
     {
+        bool setstart = true;
+        int random;
         GameObject obj;
-        for (int i = 0; i < 4; i++)
+        while (setstart)
         {
-            obj = Resources.Load("Prefabs/underbuiled2") as GameObject;
+            random = Random.Range(0, 3);
+            
+            if (random == 0)
+            {
+                if (l != 4)
+                {
+                    obj = Resources.Load("Prefabs/underbuiled2") as GameObject;
+                    l++;
+                    buildingObj.Add(obj);
+                }
+            }
 
-            buildingObj.Add(obj);
+            if (random == 1)
+            {
+                if (m != 2)
+                {
+                    obj = Resources.Load("Prefabs/groundbuiled1") as GameObject;
+                    m++;
+                    buildingObj.Add(obj);
+                }
+            }
+
+            if (random == 2)
+            {
+                if (t != 4)
+                {
+                    obj = Resources.Load("Prefabs/highbuiled0") as GameObject;
+                    t++;
+                    buildingObj.Add(obj);
+                }
+            }
+
+            if(l==4&& m==2 && t == 4)
+            {
+                setstart = false;
+            }
         }
-
-        for (int j = 0; j < 2; j++)
-        {
-            obj = Resources.Load("Prefabs/groundbuiled1") as GameObject;
-
-            buildingObj.Add(obj);
-        }
-
-        for (int k = 0; k < 4; k++)
-        {
-            obj = Resources.Load("Prefabs/highbuiled0") as GameObject;
-
-            buildingObj.Add(obj);
-        }
-
         for (int b = 0; b < 10; b++)
         {
             obj = Instantiate(buildingObj[b]);
@@ -107,6 +129,7 @@ public class GameManager : MonoBehaviour
 
         }
         yield return null;
+
     }
 
     public Text timeText;//초시계

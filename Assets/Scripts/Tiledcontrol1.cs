@@ -88,13 +88,13 @@ public class Tiledcontrol1 : MonoBehaviour
                     if (collision.transform.parent.GetComponentInParent<Unit>().attackCheck)
                     {
                         tattackRange = collision.transform.parent.GetComponentInParent<Unit>().attackRange;
-                        collision.transform.GetComponent<BoxCollider2D>().size = new Vector2(119 * tattackRange, 139);
+                        collision.transform.GetComponent<BoxCollider2D>().size = new Vector2(120 * tattackRange, 139);
                         StartCoroutine(CheckAttackPlayer());
                     }
                     else if (!collision.transform.parent.GetComponentInParent<Unit>().attackCheck)
                     {
                         tblockRange = collision.transform.parent.GetComponentInParent<Unit>().blockRange;
-                        collision.transform.GetComponent<BoxCollider2D>().size = new Vector2(119 * tblockRange, 139);     //tblockRange만큼 타일색 변경
+                        collision.transform.GetComponent<BoxCollider2D>().size = new Vector2(120 * tblockRange, 139);     //tblockRange만큼 타일색 변경
                         StartCoroutine(CheckMovePlayer());
                     }
 
