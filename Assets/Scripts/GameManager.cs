@@ -57,22 +57,12 @@ public class GameManager : MonoBehaviour
 
     IEnumerator IeStartGame()
     {
+        while (gameTime > 0f)
+        {//게임시간 줄이기
 
-
-        while (true)
-        {//게임시간 줄이기 
-
-
-            if (gameTime >= 6000f) //만약 게임에서 승리한다면 break 
-            {
-                break;
-            }
-            GameTime += Time.deltaTime;
+            GameTime -= Time.deltaTime;
             yield return null;
         }
-
-
-
     }
 
     int l, m, t; // 각각 갯수 제한을 위한 변수
@@ -134,21 +124,14 @@ public class GameManager : MonoBehaviour
 
     public Text timeText;//초시계
 
-    public float gameTime = 0f;
+    public float gameTime = 30f; //게임 시간
     public float GameTime
     {
         get { return gameTime; }
         set
         {
-
             gameTime = Mathf.Clamp(value, 0f, float.MaxValue);
-            string hours = ((int)gameTime / 3600).ToString(); ;
-
-            string minute = ((int)gameTime % 3600 / 60).ToString();
-
-            string second = (gameTime % 60).ToString("f2");
-
-            timeText.text = hours + ":" + minute + ":" + second;
+            timeText.text = gameTime.ToString("00");
         }
     }
 

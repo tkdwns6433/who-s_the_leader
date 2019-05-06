@@ -13,6 +13,7 @@ TagManager:
   - UpTiled
   - DownTiled
   - FreeTiled
+  - UI
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - 
   - 
   - Unit
-  - 
+  - Background
   - 
   - 
   - 
@@ -47,12 +48,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 3709752117
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: UI
-    uniqueID: 3301003577
+  - name: Building
+    uniqueID: 1801942259
     locked: 0
   - name: Unit
     uniqueID: 1668726015
+    locked: 0
+  - name: UI
+    uniqueID: 3301003577
     locked: 0
