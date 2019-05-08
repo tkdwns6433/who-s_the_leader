@@ -52,7 +52,7 @@ public class GameData
             4, 4, 4, 5),
         new UnitData(UnitType.CommandCenter, 5, 5, 0, 0, 0,
             0, 4, 0, 0),
-        new UnitData(UnitType.Mafiaunit, 3, 3,3,3,3,3,3,3,3)
+        new UnitData(UnitType.Mafiaunit, 3, 1,3,3,3,3,3,3,3)
     };
 
     public static BuildingData[] BuildingDatas = new BuildingData[]

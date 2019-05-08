@@ -140,10 +140,10 @@ public class GameManager : MonoBehaviour
         switch (player)
         {
             case PLAYER.PLAYER1:
-                player1.Gold -= gold;
+               // player1.Gold -= gold;
                 break;
             case PLAYER.PLAYER2:
-                player2.Gold -= gold;
+                //player2.Gold -= gold;
                 break;
             case PLAYER.NONE:
                 break;

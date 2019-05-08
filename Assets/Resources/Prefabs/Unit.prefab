@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7183665673912413877}
   - component: {fileID: 6151916559073917038}
   m_Layer: 2
-  m_Name: CkeckTil
-  m_TagString: Player1Unit
+  m_Name: unitrange
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 810548777}
   m_Layer: 0
   m_Name: Unit
-  m_TagString: Player1Unit
+  m_TagString: unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,11 +110,14 @@ MonoBehaviour:
   y: 0
   movespeed: 100
   curHP: 0
+  maxdamage: 0
+  mindamage: 0
   control_player: 0
   clickCheck: 0
   blockRange: 0
   attackRange: 0
   attackCheck: 0
+  enemyattackCheck: 0
 --- !u!212 &2208211795546908640
 SpriteRenderer:
   m_ObjectHideFlags: 0
