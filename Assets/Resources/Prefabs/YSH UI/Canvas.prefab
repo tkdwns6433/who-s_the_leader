@@ -1207,7 +1207,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 894980cd57c0576409313c9018bc551c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5e6b1be15b2d1124f8e5e268570297ab, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1330,16 +1330,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: unitPanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 7863089430190522513, guid: ad8324d93cf558144a92c61cd601a1a2,
-        type: 3}
-      propertyPath: m_TagString
-      value: UI
-      objectReference: {fileID: 0}
-    - target: {fileID: 7863089430190522513, guid: ad8324d93cf558144a92c61cd601a1a2,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7863089430190522512, guid: ad8324d93cf558144a92c61cd601a1a2,
         type: 3}
@@ -1464,27 +1454,32 @@ PrefabInstance:
     - target: {fileID: 7863089431542460674, guid: ad8324d93cf558144a92c61cd601a1a2,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7863089431542460674, guid: ad8324d93cf558144a92c61cd601a1a2,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7863089431542460674, guid: ad8324d93cf558144a92c61cd601a1a2,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 500
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7863089431542460674, guid: ad8324d93cf558144a92c61cd601a1a2,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7863089431542460674, guid: ad8324d93cf558144a92c61cd601a1a2,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 500
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7863089431542460674, guid: ad8324d93cf558144a92c61cd601a1a2,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7863089431542460674, guid: ad8324d93cf558144a92c61cd601a1a2,
         type: 3}
@@ -1505,31 +1500,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.y
       value: 100.00219
-      objectReference: {fileID: 0}
-    - target: {fileID: 8378960558017241072, guid: ad8324d93cf558144a92c61cd601a1a2,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8378960558017241072, guid: ad8324d93cf558144a92c61cd601a1a2,
-        type: 3}
-      propertyPath: m_Offset.x
-      value: -3.6234741
-      objectReference: {fileID: 0}
-    - target: {fileID: 8378960558017241072, guid: ad8324d93cf558144a92c61cd601a1a2,
-        type: 3}
-      propertyPath: m_Offset.y
-      value: -1.869751
-      objectReference: {fileID: 0}
-    - target: {fileID: 8378960558017241072, guid: ad8324d93cf558144a92c61cd601a1a2,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 994.50964
-      objectReference: {fileID: 0}
-    - target: {fileID: 8378960558017241072, guid: ad8324d93cf558144a92c61cd601a1a2,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 1497.2937
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad8324d93cf558144a92c61cd601a1a2, type: 3}
