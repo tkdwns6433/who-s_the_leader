@@ -27,6 +27,8 @@ public class Unit : MonoBehaviour
     public int attackRange;    //공격범위
     public bool attackCheck;   //공격실행 체크
 
+    UnitAttack m_unitAttack;
+
     public UnitData unitData
     {
         get { return m_unitData; }
@@ -49,6 +51,7 @@ public class Unit : MonoBehaviour
         this.name = m_unitData.unitType.ToString();
         unitID = GameManager.GetInstance.giveID();
         curHP = unitData.hp;
+        m_unitAttack = new UnitAttack(unitID);
         switch (player)
         {
             case PLAYER.PLAYER1:

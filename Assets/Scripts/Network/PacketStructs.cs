@@ -21,7 +21,9 @@ public enum PacketId
     UnitMove,
     UnitAttack,
     RecruitNpc,
-    TurnEnd
+    TurnEnd,
+    SyncGame,
+    SelectLeader
 }
 
 
@@ -44,10 +46,12 @@ public struct PacketHeader
 //
 public struct SyncGameData
 {
-	public int			version;	// 패킷 ID.
-	public MovingData	moving;		// 이사 정보.
-	public int 			itemNum;	// 아이템 정보수.
-	public ItemData[]	items;		// 아이템 정보.
+	public int			randomSeed; 
+}
+
+public struct SelectLeaderData
+{
+    public int unitType;
 }
 
 //

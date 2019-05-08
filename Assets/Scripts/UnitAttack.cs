@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitAttack
+public class UnitAttack : MonoBehaviour
 {
     private int m_attacker;
     private int m_defender;
@@ -10,28 +10,26 @@ public class UnitAttack
     Unit defendUnit;
 
     //본부 공격용
-    public UnitAttack(int attacker, int defender)
+    public UnitAttack(int attacker)
     {
         m_attacker = attacker;
         attackUnit = GameManager.GetInstance.getUnit(m_attacker);
-        
-        m_defender = defender;
-        defendUnit = GameManager.GetInstance.getUnit(m_defender);
     }
 
     //특수한 버프 또는 능력 설정
     bool isNight;
     //만약에 내 단말에서 시행하는 공격이면 true이다.
-    public void DoAttack()
+    public void DoAttack(int defenderID)
     {
-        if(GameManager.GetInstance.myTurn)
+        m_defender = defenderID;
+        defendUnit = GameManager.GetInstance.getUnit(m_defender);
+        if (GameManager.GetInstance.myTurn)
             sendUnitAttack(); //네트워크에 상대방에 보내줌   
         setFlags();
         int damage = CalculateByDamageFomula();
         //어택 유닛의 애니메이션 작동
         //애니메이션 타이밍에 맞게 코루틴으로 일정시간 맞춰야함
         defendUnit.getDamage(damage);
-        
     }
 
     void sendUnitAttack()

@@ -1,6 +1,71 @@
 ﻿using System.Collections;
 using System.IO;
 
+public class SelectLeaderPacket : IPacket<SelectLeaderData>
+{
+    public class SelectLeaderSerializer : Serializer
+    {
+        //
+        public bool Serialize(SelectLeaderData packet)
+        {
+
+            bool ret = true;
+            ret &= Serialize(packet.unitType);
+            return ret;
+        }
+
+        //
+        public bool Deserialize(ref SelectLeaderData element)
+        {
+            if (GetDataSize() == 0)
+            {
+                // 데이터가 정의되어 있지 않습니다.
+                return false;
+            }
+
+            bool ret = true;
+            ret &= Deserialize(ref element.unitType);
+            return ret;
+        }
+    }
+
+    // 패킷 데이터의 실체.
+    SelectLeaderData m_packet;
+
+    public SelectLeaderPacket(SelectLeaderData data)
+    {
+        m_packet = data;
+    }
+
+    public SelectLeaderPacket(byte[] data)
+    {
+        SelectLeaderSerializer serializer = new SelectLeaderSerializer();
+
+        serializer.SetDeserializedData(data);
+        serializer.Deserialize(ref m_packet);
+    }
+
+    public PacketId GetPacketId()
+    {
+        return PacketId.GameSyncInfo;
+    }
+
+    public SelectLeaderData GetPacket()
+    {
+        return m_packet;
+    }
+
+
+    public byte[] GetData()
+    {
+        SelectLeaderSerializer serializer = new SelectLeaderSerializer();
+
+        serializer.Serialize(m_packet);
+
+        return serializer.GetSerializedData();
+    }
+}
+
 public class TurnEndPacket : IPacket<TurnEndData>
 {
     public class TurnEndSerializer : Serializer
@@ -286,20 +351,7 @@ public class SyncGamePacket : IPacket<SyncGameData>
 		{
 			
 			bool ret = true;
-			ret &= Serialize(packet.version);
-
-			ret &= Serialize(packet.moving.characterId, MovingData.characterNameLength);
-			ret &= Serialize(packet.moving.houseId, MovingData.houseIdLength);
-			ret &= Serialize(packet.moving.moving);
-		
-			ret &= Serialize(packet.itemNum);		
-			for (int i = 0; i < packet.itemNum; ++i) {
-				// CharacterCoord
-				ret &= Serialize(packet.items[i].itemId, ItemData.itemNameLength);
-				ret &= Serialize(packet.items[i].state);
-				ret &= Serialize(packet.items[i].ownerId, ItemData.characterNameLength);
-			}	
-			
+			ret &= Serialize(packet.randomSeed);
 			return ret;
 		}
 		
@@ -312,22 +364,7 @@ public class SyncGamePacket : IPacket<SyncGameData>
 			}
 
 			bool ret = true;
-			ret &= Deserialize(ref element.version);
-
-			// MovingData 구조체.
-			ret &= Deserialize(ref element.moving.characterId, MovingData.characterNameLength);
-			ret &= Deserialize(ref element.moving.houseId, MovingData.houseIdLength);
-			ret &= Deserialize(ref element.moving.moving);
-
-			ret &= Deserialize(ref element.itemNum);
-			element.items = new ItemData[element.itemNum];
-			for (int i = 0; i < element.itemNum; ++i) {
-				// ItemData
-				ret &= Deserialize(ref element.items[i].itemId, ItemData.itemNameLength);
-				ret &= Deserialize(ref element.items[i].state);
-				ret &= Deserialize(ref element.items[i].ownerId, ItemData.characterNameLength);
-			}
-			
+			ret &= Deserialize(ref element.randomSeed);
 			return ret;
 		}
 	}
