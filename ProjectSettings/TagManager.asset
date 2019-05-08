@@ -10,7 +10,15 @@ TagManager:
   - Player2Unit
   - MafiaUnit
   - Tiled
+<<<<<<< HEAD
   - Network
+=======
+  - UpTiled
+  - DownTiled
+  - FreeTiled
+  - UI
+  - unit
+>>>>>>> d13366ba2990115ea273d7df8a08cc76c9c24b37
   layers:
   - Default
   - TransparentFX
@@ -20,8 +28,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Unit
+  - Background
   - 
   - 
   - 
@@ -45,12 +53,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 3709752117
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: UI
-    uniqueID: 3301003577
+  - name: Building
+    uniqueID: 1801942259
     locked: 0
   - name: Unit
     uniqueID: 1668726015
+    locked: 0
+  - name: UI
+    uniqueID: 3301003577
     locked: 0

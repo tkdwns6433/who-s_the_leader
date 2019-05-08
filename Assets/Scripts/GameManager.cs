@@ -65,48 +65,60 @@ public class GameManager : MonoBehaviour
 
     IEnumerator IeStartGame()
     {
+        while (gameTime > 0f)
+        {//게임시간 줄이기
 
-
-        while (true)
-        {//게임시간 줄이기 
-
-
-            if (gameTime >= 6000f) //만약 게임에서 승리한다면 break 
-            {
-                break;
-            }
-            GameTime += Time.deltaTime;
+            GameTime -= Time.deltaTime;
             yield return null;
         }
-
-
-
     }
 
+    int l, m, t; // 각각 갯수 제한을 위한 변수
+    public bool currentUnit; //현재 유닛 선택여부확인 변수
     IEnumerator Buildsetting()
     {
+        bool setstart = true;
+        int random;
         GameObject obj;
-        for (int i = 0; i < 4; i++)
+        while (setstart)
         {
-            obj = Resources.Load("Prefabs/underbuiled2") as GameObject;
+            random = Random.Range(0, 3);
+            
+            if (random == 0)
+            {
+                if (l != 4)
+                {
+                    obj = Resources.Load("Prefabs/underbuiled2") as GameObject;
+                    l++;
+                    buildingObj.Add(obj);
+                }
+            }
 
-            buildingObj.Add(obj);
+            if (random == 1)
+            {
+                if (m != 2)
+                {
+                    obj = Resources.Load("Prefabs/groundbuiled1") as GameObject;
+                    m++;
+                    buildingObj.Add(obj);
+                }
+            }
+
+            if (random == 2)
+            {
+                if (t != 4)
+                {
+                    obj = Resources.Load("Prefabs/highbuiled0") as GameObject;
+                    t++;
+                    buildingObj.Add(obj);
+                }
+            }
+
+            if(l==4&& m==2 && t == 4)
+            {
+                setstart = false;
+            }
         }
-
-        for (int j = 0; j < 2; j++)
-        {
-            obj = Resources.Load("Prefabs/groundbuiled1") as GameObject;
-
-            buildingObj.Add(obj);
-        }
-
-        for (int k = 0; k < 4; k++)
-        {
-            obj = Resources.Load("Prefabs/highbuiled0") as GameObject;
-
-            buildingObj.Add(obj);
-        }
-
         for (int b = 0; b < 10; b++)
         {
             obj = Instantiate(buildingObj[b]);
@@ -115,25 +127,19 @@ public class GameManager : MonoBehaviour
 
         }
         yield return null;
+
     }
 
     public Text timeText;//초시계
 
-    public float gameTime = 0f;
+    public float gameTime = 30f; //게임 시간
     public float GameTime
     {
         get { return gameTime; }
         set
         {
-
             gameTime = Mathf.Clamp(value, 0f, float.MaxValue);
-            string hours = ((int)gameTime / 3600).ToString(); ;
-
-            string minute = ((int)gameTime % 3600 / 60).ToString();
-
-            string second = (gameTime % 60).ToString("f2");
-
-            timeText.text = hours + ":" + minute + ":" + second;
+            timeText.text = gameTime.ToString("00");
         }
     }
 
@@ -142,10 +148,10 @@ public class GameManager : MonoBehaviour
         switch (player)
         {
             case PLAYER.PLAYER1:
-                player1.Gold -= gold;
+               // player1.Gold -= gold;
                 break;
             case PLAYER.PLAYER2:
-                player2.Gold -= gold;
+                //player2.Gold -= gold;
                 break;
             case PLAYER.NONE:
                 break;

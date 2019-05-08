@@ -15,26 +15,24 @@ public class ObjectPool : MonoBehaviour
     {
         Allocate();
     }
-    public int mapRow = 44;
-    public int mapCol = 1;
+    public int mapRow;
+    public int mapCol;
     public void Allocate()
     {
-        for(int j = 0; j< mapCol; j++)
+        for (int j = 0; j < mapCol; j++)
         {
             for (int i = 0; i < mapRow; i++)
             {
                 PoolableObject tObj = Instantiate(poolObj, parentTf);
-                Vector3 tempV = tObj.transform.position;
+                Vector3 tempV = new Vector3(0f, 1325f, 0f);
                 tempV.x += 120f * i;
-                
-                //tempV.y -= 450f * j;
-
+                tempV.y -= 299f * j;
                 tObj.transform.position = tempV;
                 tObj.Create(this);
                 stack.Push(tObj);
             }
         }
-       
+
     }
 
     public GameObject PopObject()

@@ -11,7 +11,7 @@ public class Building : MonoBehaviour
     GameObject mgr;
     public GameObject[] Genpoint;
     SpriteRenderer spt;
-    
+
     public float x;
     public float y;
     float second, second2;
@@ -55,55 +55,58 @@ public class Building : MonoBehaviour
             second += Time.deltaTime;
         }
         else if (collision.gameObject.tag == "Player2")
-        if(collision.gameObject.tag == "Player1")
-        {
-            second += Time.deltaTime;
-        }
-        else if(collision.gameObject.tag == "Player2")
-        {
-            second2 += Time.deltaTime;
-        }
+            if (collision.gameObject.tag == "Player1")
+            {
+                second += Time.deltaTime;
+            }
+            else if (collision.gameObject.tag == "Player2")
+            {
+                second2 += Time.deltaTime;
+            }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player1")
+        if (collision.transform.name == "unitrange")
         {
-            if (player_occupy == PLAYER.NONE || collision.gameObject.tag == "Player2")
+            if (collision.transform.parent.GetComponentInParent<Unit>().control_player == PLAYER.PLAYER1)
             {
-                second2 = 0;
-                second += Time.deltaTime;
-                if (second >= 2.0f)
+                if (player_occupy == PLAYER.NONE || player_occupy == PLAYER.PLAYER2)
                 {
-                    player_occupy = PLAYER.PLAYER1;
+                    second2 = 0;
+                    second += Time.deltaTime;
+                    if (second >= 2.0f)
+                    {
+                        player_occupy = PLAYER.PLAYER1;
+                    }
                 }
-            }
 
-            if (player_occupy == PLAYER.PLAYER1)
-            {
-                //playerCheck = collision.GetComponent<Tempmove>().clickCheck; -> 플레이어 캐릭터 선택했는지 체크 아직 필요성x
+                //if (player_occupy == PLAYER.PLAYER1)
+                //{
+                //    //playerCheck = collision.GetComponent<Tempmove>().clickCheck; -> 플레이어 캐릭터 선택했는지 체크 아직 필요성x
+                //}
             }
-        }
-        else if (collision.gameObject.tag == "Player2")
-        {
-            if (player_occupy == PLAYER.NONE || collision.gameObject.tag == "Player1")
+            else if (collision.transform.parent.GetComponentInParent<Unit>().control_player == PLAYER.PLAYER2)
             {
-                second = 0;
-                second2 += Time.deltaTime;
-                if (second2 >= 2.0f)
+                if (player_occupy == PLAYER.NONE || player_occupy == PLAYER.PLAYER1)
                 {
-                    player_occupy = PLAYER.PLAYER2;
+                    second = 0;
+                    second2 += Time.deltaTime;
+                    if (second2 >= 2.0f)
+                    {
+                        player_occupy = PLAYER.PLAYER2;
+                    }
                 }
-            }
 
-            if (player_occupy == PLAYER.PLAYER2)
-            {
-                playerCheck = collision.GetComponent<Tempmove>().clickCheck;
-            }
+                //if (player_occupy == PLAYER.PLAYER2)
+                //{
+                //    //playerCheck = collision.GetComponent<Tempmove>().clickCheck;
+                //}
 
+            }
         }
     }
-    
+
     void initiateBuilding(int xPos, int yPos, BuildingData bd)
     {
         setBuilding(xPos, yPos);
@@ -127,49 +130,11 @@ public class Building : MonoBehaviour
     {
         if (Checkcheck)
         {
-            if (building_id <= 4)
-            {
-                spt.sprite = Resources.Load<Sprite>("image/Underbuild lineX") as Sprite;
-                GameUIManager.Instance.unitselect.SetActive(false);
-            }
-            else if (building_id > 4 && building_id <= 6)
-            {
-                spt.sprite = Resources.Load<Sprite>("image/Groundbuild lineX") as Sprite;
-                GameUIManager.Instance.unitselect.SetActive(false);
-            }
-            else if (building_id > 6 && building_id <= 10)
-            {
-                spt.sprite = Resources.Load<Sprite>("image/Highbuild lineX") as Sprite;
-                GameUIManager.Instance.unitselect.SetActive(false);
-            }
-            Checkcheck = false;
-            GameUIManager.Instance.selectCheck = false;
+            buildingnotselect();
         }
         else if (!Checkcheck)
         {
-            if (GameUIManager.Instance.selectCheck == false)
-            {
-                if (building_id <= 4)
-                {
-                    spt.sprite = Resources.Load<Sprite>("image/Underbuild white") as Sprite;
-                    GameUIManager.Instance.SelectBuilding(building_id); //따른게 선택돼 있을때는 못누르게 해야됌
-                    GameUIManager.Instance.unitselect.SetActive(true);
-                }
-                else if (building_id > 4 && building_id <= 6)
-                {
-                    spt.sprite = Resources.Load<Sprite>("image/Groundbuild white") as Sprite;
-                    GameUIManager.Instance.SelectBuilding(building_id);
-                    GameUIManager.Instance.unitselect.SetActive(true);
-                }
-                else if (building_id > 6 && building_id <= 10)
-                {
-                    spt.sprite = Resources.Load<Sprite>("image/Highbuild white") as Sprite;
-                    GameUIManager.Instance.SelectBuilding(building_id);
-                    GameUIManager.Instance.unitselect.SetActive(true);
-                }
-                Checkcheck = true;
-                GameUIManager.Instance.selectCheck = true;
-            }
+            buildingselect();
         }
     }
 
@@ -190,7 +155,8 @@ public class Building : MonoBehaviour
         }
     }
 
-    public void Unitgenset(UnitType type){
+    public void Unitgenset(UnitType type)
+    {
         if (Genpoint[0].GetComponent<UnitGenPoint>().uNitcheck == false)
         {
             if (type == UnitType.Mafiaunit)
@@ -198,14 +164,14 @@ public class Building : MonoBehaviour
                 mgr.GetComponent<UnitGenerator>().GenerateUnit(building_id, UnitType.Mafiaunit, GameUIManager.Instance.build.x, GameUIManager.Instance.build.y - 109);
             }
         }
-        else if(Genpoint[1].GetComponent<UnitGenPoint>().uNitcheck == false)
+        else if (Genpoint[1].GetComponent<UnitGenPoint>().uNitcheck == false)
         {
             if (type == UnitType.Mafiaunit)
             {
-                mgr.GetComponent<UnitGenerator>().GenerateUnit(building_id, UnitType.Mafiaunit, GameUIManager.Instance.build.x+120, GameUIManager.Instance.build.y - 109);
+                mgr.GetComponent<UnitGenerator>().GenerateUnit(building_id, UnitType.Mafiaunit, GameUIManager.Instance.build.x + 120, GameUIManager.Instance.build.y - 109);
             }
         }
-        else if(Genpoint[2].GetComponent<UnitGenPoint>().uNitcheck == false)
+        else if (Genpoint[2].GetComponent<UnitGenPoint>().uNitcheck == false)
         {
             if (type == UnitType.Mafiaunit)
             {
@@ -217,4 +183,53 @@ public class Building : MonoBehaviour
             Debug.Log("!!!!");
         }
     }
+
+    void buildingnotselect()
+    {
+        if (transform.name == "Under")
+        {
+            spt.sprite = Resources.Load<Sprite>("image/Underbuild lineX") as Sprite;
+            GameUIManager.Instance.unitselect.SetActive(false);
+        }
+        else if (transform.name == "Ground")
+        {
+            spt.sprite = Resources.Load<Sprite>("image/Groundbuild lineX") as Sprite;
+            GameUIManager.Instance.unitselect.SetActive(false);
+        }
+        else if (transform.name == "High")
+        {
+            spt.sprite = Resources.Load<Sprite>("image/Highbuild lineX") as Sprite;
+            GameUIManager.Instance.unitselect.SetActive(false);
+        }
+        Checkcheck = false;
+        GameUIManager.Instance.selectCheck = false;
+    }
+
+    void buildingselect()
+    {
+        if (GameUIManager.Instance.selectCheck == false)
+        {
+            if (transform.name == "Under")
+            {
+                spt.sprite = Resources.Load<Sprite>("image/Underbuild white") as Sprite;
+                GameUIManager.Instance.SelectBuilding(building_id); //따른게 선택돼 있을때는 못누르게 해야됌
+                GameUIManager.Instance.unitselect.SetActive(true);
+            }
+            else if (transform.name == "Ground")
+            {
+                spt.sprite = Resources.Load<Sprite>("image/Groundbuild white") as Sprite;
+                GameUIManager.Instance.SelectBuilding(building_id);
+                GameUIManager.Instance.unitselect.SetActive(true);
+            }
+            else if (transform.name == "High")
+            {
+                spt.sprite = Resources.Load<Sprite>("image/Highbuild white") as Sprite;
+                GameUIManager.Instance.SelectBuilding(building_id);
+                GameUIManager.Instance.unitselect.SetActive(true);
+            }
+            Checkcheck = true;
+            GameUIManager.Instance.selectCheck = true;
+        }
+    }
 }
+

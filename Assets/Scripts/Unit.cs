@@ -14,6 +14,8 @@ public class Unit : MonoBehaviour
     public float y;
     public int movespeed;
     public int curHP;
+    public int maxdamage;
+    public int mindamage;
     private UnitData m_unitData;
     public PLAYER control_player;
     IEnumerator Checkienun;
@@ -21,11 +23,11 @@ public class Unit : MonoBehaviour
     bool check;                  //마우스 클릭 체크 확인
     bool movecheck;
     bool firstClick;            //처음 클릭 확인
-    static bool currentUnit;   //현재 유닛이 무엇인지 체크
     public bool clickCheck;    //클릭하엿는지 체크(타일 연동을 위한 변수)
     public int blockRange;     //이동범위
     public int attackRange;    //공격범위
     public bool attackCheck;   //공격실행 체크
+    public bool enemyattackCheck; //적공격 실행 체크
 
     UnitAttack m_unitAttack;
 
@@ -37,7 +39,7 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
-        blockRange = 3;
+        blockRange = 4;
         attackRange = 3;//임시
     }
 
@@ -51,14 +53,17 @@ public class Unit : MonoBehaviour
         this.name = m_unitData.unitType.ToString();
         unitID = GameManager.GetInstance.giveID();
         curHP = unitData.hp;
+<<<<<<< HEAD
         m_unitAttack = new UnitAttack(unitID);
+=======
+        mindamage = unitData.min_atk;
+        maxdamage = unitData.max_atk;
+>>>>>>> d13366ba2990115ea273d7df8a08cc76c9c24b37
         switch (player)
         {
             case PLAYER.PLAYER1:
-                tag = "Player1Unit";
                 break;
             case PLAYER.PLAYER2:
-                tag = "Player2Unit";
                 break;
             case PLAYER.NONE:
                 break;
@@ -71,33 +76,23 @@ public class Unit : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //if (collision.transform.tag == "Player1Unit" || collision.transform.tag == "Player2Unit")
-        //{
-        //    Debug.Log("!!");
-        //    if (bMove == false) // 첫생성시 시작위치 지정하기 위한것
-        //    {
-        //        if (bCheckcol == false)
-        //        {
-        //            setPos(transform.position.x + 120, transform.position.y);
-        //            bCheckcol = true;
-        //        }
-        //        else if (bCheckcol == true)
-        //        {
-        //            setPos(transform.position.x - 120, transform.position.y);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (bMovedirection == true)
-        //        {
-        //            setPos(transform.position.x - 120, transform.position.y);
-        //        }
-        //        else
-        //        {
-        //            setPos(transform.position.x + 120, transform.position.y);
-        //        }
-        //    }
-        //}
+
+
+        float dis = Vector2.Distance(transform.position, collision.transform.position); //-->물체사이 거리를 통해 콜라이더를 바꾸려했으나 실패
+        if (transform.tag == "Player1Unit")
+        {
+            if (collision.transform.tag == "Player2" || collision.transform.tag == "Player2Unit")
+            {
+                attackCheck = !attackCheck;
+            }
+        }
+        else if (transform.tag == "Player2Unit")
+        {
+            if (collision.transform.tag == "Player1" || collision.transform.tag == "Player1Unit")
+            {
+                attackCheck = !attackCheck;
+            }
+        }
     }
 
     public bool isInPos(int _x, int _y)
@@ -129,8 +124,11 @@ public class Unit : MonoBehaviour
     {
         this.transform.position = Vector2.MoveTowards(transform.position, new Vector2(_x, transform.position.y), movespeed *Time.deltaTime);
 
-        if ((this.transform.position.x - tempPos.x)%120 == 0)
+        if ((this.transform.position.x - tempPos.x) % 120 == 0)
+        {
             movecheck = false;
+            clickCheck = true;
+        }
 
         unitMove(_x, _y);
         //클라이언트 코드
@@ -156,16 +154,23 @@ public class Unit : MonoBehaviour
     {
     }
 
-    public void OnMouseDown()
+    private void OnMouseDown()
     {
-        clickCheck = !clickCheck;
-        if (currentUnit == false)
+        
+    }
+
+    public void OnMouseUp()
+    {
+        if (GameManager.GetInstance.currentUnit == false)
         {
+            //Debug.Log("!");
+            gameObject.layer = 8;
+            clickCheck = !clickCheck;
             GameUIManager.Instance.SelectUnit(this);
             Checkienun = CheckTiled();
             check = !check;
             StartCoroutine(Checkienun);
-            currentUnit = true;
+            GameManager.GetInstance.currentUnit = true;
             firstClick = false;
         }
         
@@ -174,63 +179,102 @@ public class Unit : MonoBehaviour
 
     RaycastHit2D rayhit;
     Vector2 tempPos;
+    Collider2D rightEnemy;
+    Collider2D leftEnemy;
 
     IEnumerator CheckTiled()
     {
-       
+
         while (check)
         {
-
             if (!movecheck)
-            {//Debug.Log("!");
+            {
+               
+                firstClick = true;
                 if (Input.GetMouseButtonDown(0))
                 {
-                    
+
                     Vector2 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     Ray2D ray = new Ray2D(pos, Vector2.zero);
                     rayhit = Physics2D.Raycast(ray.origin, ray.direction);
 
                     if (rayhit.collider != null)
                     {
+
                         if (rayhit.collider.gameObject.tag == "Tiled")
                         {
-                            if (rayhit.collider.GetComponent<SpriteRenderer>().color == Color.blue)
+                            if (rayhit.collider.GetComponent<Tiledcontrol1>().tiledUnitCheck == false) //자신의 유닛 위치로 이동못하게 막아주는 변수
                             {
-                                tempPos = transform.position;
-                                movecheck = true;
-
-                                //setPos(rayhit.collider.transform.position.x, y);
-                                //네트워크 지정필요
+                                if (rayhit.collider.GetComponent<SpriteRenderer>().color == Color.blue)
+                                {
+                                    tempPos = transform.position;
+                                    movecheck = true;
+                                    //setPos(rayhit.collider.transform.position.x, y);
+                                    //네트워크 지정필요
+                                }
                             }
                         }
-                        else
+                        else if (rayhit.collider.gameObject.layer == 0) //임시작업중 다른곳 클릭스 선택해제
                         {
-                            if (firstClick)  //임시작업중 다른곳 클릭스 선택해제
-                            {
-                                Debug.Log("다른곳 클릭");
-                                GameUIManager.Instance.SelectUnit(this);
-                                currentUnit = false;
-                                clickCheck = !clickCheck;
-                            }
-                            Debug.Log("다른곳 클릭");
-                            firstClick = true;
+                            Debug.Log("다른곳 클릭1");
+                            GameUIManager.Instance.SelectUnit(this);
+                            clickCheck = false;
+                            attackCheck = false;
+                            check = false;
+                            gameObject.layer = 0;
+                            GameManager.GetInstance.currentUnit = false;
+                            rightEnemy = null;
+                            leftEnemy = null;
                         }
                     }
+                    else
+                    {
 
+                        if (firstClick)  //임시작업중 다른곳 클릭스 선택해제
+                        {
+                            Debug.Log("다른곳 클릭");
+                            GameUIManager.Instance.SelectUnit(this);
+                            GameManager.GetInstance.currentUnit = false;
+                            clickCheck = false;
+                            attackCheck = false;
+                            check = false;
+                            rightEnemy = null;
+                            leftEnemy = null;
+                            gameObject.layer = 0;
+                        }
+
+                    }
+
+                    if (attackCheck)
+                    {
+                        Vector2 aPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        Ray2D aRay = new Ray2D(aPos, Vector2.zero);
+                        rayhit = Physics2D.Raycast(aRay.origin, aRay.direction);
+                        if (transform.tag == "Player1Unit" && rayhit.collider.transform.tag == "Player2Unit" || transform.tag == "Player2Unit" && rayhit.collider.transform.tag == "Player1Unit")
+                        {
+                            if (rayhit.collider.GetComponent<Unit>().enemyattackCheck)
+                            {
+
+                            }
+                        }
+                    }
+                }
+                else if (Input.GetKeyDown(KeyCode.A))
+                {
+                    attackCheck = !attackCheck;
                 }
             }
-
-            if(movecheck)
+            else if (movecheck)
             {
-                Debug.Log("!!");
+                clickCheck = false;
                 ClientUnitMove(rayhit.collider.transform.position.x, y);
             }
+
+            
             yield return null;
         }
-
-        
-        Debug.Log("오류");
     }
+    
 
     public void Hide()
     {
