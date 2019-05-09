@@ -61,8 +61,9 @@ public class Unit : MonoBehaviour
             GameManager.GetInstance.player2.unitList.Add(this);
         }
         curHP = unitData.hp;
-        m_unitAttack = new UnitAttack(unitID);
-
+        m_unitAttack.InitiateUnitAttack(unitID);
+        mindamage = unitData.min_atk;
+        maxdamage = unitData.max_atk;
         switch (player)
         {
             case PLAYER.PLAYER1:

@@ -10,7 +10,7 @@ public class UnitAttack : MonoBehaviour
     Unit defendUnit;
 
     //본부 공격용
-    public UnitAttack(int attacker)
+    public void InitiateUnitAttack(int attacker)
     {
         Debug.Log("생성");
         m_attacker = attacker;
