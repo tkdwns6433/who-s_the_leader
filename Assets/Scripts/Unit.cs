@@ -29,6 +29,8 @@ public class Unit : MonoBehaviour
     public bool attackCheck;   //공격실행 체크
     public bool enemyattackCheck; //적공격 실행 체크
 
+    UnitAttack m_unitAttack;
+
     public UnitData unitData
     {
         get { return m_unitData; }
@@ -51,8 +53,12 @@ public class Unit : MonoBehaviour
         this.name = m_unitData.unitType.ToString();
         unitID = GameManager.GetInstance.giveID();
         curHP = unitData.hp;
+<<<<<<< HEAD
+        m_unitAttack = new UnitAttack(unitID);
+=======
         mindamage = unitData.min_atk;
         maxdamage = unitData.max_atk;
+>>>>>>> d13366ba2990115ea273d7df8a08cc76c9c24b37
         switch (player)
         {
             case PLAYER.PLAYER1:

@@ -10,11 +10,15 @@ TagManager:
   - Player2Unit
   - MafiaUnit
   - Tiled
+<<<<<<< HEAD
+  - Network
+=======
   - UpTiled
   - DownTiled
   - FreeTiled
   - UI
   - unit
+>>>>>>> d13366ba2990115ea273d7df8a08cc76c9c24b37
   layers:
   - Default
   - TransparentFX

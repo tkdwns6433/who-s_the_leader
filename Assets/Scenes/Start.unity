@@ -3290,6 +3290,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2827648965759221602, guid: 6e54d41cb1d5b0b44980dd54e01fd779,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2827648965759221602, guid: 6e54d41cb1d5b0b44980dd54e01fd779,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 2905757447030011199, guid: 6e54d41cb1d5b0b44980dd54e01fd779,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3419,16 +3429,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -210
-      objectReference: {fileID: 0}
-    - target: {fileID: 2827648965759221602, guid: 6e54d41cb1d5b0b44980dd54e01fd779,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2827648965759221602, guid: 6e54d41cb1d5b0b44980dd54e01fd779,
-        type: 3}
-      propertyPath: m_TagString
-      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 2827648966638817009, guid: 6e54d41cb1d5b0b44980dd54e01fd779,
         type: 3}
@@ -5336,11 +5336,14 @@ MonoBehaviour:
   y: 0
   movespeed: 0
   curHP: 0
+  maxdamage: 0
+  mindamage: 0
   control_player: 0
   clickCheck: 0
   blockRange: 0
   attackRange: 0
   attackCheck: 0
+  enemyattackCheck: 0
 --- !u!1001 &406459385
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20354,7 +20357,7 @@ MonoBehaviour:
   minZoomSize: 400
   zoomSpeed: 20
   speed: 0.01
-  mouseSpeed: 900
+  mouseSpeed: 10
   mouse_speedX: 3
   mouse_speedY: 3
 --- !u!81 &1845967149
