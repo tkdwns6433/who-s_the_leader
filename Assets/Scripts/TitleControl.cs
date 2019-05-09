@@ -51,6 +51,8 @@ public class TitleControl : MonoBehaviour
 
     public Text testText;
 
+    UnitAttack unitAttack;
+
     void Start()
     {
         this.step = STEP.NONE;
@@ -118,7 +120,7 @@ public class TitleControl : MonoBehaviour
         UnitAttackData attack = packet.GetPacket();
         int attack_id = attack.unitId;
         int defener_id = attack.targetUnidId;
-        UnitAttack unitAttack = new UnitAttack(attack_id);
+        unitAttack.InitiateUnitAttack(attack_id);
         unitAttack.DoAttack(defener_id);
     }
 
