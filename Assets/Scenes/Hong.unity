@@ -20500,7 +20500,7 @@ MonoBehaviour:
   minZoomSize: 400
   zoomSpeed: 20
   speed: 0.01
-  mouseSpeed: 900
+  mouseSpeed: 10
   mouse_speedX: 3
   mouse_speedY: 3
 --- !u!81 &1845967149
