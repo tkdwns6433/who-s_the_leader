@@ -12,6 +12,7 @@ public class UnitAttack : MonoBehaviour
     //본부 공격용
     public UnitAttack(int attacker)
     {
+        Debug.Log("생성");
         m_attacker = attacker;
         attackUnit = GameManager.GetInstance.getUnit(m_attacker);
     }
@@ -21,6 +22,7 @@ public class UnitAttack : MonoBehaviour
     //만약에 내 단말에서 시행하는 공격이면 true이다.
     public void DoAttack(int defenderID)
     {
+        Debug.Log("공격");
         m_defender = defenderID;
         defendUnit = GameManager.GetInstance.getUnit(m_defender);
         if (GameManager.GetInstance.myTurn)
@@ -81,6 +83,7 @@ public class UnitAttack : MonoBehaviour
     {
         //flag 설정한 걸로 데미지 공식 설정
         int damage = attackUnit.unitData.max_atk;
+        Debug.Log(damage);
         return damage;
     }
 }

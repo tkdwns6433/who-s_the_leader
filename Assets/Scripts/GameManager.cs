@@ -48,12 +48,12 @@ public class GameManager : MonoBehaviour
         return give_id;
     }
 
-    //public void setSeed(int seed)
-    //{
-    //    UnityEngine.Random.InitState(seed);
-    //    GameObject.Find("TitleControl").GetComponent<TitleControl>().testText.text = UnityEngine.Random.seed.ToString();
-    //    Debug.Log("Seed Number : " + UnityEngine.Random.seed);
-    //}
+    public void setSeed(int seed)
+    {
+        UnityEngine.Random.InitState(seed);
+        GameObject.Find("TitleControl").GetComponent<TitleControl>().testText.text = UnityEngine.Random.seed.ToString();
+        Debug.Log("Seed Number : " + UnityEngine.Random.seed);
+    }
 
     void Start()
     {
