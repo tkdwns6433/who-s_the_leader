@@ -29,7 +29,7 @@ public class Unit : MonoBehaviour
     public bool attackCheck;   //공격실행 체크
     public bool enemyattackCheck; //적공격 실행 체크
 
-    UnitAttack m_unitAttack;
+    public UnitAttack m_unitAttack;
 
     public UnitData unitData
     {
