@@ -52,6 +52,14 @@ public class Unit : MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Units/" + m_unitData.unitType.ToString());
         this.name = m_unitData.unitType.ToString();
         unitID = GameManager.GetInstance.giveID();
+        if (control_player == PLAYER.PLAYER1)
+        {
+            GameManager.GetInstance.player1.unitList.Add(this);
+        }
+        else if (control_player == PLAYER.PLAYER2)
+        {
+            GameManager.GetInstance.player2.unitList.Add(this);
+        }
         curHP = unitData.hp;
         m_unitAttack.InitiateUnitAttack(unitID);
         mindamage = unitData.min_atk;
@@ -75,21 +83,21 @@ public class Unit : MonoBehaviour
     {
 
 
-        float dis = Vector2.Distance(transform.position, collision.transform.position); //-->물체사이 거리를 통해 콜라이더를 바꾸려했으나 실패
-        if (transform.tag == "Player1Unit")
-        {
-            if (collision.transform.tag == "Player2" || collision.transform.tag == "Player2Unit")
-            {
-                attackCheck = !attackCheck;
-            }
-        }
-        else if (transform.tag == "Player2Unit")
-        {
-            if (collision.transform.tag == "Player1" || collision.transform.tag == "Player1Unit")
-            {
-                attackCheck = !attackCheck;
-            }
-        }
+        //float dis = Vector2.Distance(transform.position, collision.transform.position); //-->물체사이 거리를 통해 콜라이더를 바꾸려했으나 실패
+        //if (transform.tag == "Player1Unit")
+        //{
+        //    if (collision.transform.tag == "Player2" || collision.transform.tag == "Player2Unit")
+        //    {
+        //        attackCheck = !attackCheck;
+        //    }
+        //}
+        //else if (transform.tag == "Player2Unit")
+        //{
+        //    if (collision.transform.tag == "Player1" || collision.transform.tag == "Player1Unit")
+        //    {
+        //        attackCheck = !attackCheck;
+        //    }
+        //}
     }
 
     public bool isInPos(int _x, int _y)
@@ -106,7 +114,9 @@ public class Unit : MonoBehaviour
             GameManager.GetInstance.deleteUnit(unitID);
             //죽는 애니메이션 사용 (꼭 비동기적인 코루틴 사용해야함)
             Destroy(this);
-        }   
+        }
+
+        Debug.Log(unitID + "히트 -hp : " + curHP);
     }
 
     public void setPos(float _x, float _y)
@@ -158,7 +168,7 @@ public class Unit : MonoBehaviour
 
     public void OnMouseUp()
     {
-        if (GameManager.GetInstance.currentUnit == false)
+        if (GameManager.GetInstance.currentUnit == false && enemyattackCheck == false)
         {
             //Debug.Log("!");
             gameObject.layer = 8;
@@ -197,31 +207,48 @@ public class Unit : MonoBehaviour
 
                     if (rayhit.collider != null)
                     {
-
-                        if (rayhit.collider.gameObject.tag == "Tiled")
+                        if (attackCheck == false)
                         {
-                            if (rayhit.collider.GetComponent<Tiledcontrol1>().tiledUnitCheck == false) //자신의 유닛 위치로 이동못하게 막아주는 변수
+                            if (rayhit.collider.gameObject.tag == "Tiled")
                             {
-                                if (rayhit.collider.GetComponent<SpriteRenderer>().color == Color.blue)
+                                if (rayhit.collider.GetComponent<Tiledcontrol1>().tiledUnitCheck == false) //자신의 유닛 위치로 이동못하게 막아주는 변수
                                 {
-                                    tempPos = transform.position;
-                                    movecheck = true;
-                                    //setPos(rayhit.collider.transform.position.x, y);
-                                    //네트워크 지정필요
+                                    if (rayhit.collider.GetComponent<SpriteRenderer>().color == Color.blue)
+                                    {
+                                        tempPos = transform.position;
+                                        movecheck = true;
+                                        //setPos(rayhit.collider.transform.position.x, y);
+                                        //네트워크 지정필요
+                                    }
                                 }
                             }
+                            else if (rayhit.collider.gameObject.layer == 0) //임시작업중 다른곳 클릭스 선택해제
+                            {
+                                Debug.Log("다른곳 클릭1");
+                                GameUIManager.Instance.SelectUnit(this);
+                                clickCheck = false;
+                                attackCheck = false;
+                                check = false;
+                                gameObject.layer = 0;
+                                GameManager.GetInstance.currentUnit = false;
+                                rightEnemy = null;
+                                leftEnemy = null;
+                            }
                         }
-                        else if (rayhit.collider.gameObject.layer == 0) //임시작업중 다른곳 클릭스 선택해제
+                        else if (attackCheck)
                         {
-                            Debug.Log("다른곳 클릭1");
-                            GameUIManager.Instance.SelectUnit(this);
-                            clickCheck = false;
-                            attackCheck = false;
-                            check = false;
-                            gameObject.layer = 0;
-                            GameManager.GetInstance.currentUnit = false;
-                            rightEnemy = null;
-                            leftEnemy = null;
+                        //    Vector2 aPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        //    Ray2D aRay = new Ray2D(aPos, Vector2.zero);
+                        //    rayhit = Physics2D.Raycast(aRay.origin, aRay.direction);
+                            if (transform.GetComponent<Unit>().control_player == PLAYER.PLAYER1 && rayhit.collider.GetComponent<Unit>().control_player == PLAYER.PLAYER2
+                                || transform.GetComponent<Unit>().control_player == PLAYER.PLAYER2 && rayhit.collider.GetComponent<Unit>().control_player == PLAYER.PLAYER1)
+                            {
+                                if (rayhit.collider.GetComponent<Unit>().enemyattackCheck)
+                                {
+                                    Debug.Log(rayhit.collider.GetComponent<Unit>().unitID);
+                                    m_unitAttack.DoAttack(rayhit.collider.GetComponent<Unit>().unitID);
+                                }
+                            }
                         }
                     }
                     else
@@ -240,21 +267,11 @@ public class Unit : MonoBehaviour
                             gameObject.layer = 0;
                         }
 
+                        
+
                     }
 
-                    if (attackCheck)
-                    {
-                        Vector2 aPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        Ray2D aRay = new Ray2D(aPos, Vector2.zero);
-                        rayhit = Physics2D.Raycast(aRay.origin, aRay.direction);
-                        if (transform.tag == "Player1Unit" && rayhit.collider.transform.tag == "Player2Unit" || transform.tag == "Player2Unit" && rayhit.collider.transform.tag == "Player1Unit")
-                        {
-                            if (rayhit.collider.GetComponent<Unit>().enemyattackCheck)
-                            {
-
-                            }
-                        }
-                    }
+                   
                 }
                 else if (Input.GetKeyDown(KeyCode.A))
                 {
@@ -271,7 +288,6 @@ public class Unit : MonoBehaviour
             yield return null;
         }
     }
-    
 
     public void Hide()
     {
