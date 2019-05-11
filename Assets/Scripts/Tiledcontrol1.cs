@@ -71,14 +71,33 @@ public class Tiledcontrol1 : MonoBehaviour
         
         if (collision.transform.name == "unitrange")
         {
-            
+
+
+
             if (collision.transform.parent.GetComponentInParent<Unit>().control_player == PLAYER.PLAYER1)
             {
                 charOnoff = true; //플레이어
+                if (GetComponent<SpriteRenderer>().color == Color.red)
+                {
+                    collision.transform.parent.GetComponentInParent<Unit>().enemyattackCheck = true;
+
+                }
+                else
+                {
+                    collision.transform.parent.GetComponentInParent<Unit>().enemyattackCheck = false;
+                }
             }
             else if (collision.transform.parent.GetComponentInParent<Unit>().control_player == PLAYER.PLAYER2)                     //적유닛 or 적플레이어 확인
             {
                 charOnoff2 = true; //적
+                if (GetComponent<SpriteRenderer>().color == Color.red)
+                {
+                    collision.transform.parent.GetComponentInParent<Unit>().enemyattackCheck = true;
+                }
+                else
+                {
+                    collision.transform.parent.GetComponentInParent<Unit>().enemyattackCheck = false;
+                }
             }
 
             if (collision.transform.parent.GetComponentInParent<Unit>().control_player == PLAYER.PLAYER1 && collision.transform.parent.GetComponentInParent<Unit>().control_player != PLAYER.PLAYER2) //플레이어 기준 타일설정
@@ -110,7 +129,6 @@ public class Tiledcontrol1 : MonoBehaviour
                     if (!tclickCheck)
                     {
                         collision.transform.GetComponent<BoxCollider2D>().size = new Vector2(80, 139);
-                        collision.transform.parent.GetComponentInParent<Unit>().enemyattackCheck = false;
                         this.GetComponent<SpriteRenderer>().color = Tempcolor;                                 //클릭이 꺼지면 콜리더 사이즈 원래대로
                                                                                                                //버그 생길시 charOnoff2 = false 추가하면 해결가능성있음
                         tiledUnitCheck = true;
@@ -121,11 +139,11 @@ public class Tiledcontrol1 : MonoBehaviour
                     if (bCurrentTiledAttack == false)
                     {
                         this.GetComponent<SpriteRenderer>().color = Tempcolor;
-
                     }
                     else
                     {
                         this.GetComponent<SpriteRenderer>().color = Color.red;
+
                     }
 
                     if (collision.transform.parent.transform.position.x == transform.position.x)
@@ -133,7 +151,7 @@ public class Tiledcontrol1 : MonoBehaviour
                         this.GetComponent<SpriteRenderer>().color = Tempcolor;
                     }
                 }
-
+                
             }
             else if (collision.transform.parent.GetComponentInParent<Unit>().control_player == PLAYER.PLAYER2 && collision.transform.parent.GetComponentInParent<Unit>().control_player != PLAYER.PLAYER1) //적유닛기준 타일설정
             {
@@ -164,11 +182,9 @@ public class Tiledcontrol1 : MonoBehaviour
                     if (!tclickCheck)
                     {
                         collision.transform.GetComponent<BoxCollider2D>().size = new Vector2(80, 139);
-                        collision.transform.parent.GetComponentInParent<Unit>().enemyattackCheck = false;
                         this.GetComponent<SpriteRenderer>().color = Tempcolor;                                 //클릭이 꺼지면 콜리더 사이즈 원래대로
                                                                                                                //버그 생길시 charOnoff = false 추가하면 해결가능성있음
                         tiledUnitCheck = true;
-
                     }
                 }
                 else if (charOnoff == true)
@@ -188,13 +204,6 @@ public class Tiledcontrol1 : MonoBehaviour
                     }
                 }
             }
-
-
-
-            //if (collision.gameObject.tag == "Player2" || collision.gameObject.tag == "Player2Unit")
-            //{
-            //    StartCoroutine(CheckExitPlayer2());
-            //}
 
         }
 

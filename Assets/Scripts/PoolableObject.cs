@@ -16,4 +16,11 @@ public class PoolableObject : MonoBehaviour
     {
         Pool.PushObject(this);
     }
+
+    public virtual void Pop()
+    {
+        //Pool.PopObject(this);
+
+
+    }
 }

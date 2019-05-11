@@ -191,6 +191,7 @@ public class TransportTcp {
 			m_socket.Add(socket);
 			m_isConnected = true;
 			if (m_handler != null) {
+                Debug.Log("accept client??");
 				NetEventState state = new NetEventState();
 				state.type = NetEventType.Connect;
 				state.result = NetEventResult.Success;
