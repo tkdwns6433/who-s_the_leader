@@ -57,7 +57,6 @@ public class CameraMove : MonoBehaviour
     {
         
         ZoomInOut();
-        //Debug.Log(Camera.main.ScreenToViewportPoint(Input.mousePosition));
        
         Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
 
