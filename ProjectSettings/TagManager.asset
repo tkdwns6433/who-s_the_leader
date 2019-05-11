@@ -15,6 +15,12 @@ TagManager:
   - FreeTiled
   - UI
   - unit
+  - down_elevator
+  - up_elevator
+  - up_down_elevator
+  - mid_down_elevator
+  - mid_up_elevator
+  - mid_up_down_elevator
   layers:
   - Default
   - TransparentFX
@@ -26,7 +32,7 @@ TagManager:
   - 
   - Unit
   - Background
-  - 
+  - elevator
   - 
   - 
   - 
