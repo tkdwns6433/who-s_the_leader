@@ -72,8 +72,6 @@ public class Tiledcontrol1 : MonoBehaviour
         if (collision.transform.name == "unitrange")
         {
 
-
-
             if (collision.transform.parent.GetComponentInParent<Unit>().control_player == PLAYER.PLAYER1)
             {
                 charOnoff = true; //플레이어

@@ -67,6 +67,7 @@ GameObject:
   m_Component:
   - component: {fileID: 470778180981662506}
   - component: {fileID: 4146912780508561314}
+  - component: {fileID: 5633340923689928829}
   - component: {fileID: 2208211795546908640}
   - component: {fileID: 810548775}
   - component: {fileID: 810548776}
@@ -114,12 +115,27 @@ MonoBehaviour:
   maxdamage: 0
   mindamage: 0
   control_player: 0
+  check: 0
   clickCheck: 0
   blockRange: 0
   attackRange: 0
   attackCheck: 0
   enemyattackCheck: 0
   m_unitAttack: {fileID: 6785571268900056121}
+--- !u!114 &5633340923689928829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461733063782190935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0a388c7536adac4b99175982760e132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitscript: {fileID: 1461733063782190935}
+  distance: 300
 --- !u!212 &2208211795546908640
 SpriteRenderer:
   m_ObjectHideFlags: 0

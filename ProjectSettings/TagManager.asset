@@ -7,6 +7,16 @@ TagManager:
   - unit
   - MafiaUnit
   - UI
+  - down_elevator
+  - mid_up_down_elevator
+  - mid_down_elevator
+  - up_elevator
+  - Player1Unit
+  - Player1
+  - mid_up_elevator
+  - Player2
+  - Player2Unit
+  - Tiled
   layers:
   - Default
   - TransparentFX
@@ -18,7 +28,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - elevator
   - 
   - 
   - 
