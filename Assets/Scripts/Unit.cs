@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Unit : MonoBehaviour
 {
+    
     UnitType unitType;
     bool bCheckcol;
     bool bMovedirection;  //true = right, false = left;
@@ -20,7 +21,7 @@ public class Unit : MonoBehaviour
     public PLAYER control_player;
     IEnumerator Checkienun;
     bool bTiledcheck;
-    bool check;                  //마우스 클릭 체크 확인
+    public bool check;                  //마우스 클릭 체크 확인
     bool movecheck;
     bool firstClick;            //처음 클릭 확인
     public bool clickCheck;    //클릭하엿는지 체크(타일 연동을 위한 변수)
@@ -29,8 +30,8 @@ public class Unit : MonoBehaviour
     public bool attackCheck;   //공격실행 체크
     public bool enemyattackCheck; //적공격 실행 체크
 
-    UnitAttack m_unitAttack;
-
+    public UnitAttack m_unitAttack;
+    
     public UnitData unitData
     {
         get { return m_unitData; }
