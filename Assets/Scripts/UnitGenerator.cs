@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class UnitGenerator : MonoBehaviour
 {
+    GameObject newUnit;
 
     public void GenerateUnit(int building_id, UnitType unitType, float x, float y)
     {
-        GameObject newUnit = Instantiate(Resources.Load("Prefabs/Unit")) as GameObject;
+
+        if (unitType == UnitType.Mafiaunit)
+        {
+            newUnit = Instantiate(Resources.Load("Prefabs/Unit")) as GameObject;
+        }
+
+
         if (newUnit != null)
         {
             PLAYER request_player = GameManager.GetInstance.getBuilding(building_id).player_occupy;

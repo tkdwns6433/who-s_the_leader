@@ -19,6 +19,7 @@ TagManager:
   - Tiled
   - Sight
   - SightRange
+  - Network
   layers:
   - Default
   - TransparentFX

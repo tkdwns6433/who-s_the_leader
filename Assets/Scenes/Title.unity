@@ -1012,7 +1012,7 @@ GameObject:
   - component: {fileID: 1529798758}
   m_Layer: 0
   m_Name: TitleControl
-  m_TagString: Untagged
+  m_TagString: Network
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

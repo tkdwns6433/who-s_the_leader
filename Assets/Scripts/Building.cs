@@ -37,8 +37,10 @@ public class Building : MonoBehaviour
 
     private void OnMouseDown()
     {
-
-        SetSelectCheck();
+        if (player_occupy != PLAYER.NONE)
+        {
+            SetSelectCheck();
+        }
 
         //if(GameManager.GetInstance().myTurn == true)  //플레이어 턴때 ui등장이랑 유닛뽑는거 만들 예정
         //{
@@ -191,21 +193,22 @@ public class Building : MonoBehaviour
     }
 
     void buildingnotselect()
-    {
+    {   
+        //나중에 전화박스 특성 정해지면 if문으로 나눠줘야함
         if (transform.name == "Under")
         {
             spt.sprite = Resources.Load<Sprite>("image/PayPhone/Underbuild lineX") as Sprite;
-            GameUIManager.Instance.unitselect.SetActive(false);
+            GameUIManager.Instance.unitMafia.SetActive(false);
         }
         else if (transform.name == "Ground")
         {
             spt.sprite = Resources.Load<Sprite>("image/PayPhone/Groundbuild lineX") as Sprite;
-            GameUIManager.Instance.unitselect.SetActive(false);
+            GameUIManager.Instance.unitMafia.SetActive(false);
         }
         else if (transform.name == "High")
         {
             spt.sprite = Resources.Load<Sprite>("image/PayPhone/Highbuild lineX") as Sprite;
-            GameUIManager.Instance.unitselect.SetActive(false);
+            GameUIManager.Instance.unitMafia.SetActive(false);
         }
         Checkcheck = false;
         GameUIManager.Instance.selectCheck = false;
@@ -219,19 +222,19 @@ public class Building : MonoBehaviour
             {
                 spt.sprite = Resources.Load<Sprite>("image/PayPhone/Underbuild white") as Sprite;
                 GameUIManager.Instance.SelectBuilding(building_id); //따른게 선택돼 있을때는 못누르게 해야됌
-                GameUIManager.Instance.unitselect.SetActive(true);
+                GameUIManager.Instance.unitMafia.SetActive(true);
             }
             else if (transform.name == "Ground")
             {
                 spt.sprite = Resources.Load<Sprite>("image/PayPhone/Groundbuild white") as Sprite;
                 GameUIManager.Instance.SelectBuilding(building_id);
-                GameUIManager.Instance.unitselect.SetActive(true);
+                GameUIManager.Instance.unitMafia.SetActive(true);
             }
             else if (transform.name == "High")
             {
                 spt.sprite = Resources.Load<Sprite>("image/PayPhone/Highbuild white") as Sprite;
                 GameUIManager.Instance.SelectBuilding(building_id);
-                GameUIManager.Instance.unitselect.SetActive(true);
+                GameUIManager.Instance.unitMafia.SetActive(true);
             }
             Checkcheck = true;
             GameUIManager.Instance.selectCheck = true;

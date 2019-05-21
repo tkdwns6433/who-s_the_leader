@@ -217,6 +217,14 @@ public class Unit : MonoBehaviour
                                 {
                                     if (rayhit.collider.GetComponent<SpriteRenderer>().color == Color.blue)
                                     {
+                                        if(rayhit.collider.transform.position.x < transform.position.x)
+                                        {
+                                            GetComponent<SpriteRenderer>().flipX = true;
+                                        }
+                                        else
+                                        {
+                                            GetComponent<SpriteRenderer>().flipX = false;
+                                        }
                                         tempPos = transform.position;
                                         movecheck = true;
                                         //setPos(rayhit.collider.transform.position.x, y);

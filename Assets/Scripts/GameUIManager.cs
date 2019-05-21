@@ -23,7 +23,9 @@ public class GameUIManager : MonoBehaviour
 
     Unit selectedUnit = null;
     public GameObject unitPanel;
-    public GameObject unitselect;
+    public GameObject unitSolder;
+    public GameObject unitDoctor;
+    public GameObject unitMafia;
     public Text unitNameText;
     public Text goldText;
 
