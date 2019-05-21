@@ -6,36 +6,24 @@ using UnityEngine;
 public class Sight : PoolableObject
 
 {
-    void OnTriggerEnter2D(Collider2D collision)
+    public Material firstSight;
+    public Material secondSight;
+    public Material thirdSight;
+    void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player1Unit")
+        if (collision.gameObject.tag == "SightRange")
         {
-            //GetComponent<PoolableObject>().Push();
-
-            SpriteRenderer spr = GetComponent<SpriteRenderer>();
-
-            Color color = spr.color;
-            color.a = 0f;
-            spr.color = color;
-
+            this.GetComponent<SpriteRenderer>().material = thirdSight;
         }
     }
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player1Unit")
+        if (collision.gameObject.tag == "SightRange")
         {
-            //gameObject.SetActive(true);
-            Debug.Log("???");
-            SpriteRenderer spr = GetComponent<SpriteRenderer>();
+            this.GetComponent<SpriteRenderer>().material = secondSight;
+            //this.GetComponent<SpriteRenderer>().sortingLayerName = "UsedSight";
 
-            Color color = spr.color;
-            color.a += 87f;
-            spr.color = color;
-        }
-        else
-        {
-            Debug.Log("error111");
         }
     }
 }

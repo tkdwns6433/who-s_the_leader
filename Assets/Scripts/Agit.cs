@@ -20,22 +20,22 @@ public class Agit : MonoBehaviour
         {
             if (clickcheck)
             {
-                agitspt.sprite = Resources.Load<Sprite>("image/Agit green_line") as Sprite;
+                agitspt.sprite = Resources.Load<Sprite>("image/Agit/Agit green_line") as Sprite;
             }
             else
             {
-                agitspt.sprite = Resources.Load<Sprite>("image/Agit green_lineX") as Sprite;
+                agitspt.sprite = Resources.Load<Sprite>("image/Agit/Agit green_lineX") as Sprite;
             }
         }
         else if (transform.name == "Agit red")
         {
             if (clickcheck)
             {
-                agitspt.sprite = Resources.Load<Sprite>("image/Agit red_line") as Sprite;
+                agitspt.sprite = Resources.Load<Sprite>("image/Agit/Agit red_line") as Sprite;
             }
             else
             {
-                agitspt.sprite = Resources.Load<Sprite>("image/Agit red_lineX") as Sprite;
+                agitspt.sprite = Resources.Load<Sprite>("image/Agit/Agit red_lineX") as Sprite;
             }
         }
 

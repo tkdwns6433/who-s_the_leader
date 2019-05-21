@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     
     public GameObject Player1Units;
     public GameObject Player2Units;
+    public GameObject Player1Leader;
+    public GameObject Player2Leader;
     //public ObjectSight sightPool;
 
     private static GameManager instance;
@@ -126,7 +128,15 @@ public class GameManager : MonoBehaviour
             field_buildings.Add(obj.GetComponent<Building>());
 
         }
-        yield return null;
+        yield return new WaitForSeconds(0.5f);
+
+        GameObject genTiledPos = GameObject.Find("Player1gen");
+
+        Player1Leader.GetComponent<Unit>().initiateUnit(UnitType.Mafiaunit, genTiledPos.transform.position.x, genTiledPos.transform.position.y + 91, PLAYER.PLAYER1);
+
+        genTiledPos = GameObject.Find("Player2gen");
+
+        Player2Leader.GetComponent<Unit>().initiateUnit(UnitType.Mafiaunit, genTiledPos.transform.position.x, genTiledPos.transform.position.y + 91, PLAYER.PLAYER2);
 
     }
 

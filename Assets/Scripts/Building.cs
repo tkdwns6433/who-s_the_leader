@@ -69,40 +69,46 @@ public class Building : MonoBehaviour
     {
         if (collision.transform.name == "unitrange")
         {
-            if (collision.transform.parent.GetComponentInParent<Unit>().control_player == PLAYER.PLAYER1)
+            if (Genpoint[0].GetComponent<UnitGenPoint>().uNitcheck == true)
             {
-                if (player_occupy == PLAYER.NONE || player_occupy == PLAYER.PLAYER2)
+                Debug.Log("충돌1");
+                if (collision.transform.parent.GetComponentInParent<Unit>().control_player == PLAYER.PLAYER1)
                 {
-                    second2 = 0;
-                    second += Time.deltaTime;
-                    if (second >= 2.0f)
+                    Debug.Log("충돌2");
+                    if (player_occupy == PLAYER.NONE || player_occupy == PLAYER.PLAYER2)
                     {
-                        player_occupy = PLAYER.PLAYER1;
+                        Debug.Log("충돌3");
+                        second2 = 0;
+                        second += Time.deltaTime;
+                        if (second >= 2.0f)
+                        {
+                            player_occupy = PLAYER.PLAYER1;
+                        }
                     }
-                }
 
-                //if (player_occupy == PLAYER.PLAYER1)
-                //{
-                //    //playerCheck = collision.GetComponent<Tempmove>().clickCheck; -> 플레이어 캐릭터 선택했는지 체크 아직 필요성x
-                //}
-            }
-            else if (collision.transform.parent.GetComponentInParent<Unit>().control_player == PLAYER.PLAYER2)
-            {
-                if (player_occupy == PLAYER.NONE || player_occupy == PLAYER.PLAYER1)
+                    //if (player_occupy == PLAYER.PLAYER1)
+                    //{
+                    //    //playerCheck = collision.GetComponent<Tempmove>().clickCheck; -> 플레이어 캐릭터 선택했는지 체크 아직 필요성x
+                    //}
+                }
+                else if (collision.transform.parent.GetComponentInParent<Unit>().control_player == PLAYER.PLAYER2)
                 {
-                    second = 0;
-                    second2 += Time.deltaTime;
-                    if (second2 >= 2.0f)
+                    if (player_occupy == PLAYER.NONE || player_occupy == PLAYER.PLAYER1)
                     {
-                        player_occupy = PLAYER.PLAYER2;
+                        second = 0;
+                        second2 += Time.deltaTime;
+                        if (second2 >= 2.0f)
+                        {
+                            player_occupy = PLAYER.PLAYER2;
+                        }
                     }
+
+                    //if (player_occupy == PLAYER.PLAYER2)
+                    //{
+                    //    //playerCheck = collision.GetComponent<Tempmove>().clickCheck;
+                    //}
+
                 }
-
-                //if (player_occupy == PLAYER.PLAYER2)
-                //{
-                //    //playerCheck = collision.GetComponent<Tempmove>().clickCheck;
-                //}
-
             }
         }
     }
@@ -188,17 +194,17 @@ public class Building : MonoBehaviour
     {
         if (transform.name == "Under")
         {
-            spt.sprite = Resources.Load<Sprite>("image/Underbuild lineX") as Sprite;
+            spt.sprite = Resources.Load<Sprite>("image/PayPhone/Underbuild lineX") as Sprite;
             GameUIManager.Instance.unitselect.SetActive(false);
         }
         else if (transform.name == "Ground")
         {
-            spt.sprite = Resources.Load<Sprite>("image/Groundbuild lineX") as Sprite;
+            spt.sprite = Resources.Load<Sprite>("image/PayPhone/Groundbuild lineX") as Sprite;
             GameUIManager.Instance.unitselect.SetActive(false);
         }
         else if (transform.name == "High")
         {
-            spt.sprite = Resources.Load<Sprite>("image/Highbuild lineX") as Sprite;
+            spt.sprite = Resources.Load<Sprite>("image/PayPhone/Highbuild lineX") as Sprite;
             GameUIManager.Instance.unitselect.SetActive(false);
         }
         Checkcheck = false;
@@ -211,19 +217,19 @@ public class Building : MonoBehaviour
         {
             if (transform.name == "Under")
             {
-                spt.sprite = Resources.Load<Sprite>("image/Underbuild white") as Sprite;
+                spt.sprite = Resources.Load<Sprite>("image/PayPhone/Underbuild white") as Sprite;
                 GameUIManager.Instance.SelectBuilding(building_id); //따른게 선택돼 있을때는 못누르게 해야됌
                 GameUIManager.Instance.unitselect.SetActive(true);
             }
             else if (transform.name == "Ground")
             {
-                spt.sprite = Resources.Load<Sprite>("image/Groundbuild white") as Sprite;
+                spt.sprite = Resources.Load<Sprite>("image/PayPhone/Groundbuild white") as Sprite;
                 GameUIManager.Instance.SelectBuilding(building_id);
                 GameUIManager.Instance.unitselect.SetActive(true);
             }
             else if (transform.name == "High")
             {
-                spt.sprite = Resources.Load<Sprite>("image/Highbuild white") as Sprite;
+                spt.sprite = Resources.Load<Sprite>("image/PayPhone/Highbuild white") as Sprite;
                 GameUIManager.Instance.SelectBuilding(building_id);
                 GameUIManager.Instance.unitselect.SetActive(true);
             }

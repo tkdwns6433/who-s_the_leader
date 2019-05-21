@@ -43,27 +43,20 @@ public class CameraMove : MonoBehaviour
 
     Vector3 mousePos;
     Vector3 refVelov;
-    public void MoveCamera(MovePanel panel)
-    {
-        if (panel.name == "Left")
-            transform.Translate(Vector3.left* mouseSpeed);
-        else if (panel.name == "Right")
-            transform.Translate(Vector3.right * mouseSpeed);
-        else if(panel.name == "Up")
-            transform.Translate(Vector3.up * mouseSpeed);
-
-    }
+    
     void LateUpdate()
     {
         
         ZoomInOut();
        
         Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        Vector3 camPos = Camera.main.ScreenToViewportPoint(transform.position);
 
-        if (pos.x < 0.05f) transform.Translate(Vector3.left * mouseSpeed);
-        if (pos.x > 0.95f) transform.Translate(Vector3.right * mouseSpeed);
-        if (pos.y < 0.05f) transform.Translate(Vector3.down * mouseSpeed);
-        if (pos.y > 0.95f) transform.Translate(Vector3.up * mouseSpeed);/* */
+        if (pos.x < 0.05f && camPos.x > 0.2) transform.Translate(Vector3.left * mouseSpeed);
+        if (pos.x > 0.95f && camPos.x < 1.2) transform.Translate(Vector3.right * mouseSpeed);
+        if (pos.y < 0.05f && camPos.y > 0.2) transform.Translate(Vector3.down * mouseSpeed);
+        if (pos.y > 0.95f && camPos.y < 0.6) transform.Translate(Vector3.up * mouseSpeed);
+
         /*
                 transform.position = Camera.main.ViewportToWorldPoint(pos);
                

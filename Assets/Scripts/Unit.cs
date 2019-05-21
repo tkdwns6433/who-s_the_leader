@@ -42,6 +42,7 @@ public class Unit : MonoBehaviour
     {
         blockRange = 4;
         attackRange = 3;//임시
+
     }
 
     //unity 폴더 Resources/Units folder에 UnitType과 똑같은 이름으로 png 또는 jpg file로 존재해야 sprite불러올 수 있음

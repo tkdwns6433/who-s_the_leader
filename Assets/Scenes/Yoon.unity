@@ -10124,11 +10124,13 @@ MonoBehaviour:
   maxdamage: 0
   mindamage: 0
   control_player: 0
+  check: 0
   clickCheck: 0
   blockRange: 0
   attackRange: 0
   attackCheck: 0
   enemyattackCheck: 0
+  m_unitAttack: {fileID: 0}
 --- !u!50 &783921978
 Rigidbody2D:
   serializedVersion: 4
@@ -14553,7 +14555,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -585215179
-  m_SortingLayer: -1
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 64fc573b18e86f6438773ab06d1dcc6e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -20293,6 +20295,7 @@ GameObject:
   - component: {fileID: 1836068780}
   - component: {fileID: 1836068779}
   - component: {fileID: 1836068778}
+  - component: {fileID: 1836068782}
   m_Layer: 0
   m_Name: Mafia
   m_TagString: Player2
@@ -20410,6 +20413,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1836068782
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836068777}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6dce4142120337c4880e623e08492916, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1837651884
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,6 +17,8 @@ TagManager:
   - Player2
   - Player2Unit
   - Tiled
+  - Sight
+  - SightRange
   layers:
   - Default
   - TransparentFX
@@ -53,4 +55,22 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1732256139
+    locked: 0
+  - name: Building
+    uniqueID: 3167124473
+    locked: 0
+  - name: Tiled
+    uniqueID: 3764885557
+    locked: 0
+  - name: Unit
+    uniqueID: 2785601991
+    locked: 0
+  - name: Sight
+    uniqueID: 1069642769
+    locked: 0
+  - name: UI
+    uniqueID: 3698898215
     locked: 0
