@@ -54,9 +54,13 @@ public class Unit : MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Units/" + m_unitData.unitType.ToString());
         this.name = m_unitData.unitType.ToString();
         unitID = GameManager.GetInstance.giveID();
+        GameObject sightRange = transform.Find("SightRange").gameObject;
+        Vector3 tempSize = sightRange.GetComponent<BoxCollider2D>().size;
+        sightRange.GetComponent<BoxCollider2D>().size = new Vector3(tempSize.x * unitData.sight * unitData.sight, tempSize.y, 0f);
         if (control_player == PLAYER.PLAYER1)
         {
             GameManager.GetInstance.player1.unitList.Add(this);
+            Debug.Log("iniated unit list added");
         }
         else if (control_player == PLAYER.PLAYER2)
         {
@@ -147,15 +151,16 @@ public class Unit : MonoBehaviour
     {
         x = _x;
         y = _y;
-        if(GameManager.GetInstance.myTurn)
+        if(GameManager.GetInstance.myTurn == false)
         {
             var m_network = GameObject.FindWithTag("Network").GetComponent<Network>();
             UnitMoveData data = new UnitMoveData();
             data.unitId = this.unitID;
-            //data.x = _x;
-            //data.y = _y;  //네트워크 플롯
+            data.x = _x;
+            data.y = _y;  //네트워크 플롯
             UnitMovePacket movePacket = new UnitMovePacket(data);
             m_network.SendReliable(movePacket);
+            Debug.Log("Unit move packet send");
         }
     }
 
@@ -170,17 +175,20 @@ public class Unit : MonoBehaviour
 
     public void OnMouseUp()
     {
-        if (GameManager.GetInstance.currentUnit == false && enemyattackCheck == false)
+        if (GameManager.GetInstance.myTurn)
         {
-            //Debug.Log("!");
-            gameObject.layer = 8;
-            clickCheck = !clickCheck;
-            GameUIManager.Instance.SelectUnit(this);
-            Checkienun = CheckTiled();
-            check = !check;
-            StartCoroutine(Checkienun);
-            GameManager.GetInstance.currentUnit = true;
-            firstClick = false;
+            if (GameManager.GetInstance.currentUnit == false && enemyattackCheck == false)
+            {
+                //Debug.Log("!");
+                gameObject.layer = 8;
+                clickCheck = !clickCheck;
+                GameUIManager.Instance.SelectUnit(this);
+                Checkienun = CheckTiled();
+                check = !check;
+                StartCoroutine(Checkienun);
+                GameManager.GetInstance.currentUnit = true;
+                firstClick = false;
+            }
         }
         
 

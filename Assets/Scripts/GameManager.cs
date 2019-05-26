@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public GameObject Player2Units;
     public GameObject Player1Leader;
     public GameObject Player2Leader;
+    public GameObject Agit1;
+    public GameObject Agit2;
     //public ObjectSight sightPool;
 
     private static GameManager instance;
@@ -90,7 +92,7 @@ public class GameManager : MonoBehaviour
             {
                 if (l != 4)
                 {
-                    obj = Resources.Load("Prefabs/underbuiled2") as GameObject;
+                    obj = Resources.Load("Prefabs/buildings/underbuiled2") as GameObject;
                     l++;
                     buildingObj.Add(obj);
                 }
@@ -100,7 +102,7 @@ public class GameManager : MonoBehaviour
             {
                 if (m != 2)
                 {
-                    obj = Resources.Load("Prefabs/groundbuiled1") as GameObject;
+                    obj = Resources.Load("Prefabs/buildings/groundbuiled1") as GameObject;
                     m++;
                     buildingObj.Add(obj);
                 }
@@ -110,7 +112,7 @@ public class GameManager : MonoBehaviour
             {
                 if (t != 4)
                 {
-                    obj = Resources.Load("Prefabs/highbuiled0") as GameObject;
+                    obj = Resources.Load("Prefabs/buildings/highbuiled0") as GameObject;
                     t++;
                     buildingObj.Add(obj);
                 }
@@ -129,6 +131,11 @@ public class GameManager : MonoBehaviour
 
         }
         yield return new WaitForSeconds(0.5f);
+
+        Agit1 = Instantiate(Resources.Load("Prefabs/buildings/Agit green")) as GameObject;
+        Agit2 = Instantiate(Resources.Load("Prefabs/buildings/Agit red")) as GameObject;
+
+
 
         GameObject genTiledPos = GameObject.Find("Player1gen");
 

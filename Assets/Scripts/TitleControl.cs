@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Net;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 // 타이틀 화면 제어.
 public class TitleControl : MonoBehaviour
@@ -109,8 +111,9 @@ public class TitleControl : MonoBehaviour
         UnitMovePacket packet = new UnitMovePacket(data);
         UnitMoveData moveData = packet.GetPacket();
         int unit_id = moveData.unitId;
-        int xPos = moveData.x;
-        int yPos = moveData.y;
+        float xPos = moveData.x;
+        float yPos = moveData.y;
+        Debug.Log("unit move packet received");
         GameManager.GetInstance.getUnit(unit_id).ClientUnitMove(xPos, yPos);
     }
 
@@ -161,8 +164,10 @@ public class TitleControl : MonoBehaviour
         data.randomSeed = UnityEngine.Random.seed;
         SyncGamePacket packet = new SyncGamePacket(data);
         network_.SendReliable(packet);
-        //리더 설정창으로 넘어가는 코드
-
+        SceneManager.LoadScene("Hong");
+        GameManager.GetInstance.myPlayer = PLAYER.PLAYER1;
+        GameManager.GetInstance.enemyPlayer = PLAYER.PLAYER2;
+        GameManager.GetInstance.myTurn = true;
     }
 
     public void OnReceiveSyncGamePacket(PacketId id, byte[] data)
@@ -170,7 +175,10 @@ public class TitleControl : MonoBehaviour
         SyncGamePacket packet = new SyncGamePacket(data);
         SyncGameData syncGame = packet.GetPacket();
         setSeed(syncGame.randomSeed);
-        //리더 설정창으로 넘어감
+        SceneManager.LoadScene("Hong");
+        GameManager.GetInstance.myPlayer = PLAYER.PLAYER2;
+        GameManager.GetInstance.enemyPlayer = PLAYER.PLAYER1;
+        GameManager.GetInstance.myTurn = false;
     }
 
     private void DisconnectClient()

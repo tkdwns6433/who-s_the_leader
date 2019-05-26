@@ -7,7 +7,7 @@ public class elevator : MonoBehaviour
     private float time=0;
     private bool time_start = false;
     private bool player_posChange = false;
-    public GameObject unitscript;
+    public GameObject Player_Unit;
 
     private void Update()
     {
@@ -21,15 +21,16 @@ public class elevator : MonoBehaviour
     {
         if (collision)
         {
-            if (unitscript.GetComponent<Unit>().check == false)
+            if (Player_Unit.GetComponent<Unit>().check == false)
             {
-                //아래로 가는 엘리베이터일 때
-                if (collision.tag.Equals("down_elevator") || collision.tag.Equals("mid_down_elevator"))
+                #region 아래로 내려가는 엘리베이터
+                if (collision.tag.Equals("down_elevator") /*|| collision.tag.Equals("mid_down_elevator")*/)
                 {
+                    #region 중간 엘리베이터 제외 스크립트 
                     Ray ray = new Ray(collision.transform.position + Vector3.down * 100f, Vector2.down); // 레이 발생
                     Debug.DrawRay(ray.origin, ray.direction * distance, Color.red);
                     RaycastHit2D hittile = Physics2D.Raycast(ray.origin, ray.direction, distance, 1 << 10);
-                    if (hittile.collider.tag.Equals("up_elevator") || hittile.collider.tag.Equals("mid_up_down_elevator"))
+                    if (hittile.collider.tag.Equals("up_elevator") /*|| hittile.collider.tag.Equals("mid_up_down_elevator")*/)
                     {// 카메라로 다른 엘리베이터를 클릭해도 부딪힌 콜라이더에서 쏜 ray가 맞는곳이 아니면 이동자체가 불가하게 설정.
                         if (Input.GetMouseButtonDown(0))
                         {
@@ -56,14 +57,16 @@ public class elevator : MonoBehaviour
                             }
                         }
                     }
+                    #endregion
                 }
-                // 위로가는 엘리베이터일 때
-                if (collision.tag.Equals("up_elevator") || collision.tag.Equals("mid_up_elevator"))
+                #endregion
+                #region 위로가는 엘리베이터
+                if (collision.tag.Equals("up_elevator") /*|| collision.tag.Equals("mid_up_elevator")*/)
                 {
                     Ray ray = new Ray(collision.transform.position + Vector3.up * 100f, Vector2.up); // 레이 발생
                     Debug.DrawRay(ray.origin, ray.direction * distance, Color.red);
                     RaycastHit2D hittile = Physics2D.Raycast(ray.origin, ray.direction, distance, 1 << 10);
-                    if (hittile.collider.tag.Equals("down_elevator") || hittile.collider.tag.Equals("mid_up_down_elevator"))
+                    if (hittile.collider.tag.Equals("down_elevator") /*|| hittile.collider.tag.Equals("mid_up_down_elevator")*/)
                     {// 카메라로 다른 엘리베이터를 클릭해도 부딪힌 콜라이더에서 쏜 ray가 맞는곳이 아니면 이동자체가 불가하게 설정.
                         if (Input.GetMouseButtonDown(0))
                         {
@@ -91,7 +94,9 @@ public class elevator : MonoBehaviour
                         }
                     }
                 }
-                if (collision.tag.Equals("mid_up_down_elevator"))
+                #endregion
+
+                if (collision.tag.Equals("mid_up_down_elevator") || collision.tag.Equals("mid_down_elevator") || collision.tag.Equals("mid_up_elevator"))
                 {
                     if (Input.GetMouseButtonDown(0))
                     {

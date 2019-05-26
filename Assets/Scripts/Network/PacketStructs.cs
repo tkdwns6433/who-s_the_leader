@@ -161,8 +161,8 @@ public struct TurnEndData
 public struct UnitMoveData
 {
     public int unitId;
-    public int x;
-    public int y;
+    public float x;
+    public float y;
 }
 //
 // 유닛 공격
