@@ -61,10 +61,28 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        initiatePlayerAndTurn();
         buildingObj = new List<GameObject>();
         field_buildings = new List<Building>();
         StartCoroutine(IeStartGame());
         StartCoroutine(Buildsetting());
+    }
+
+    void initiatePlayerAndTurn()
+    {
+        var isPlayer1 = GameObject.Find("TitleControl").GetComponent<TitleControl>().isPlayer1;
+        if(isPlayer1)
+        {
+            myPlayer = PLAYER.PLAYER1;
+            enemyPlayer = PLAYER.PLAYER2;
+            myTurn = true;
+        }
+        else
+        {
+            myPlayer = PLAYER.PLAYER2;
+            enemyPlayer = PLAYER.PLAYER1;
+            myTurn = false;
+        }
     }
 
     IEnumerator IeStartGame()

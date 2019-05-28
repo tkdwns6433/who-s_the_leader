@@ -52,14 +52,14 @@ public class TitleControl : MonoBehaviour
     // MonoBehaviour에서 상속.
 
     public Text testText;
-
+    public bool isPlayer1;
     UnitAttack unitAttack;
 
     void Start()
     {
         this.step = STEP.NONE;
         this.next_step = STEP.WAIT;
-
+        DontDestroyOnLoad(this);
         // 호스트 이름을 취득합니다.
 
         GameObject obj = new GameObject("Network");
@@ -164,10 +164,8 @@ public class TitleControl : MonoBehaviour
         data.randomSeed = UnityEngine.Random.seed;
         SyncGamePacket packet = new SyncGamePacket(data);
         network_.SendReliable(packet);
+        isPlayer1 = true;
         SceneManager.LoadScene("Hong");
-        GameManager.GetInstance.myPlayer = PLAYER.PLAYER1;
-        GameManager.GetInstance.enemyPlayer = PLAYER.PLAYER2;
-        GameManager.GetInstance.myTurn = true;
     }
 
     public void OnReceiveSyncGamePacket(PacketId id, byte[] data)
@@ -175,10 +173,8 @@ public class TitleControl : MonoBehaviour
         SyncGamePacket packet = new SyncGamePacket(data);
         SyncGameData syncGame = packet.GetPacket();
         setSeed(syncGame.randomSeed);
+        isPlayer1 = false;
         SceneManager.LoadScene("Hong");
-        GameManager.GetInstance.myPlayer = PLAYER.PLAYER2;
-        GameManager.GetInstance.enemyPlayer = PLAYER.PLAYER1;
-        GameManager.GetInstance.myTurn = false;
     }
 
     private void DisconnectClient()

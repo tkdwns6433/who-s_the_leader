@@ -151,14 +151,18 @@ public class Unit : MonoBehaviour
     {
         x = _x;
         y = _y;
-        if(GameManager.GetInstance.myTurn == false)
+        if(GameManager.GetInstance.myTurn == true)
         {
-            var m_network = GameObject.FindWithTag("Network").GetComponent<Network>();
+            var m_network = GameObject.Find("Network").GetComponent<Network>();
             UnitMoveData data = new UnitMoveData();
             data.unitId = this.unitID;
             data.x = _x;
             data.y = _y;  //네트워크 플롯
             UnitMovePacket movePacket = new UnitMovePacket(data);
+            if(m_network == null)
+            {
+                Debug.Log("can't find network tag");
+            }
             m_network.SendReliable(movePacket);
             Debug.Log("Unit move packet send");
         }
