@@ -151,8 +151,9 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         Agit1 = Instantiate(Resources.Load("Prefabs/buildings/Agit green")) as GameObject;
+        Agit1.GetComponent<Unit>().initiateUnit(UnitType.Mafiaunit, 0, 0, PLAYER.PLAYER1);
         Agit2 = Instantiate(Resources.Load("Prefabs/buildings/Agit red")) as GameObject;
-
+        Agit2.GetComponent<Unit>().initiateUnit(UnitType.Mafiaunit, 0, 0, PLAYER.PLAYER2);
 
 
         GameObject genTiledPos = GameObject.Find("Player1gen");

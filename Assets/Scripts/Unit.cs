@@ -7,14 +7,17 @@ public class Unit : MonoBehaviour
 {
     
     UnitType unitType;
+    bool bMovefirstCheck;
     bool bCheckcol;
     bool bMovedirection;  //true = right, false = left;
     bool bMove;
+    bool filpCheck;
     public int unitID;
     public float x;
     public float y;
     public int movespeed;
     public int curHP;
+    public int AgitHP;
     public int maxdamage;
     public int mindamage;
     private UnitData m_unitData;
@@ -48,41 +51,59 @@ public class Unit : MonoBehaviour
     //unity 폴더 Resources/Units folder에 UnitType과 똑같은 이름으로 png 또는 jpg file로 존재해야 sprite불러올 수 있음
     public void initiateUnit(UnitType ut, float _x, float _y, PLAYER player)
     {
-        control_player = player;
-        unitType = ut;
-        m_unitData = GameData.getUnitData(ut);
-        GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Units/" + m_unitData.unitType.ToString());
-        this.name = m_unitData.unitType.ToString();
-        unitID = GameManager.GetInstance.giveID();
-        GameObject sightRange = transform.Find("SightRange").gameObject;
-        Vector3 tempSize = sightRange.GetComponent<BoxCollider2D>().size;
-        sightRange.GetComponent<BoxCollider2D>().size = new Vector3(tempSize.x * unitData.sight * unitData.sight, tempSize.y, 0f);
-        if (control_player == PLAYER.PLAYER1)
+        if (transform.tag == "Agit")
         {
-            GameManager.GetInstance.player1.unitList.Add(this);
-            Debug.Log("iniated unit list added");
+            control_player = player;
+            unitID = GameManager.GetInstance.giveID();
+            if (control_player == PLAYER.PLAYER1)
+            {
+                GameManager.GetInstance.player1.unitList.Add(this);
+                Debug.Log("iniated unit list added");
+            }
+            else if (control_player == PLAYER.PLAYER2)
+            {
+                GameManager.GetInstance.player2.unitList.Add(this);
+            }
+            AgitHP = 300;
+            m_unitAttack.InitiateUnitAttack(unitID);
         }
-        else if (control_player == PLAYER.PLAYER2)
+        else
         {
-            GameManager.GetInstance.player2.unitList.Add(this);
+            control_player = player;
+            unitType = ut;
+            m_unitData = GameData.getUnitData(ut);
+            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Units/" + m_unitData.unitType.ToString());
+            this.name = m_unitData.unitType.ToString();
+            unitID = GameManager.GetInstance.giveID();
+            GameObject sightRange = transform.Find("SightRange").gameObject;
+            Vector3 tempSize = sightRange.GetComponent<BoxCollider2D>().size;
+            sightRange.GetComponent<BoxCollider2D>().size = new Vector3(tempSize.x * unitData.sight * unitData.sight, tempSize.y, 0f);
+            if (control_player == PLAYER.PLAYER1)
+            {
+                GameManager.GetInstance.player1.unitList.Add(this);
+                Debug.Log("iniated unit list added");
+            }
+            else if (control_player == PLAYER.PLAYER2)
+            {
+                GameManager.GetInstance.player2.unitList.Add(this);
+            }
+            curHP = unitData.hp;
+            m_unitAttack.InitiateUnitAttack(unitID);
+            mindamage = unitData.min_atk;
+            maxdamage = unitData.max_atk;
+            switch (player)
+            {
+                case PLAYER.PLAYER1:
+                    break;
+                case PLAYER.PLAYER2:
+                    break;
+                case PLAYER.NONE:
+                    break;
+                default:
+                    break;
+            }
+            setPos(_x, _y);
         }
-        curHP = unitData.hp;
-        m_unitAttack.InitiateUnitAttack(unitID);
-        mindamage = unitData.min_atk;
-        maxdamage = unitData.max_atk;
-        switch (player)
-        {
-            case PLAYER.PLAYER1:
-                break;
-            case PLAYER.PLAYER2:
-                break;
-            case PLAYER.NONE:
-                break;
-            default:
-                break;
-        }
-        setPos(_x, _y);
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -135,13 +156,23 @@ public class Unit : MonoBehaviour
 
     public void ClientUnitMove(float _x, float _y)
     {
-        this.transform.position = Vector2.MoveTowards(transform.position, new Vector2(_x, transform.position.y), movespeed *Time.deltaTime);
+        
 
-        if ((this.transform.position.x - tempPos.x) % 120 == 0)
+        if(transform.position.x < _x)
         {
-            movecheck = false;
-            clickCheck = true;
+            GetComponent<SpriteRenderer>().flipX = false;
         }
+        else if(transform.position.x >= _x)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
+
+        this.transform.position = new Vector2(_x, _y);//Vector2.MoveTowards(transform.position, new Vector2(_x, transform.position.y), movespeed * Time.deltaTime);
+        movecheck = false;
+        //if ((this.transform.position.x - tempPos.x) % 120 == 0)
+        //{
+        //    movecheck = false;
+        //}
 
         unitMove(_x, _y);
         //클라이언트 코드
@@ -181,17 +212,20 @@ public class Unit : MonoBehaviour
     {
         if (GameManager.GetInstance.myTurn)
         {
-            if (GameManager.GetInstance.currentUnit == false && enemyattackCheck == false)
+            if (GameManager.GetInstance.myPlayer == control_player)
             {
-                //Debug.Log("!");
-                gameObject.layer = 8;
-                clickCheck = !clickCheck;
-                GameUIManager.Instance.SelectUnit(this);
-                Checkienun = CheckTiled();
-                check = !check;
-                StartCoroutine(Checkienun);
-                GameManager.GetInstance.currentUnit = true;
-                firstClick = false;
+                if (GameManager.GetInstance.currentUnit == false && enemyattackCheck == false)
+                {
+                    //Debug.Log("!");
+                    gameObject.layer = 8;
+                    clickCheck = !clickCheck;
+                    GameUIManager.Instance.SelectUnit(this);
+                    Checkienun = CheckTiled();
+                    check = !check;
+                    StartCoroutine(Checkienun);
+                    GameManager.GetInstance.currentUnit = true;
+                    firstClick = false;
+                }
             }
         }
         
@@ -231,14 +265,15 @@ public class Unit : MonoBehaviour
                                     {
                                         if(rayhit.collider.transform.position.x < transform.position.x)
                                         {
-                                            GetComponent<SpriteRenderer>().flipX = true;
+                                            filpCheck = true;
                                         }
                                         else
                                         {
-                                            GetComponent<SpriteRenderer>().flipX = false;
+                                            filpCheck = false;
                                         }
                                         tempPos = transform.position;
                                         movecheck = true;
+                                        bMovefirstCheck = true;
                                         //setPos(rayhit.collider.transform.position.x, y);
                                         //네트워크 지정필요
                                     }
@@ -255,20 +290,29 @@ public class Unit : MonoBehaviour
                                 GameManager.GetInstance.currentUnit = false;
                                 rightEnemy = null;
                                 leftEnemy = null;
+                                enemyattackCheck = false;
                             }
                         }
                         else if (attackCheck)
                         {
-                        //    Vector2 aPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        //    Ray2D aRay = new Ray2D(aPos, Vector2.zero);
-                        //    rayhit = Physics2D.Raycast(aRay.origin, aRay.direction);
-                            if (transform.GetComponent<Unit>().control_player == PLAYER.PLAYER1 && rayhit.collider.GetComponent<Unit>().control_player == PLAYER.PLAYER2
-                                || transform.GetComponent<Unit>().control_player == PLAYER.PLAYER2 && rayhit.collider.GetComponent<Unit>().control_player == PLAYER.PLAYER1)
+                            Vector2 aPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                            Ray2D aRay = new Ray2D(aPos, Vector2.zero);
+                            rayhit = Physics2D.Raycast(aRay.origin, aRay.direction);
+
+                            if (rayhit.collider.transform.tag == "unit")
                             {
-                                if (rayhit.collider.GetComponent<Unit>().enemyattackCheck)
+                                if (transform.GetComponent<Unit>().control_player == PLAYER.PLAYER1 && rayhit.collider.GetComponent<Unit>().control_player == PLAYER.PLAYER2
+                                    || transform.GetComponent<Unit>().control_player == PLAYER.PLAYER2 && rayhit.collider.GetComponent<Unit>().control_player == PLAYER.PLAYER1)
                                 {
-                                    Debug.Log(rayhit.collider.GetComponent<Unit>().unitID);
-                                    m_unitAttack.DoAttack(rayhit.collider.GetComponent<Unit>().unitID);
+                                    if (rayhit.collider.GetComponent<Unit>().enemyattackCheck)
+                                    {
+                                        Debug.Log(rayhit.collider.GetComponent<Unit>().unitID);
+                                        m_unitAttack.DoAttack(rayhit.collider.GetComponent<Unit>().unitID);
+                                    }
+                                }
+                                else
+                                {
+                                    attackCheck = false;
                                 }
                             }
                         }
@@ -287,23 +331,25 @@ public class Unit : MonoBehaviour
                             rightEnemy = null;
                             leftEnemy = null;
                             gameObject.layer = 0;
+                            enemyattackCheck = false;
                         }
-
-                        
-
                     }
-
-                   
                 }
                 else if (Input.GetKeyDown(KeyCode.A))
                 {
                     attackCheck = !attackCheck;
                 }
             }
-            else if (movecheck)
+
+            if (movecheck)
             {
+
                 clickCheck = false;
                 ClientUnitMove(rayhit.collider.transform.position.x, y);
+                if(movecheck == false)
+                {
+                    clickCheck = true;
+                }
             }
 
             

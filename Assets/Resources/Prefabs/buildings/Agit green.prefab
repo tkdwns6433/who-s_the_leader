@@ -12,9 +12,12 @@ GameObject:
   - component: {fileID: 8871152785723857118}
   - component: {fileID: 8871152785723857116}
   - component: {fileID: 8871152785723857117}
+  - component: {fileID: 2184761865446899151}
+  - component: {fileID: 7630537399271440990}
+  - component: {fileID: 5124945694047976896}
   m_Layer: 0
   m_Name: Agit green
-  m_TagString: Untagged
+  m_TagString: Agit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,3 +122,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c6eebe1a7ee18c48a518c9066ecd5db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2184761865446899151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8871152785723857113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84fd6aaa003270742bad5e20893d6630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitID: 0
+  x: 0
+  y: 0
+  movespeed: 0
+  curHP: 0
+  AgitHP: 0
+  maxdamage: 0
+  mindamage: 0
+  control_player: 0
+  check: 0
+  clickCheck: 0
+  blockRange: 0
+  attackRange: 0
+  attackCheck: 0
+  enemyattackCheck: 0
+  m_unitAttack: {fileID: 7630537399271440990}
+--- !u!114 &7630537399271440990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8871152785723857113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b997162562208334cb06be1eb80163d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!50 &5124945694047976896
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8871152785723857113}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 0
+  m_Constraints: 0
