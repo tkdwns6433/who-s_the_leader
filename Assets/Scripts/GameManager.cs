@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        //Screen.SetResolution(3840, 2160, true);
+
+      
         if (instance)
         {
             Destroy(gameObject);

@@ -9,7 +9,7 @@ public class GameUIManager : MonoBehaviour
     {
         get { return instance; }
     }
-
+    public Text screenSizText;
     void Awake()
     {
         if (instance)
@@ -19,6 +19,8 @@ public class GameUIManager : MonoBehaviour
         }
         instance = this;
 
+
+        //screenSizText.text = 
     }
 
     Unit selectedUnit = null;
@@ -62,8 +64,12 @@ public class GameUIManager : MonoBehaviour
     {
         build = GameManager.GetInstance.getBuilding(id);
     }
-    
-    
 
 
+
+    public void ClickNextTurn() //다음턴 눌렀을때
+    {
+        Debug.Log("click!");
+    }
+  
 }
