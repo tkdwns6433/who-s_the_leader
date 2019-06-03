@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class CameraMove : MonoBehaviour
@@ -17,7 +18,7 @@ public class CameraMove : MonoBehaviour
     public float speed;
     public float mouseSpeed;
 
-
+    public Text screenSizText;
     public float mouse_speedX = 3.0f;    //마우스 좌우
     public float mouse_speedY = 3.0f;    //마우스 상하
     float rotationY = 0f;
@@ -43,57 +44,24 @@ public class CameraMove : MonoBehaviour
 
     Vector3 mousePos;
     Vector3 refVelov;
-    
+    public float width;
     void LateUpdate()
     {
         
         ZoomInOut();
        
         Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        Vector3 camPos = Camera.main.ScreenToViewportPoint(transform.position);
-
-        if (pos.x < 0.05f && camPos.x > 0.2) transform.Translate(Vector3.left * mouseSpeed);
-        if (pos.x > 0.95f && camPos.x < 1.2) transform.Translate(Vector3.right * mouseSpeed);
-        if (pos.y < 0.05f && camPos.y > 0.2) transform.Translate(Vector3.down * mouseSpeed);
-        if (pos.y > 0.95f && camPos.y < 0.6) transform.Translate(Vector3.up * mouseSpeed);
-
-        /*
-                transform.position = Camera.main.ViewportToWorldPoint(pos);
-               
-                //마우스 위치에 따른 카메라 이동 
-                //방법1
-
-                mousePos = transform.position;
-                float rotationX = Input.GetAxis("Mouse X")* mouse_speedX;
-                float rotationY = Input.GetAxis("Mouse Y") * mouse_speedY;
-                if (rotationX < 0)
-                {
-                    mousePos.x -= mouseSpeed;
-                }
-                else if (rotationX > 0)
-                {
-                    mousePos.x += mouseSpeed;
-                }     
-                if (rotationY < 0)
-                {
-                    mousePos.y -= mouseSpeed;
-                }
-                else if (rotationY > 0)
-                {
-                    mousePos.y += mouseSpeed;
-                }
-
-                //방법2
-                Vector3 temp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                temp.z = 0f;
-                temp.x = Mathf.Clamp(temp.x, -2130, 3031);
-                temp.y = Mathf.Clamp(temp.y, -811, 990);
-                Vector3 tempV = Vector3.SmoothDamp(transform.position, temp, ref refVelov, 2.5f);
-
-                tempV.z = -10f;
-
-                transform.position = tempV;
-                */
+        //Vector3 camPos = Camera.main.ScreenToViewportPoint(transform.position);
+        Vector2 camPos = transform.position;
+ 
+        float width = 7680 / Screen.width;
+        if (pos.x < 0.05f && camPos.x > 530) transform.Translate(Vector3.left * mouseSpeed);
+        if (pos.x > 0.95f && camPos.x < 4530) transform.Translate(Vector3.right * mouseSpeed);
+        if (pos.y < 0.05f && camPos.y > 300) transform.Translate(Vector3.down * mouseSpeed);
+        if (pos.y > 0.95f && camPos.y < 1300) transform.Translate(Vector3.up * mouseSpeed);
+        
+        
+       
 
 
     }

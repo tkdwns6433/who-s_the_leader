@@ -25,8 +25,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        //Screen.SetResolution(3840, 2160, true);
-
+        
       
         if (instance)
         {
@@ -88,15 +87,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator IeStartGame()
-    {
-        while (gameTime > 0f)
-        {//게임시간 줄이기
-
-            GameTime -= Time.deltaTime;
-            yield return null;
-        }
-    }
+  
 
     int l, m, t; // 각각 갯수 제한을 위한 변수
     public bool currentUnit; //현재 유닛 선택여부확인 변수
@@ -171,7 +162,7 @@ public class GameManager : MonoBehaviour
 
     public Text timeText;//초시계
 
-    public float gameTime = 30f; //게임 시간
+    public float gameTime; //게임 시간
     public float GameTime
     {
         get { return gameTime; }
@@ -179,6 +170,16 @@ public class GameManager : MonoBehaviour
         {
             gameTime = Mathf.Clamp(value, 0f, float.MaxValue);
             timeText.text = gameTime.ToString("00");
+        }
+    }
+    IEnumerator IeStartGame()
+    {
+        Debug.Log("ffff");
+        while (gameTime > 0f)
+        {//게임시간 줄이기
+
+            GameTime -= Time.deltaTime;
+            yield return null;
         }
     }
 
